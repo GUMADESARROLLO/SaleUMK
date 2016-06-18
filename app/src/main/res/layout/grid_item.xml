@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+
+    >
+    <TextView android:id="@+id/item1"
+        android:text="row_id"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:width="20dip"
+        />
+
+    <TextView
+        android:background="@color/UmkAzulClaro"
+        android:id="@+id/item2"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="fill_parent"
+
+        android:textStyle="bold"
+        android:gravity="left"
+        android:padding="1dp"
+        android:text="PRODUCTO"
+        android:layout_gravity="left"
+        />
+    <TextView android:id="@+id/item3"
+        android:background="@color/UmkAzulOscuro"
+        android:text="col_2"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:width="100dip"
+        />
+
+</LinearLayout>-->
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+
+
+    >
+    <TextView android:id="@+id/item1"
+        android:layout_height="fill_parent"
+        android:layout_width="wrap_content"
+        android:textColor="@color/UmkAzulOscuro"
+        android:width="100dp"
+        android:padding="10dp"
+        android:height="30dip"
+        />
+    <TextView
+        android:id="@+id/item2"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="@color/UmkAzulOscuro"
+
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="PRODUCTO"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/item3"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="@color/UmkAzulOscuro"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="PRECIO"
+        android:layout_gravity="right"
+        />
+</LinearLayout>

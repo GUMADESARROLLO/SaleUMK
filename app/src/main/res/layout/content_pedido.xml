@@ -1,0 +1,61 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:gravity="center_horizontal"
+android:orientation="vertical"
+android:paddingBottom="@dimen/activity_vertical_margin"
+android:paddingLeft="@dimen/activity_horizontal_margin"
+android:paddingRight="@dimen/activity_horizontal_margin"
+android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="1">
+<SearchView
+    android:id="@+id/searchView1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentTop="true"
+    android:background="@color/md_blue_50"
+    android:queryHint="@string/Label_text_search"/>
+
+
+<ListView
+    android:id="@+id/ListView1"
+    android:layout_width="match_parent"
+    android:layout_height="308dp"
+
+    android:layout_gravity="center_horizontal"
+    />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <AutoCompleteTextView
+
+            android:id="@+id/txtCant"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/prompt_cant"
+            android:inputType="number"
+            android:maxLines="1"
+            android:singleLine="true" />
+
+    </android.support.design.widget.TextInputLayout>
+
+
+
+    <Button
+        android:id="@+id/button_Add_Art"
+        style="?android:textAppearanceSmall"
+        android:background="@color/UmkAzulOscuro"
+        android:textColor="@color/UmkBlanco"
+        android:layout_width="116dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginTop="16dp"
+        android:text="@string/action_Add"
+        android:textStyle="bold" />
+
+
+
+</LinearLayout>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+
+    >
+<TextView
+    android:id="@+id/d1"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="wrap_content"
+    android:textColor="@color/UmkAzulOscuro"
+
+    android:gravity="center_horizontal"
+    android:padding="10dp"
+    android:text="@string/Lunes"
+    android:layout_gravity="right"
+    />
+<TextView
+    android:id="@+id/d2"
+    android:layout_width="0dp"
+    android:layout_weight="1"
+    android:layout_height="wrap_content"
+    android:textColor="@color/UmkAzulOscuro"
+    android:gravity="left"
+
+    android:padding="10dp"
+    android:text="@string/Martes"
+    android:layout_gravity="right"
+
+    />
+    <TextView
+        android:id="@+id/d3"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="left"
+        android:padding="10dp"
+        android:text="@string/Miercoles"
+        android:layout_gravity="right"
+        />
+    <TextView
+        android:id="@+id/d4"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="left"
+        android:padding="10dp"
+        android:text="@string/Jueves"
+        android:layout_gravity="right"
+        />
+    <TextView
+        android:id="@+id/d5"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="left"
+        android:padding="10dp"
+        android:text="@string/Viernes"
+        android:layout_gravity="left"
+        />
+</LinearLayout>

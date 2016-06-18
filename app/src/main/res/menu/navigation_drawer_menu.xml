@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single" >
+        <item
+            android:checked="true"
+            android:id="@+id/item_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="HOME"
+
+            />
+        <item
+            android:id="@+id/item_Inv"
+            android:icon="@drawable/ic_account_balance_wallet_black_24dp"
+            android:title="INVENTARIO" />
+        <item
+            android:id="@+id/item_Cls"
+            android:icon="@drawable/ic_perm_contact_calendar_black_24dp"
+            android:title="CLIENTES" />
+        <!--<item
+            android:id="@+id/item_liq6"
+            android:icon="@drawable/ic_file_document"
+            android:title="Liq 6" />
+        <item
+            android:id="@+id/item_liq12"
+            android:icon="@drawable/ic_file_document"
+            android:title="Liq 12" />-->
+        <item
+            android:id="@+id/item_calendario"
+            android:icon="@drawable/ic_call_split_black_36dp"
+            android:title="CREAR RUTAS" />
+        <item
+            android:id="@+id/item_aout"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="SALIR" />
+    </group>
+
+    <item android:title="">
+        <menu>
+           <!-- <item
+                android:id="@+id/item_aout"
+                android:icon="@drawable/ic_action_action_delete"
+                android:title="Cerrar Sessión" />-->
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,52 @@
+<resources>
+    <string name="app_name">UMKSales</string>
+    <string name="action_settings">Cerrar Sessión</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="title_activity_login">UMKSales</string>
+
+    <!-- Strings related to login -->
+    <string name="prompt_email">Agente</string>
+    <string name="prompt_password">Contaseña</string>
+    <string name="action_sign_in">ENTRAR</string>
+    <string name="action_sign_in_short">SaleUMK</string>
+    <string name="error_invalid_email">Cambo Invalido</string>
+    <string name="error_invalid_password">Contraseña muy Corta</string>
+    <string name="error_incorrect_password">Contraseña incorrecta</string>
+    <string name="error_field_required">Campo requerido</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="Label_text_search">Buscar</string>
+    <string name="lbl_footer_lstudpt">Ultima Actualización: </string>
+    <string name="title_activity_pedido">PedidoActivity</string>
+    <string name="title_activity_crear_sale">CrearSaleActivity</string>
+    <string name="title_activity_frm_cobro_">FrmCobro_Activity</string>
+    <string name="title_activity_observacion">ObservacionActivity</string>
+
+    <string-array name="Tipificaciones">
+        <item>Tipificacion 1</item>
+        <item>Tipificacion 2</item>
+        <item>Tipificacion 3</item>
+        <item>Tipificacion 4</item>
+        <item>Tipificacion 5</item>
+    </string-array>
+    <string name="title_activity_agenda">AgendaActivity</string>
+    <string name="app_label">Buscar</string>
+    <string name="search_hint">Buscame</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_info_articulo">infoArticuloActivity</string>
+    <string name="title_activity_articulodetalle">articulodetalleActivity</string>
+    <string name="title_activity_detalles">DetallesActivity</string>
+    <string name="title_activity_info_clientes">InfoClientesActivity</string>
+    <string name="prompt_cant">Cantidad</string>
+    <string name="action_Add">Agregar</string>
+    <string name="title_activity_calendario">calendarioActivity</string>
+    <string name="Lunes">Lunes</string>
+    <string name="Martes">Martes</string>
+    <string name="Miercoles">Miercoles</string>
+    <string name="Jueves">Jueves</string>
+    <string name="Viernes">Viernes</string>
+    <string name="prompt_WeekStart">Semana Inicio</string>
+    <string name="prompt_WeekEnd">Semana Fin</string>
+
+</resources>

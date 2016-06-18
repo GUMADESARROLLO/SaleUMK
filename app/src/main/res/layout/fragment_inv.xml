@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+       <SearchView
+           android:id="@+id/searchView1"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_alignParentLeft="true"
+           android:backgroundTint="@color/UmkNavHover"
+           android:paddingLeft="@dimen/activity_horizontal_margin"
+           android:paddingRight="@dimen/activity_horizontal_margin"
+           android:layout_alignParentTop="true"
+           android:layout_marginTop="70dp"
+           android:background="@color/md_blue_50"
+           android:queryHint="@string/Label_text_search"
+           >
+       </SearchView>
+
+
+       <LinearLayout
+           android:id="@+id/header"
+           android:layout_width="fill_parent"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:background="@color/UmkAzulOscuro"
+           android:layout_marginTop="120dp"
+           >
+              <TextView android:id="@+id/item1"
+                  android:layout_height="fill_parent"
+                  android:layout_width="wrap_content"
+                  android:textColor="@color/UmkBlanco"
+                  android:textStyle="bold"
+                  android:text="CODIGO"
+                  android:width="80dip"
+                  android:padding="10dp"
+                  android:height="30dip"
+                  />
+              <TextView
+                  android:id="@+id/item2"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/UmkBlanco"
+                  android:textStyle="bold"
+                  android:gravity="center_horizontal"
+                  android:padding="10dp"
+                  android:text="PRODUCTO"
+                  android:layout_gravity="left"
+                  />
+              <TextView
+                  android:id="@+id/item3"
+                  android:layout_width="0dp"
+                  android:layout_weight="1"
+                  android:layout_height="wrap_content"
+                  android:textColor="@color/UmkBlanco"
+                  android:textStyle="bold"
+                  android:gravity="center_horizontal"
+                  android:padding="10dp"
+                  android:text="PRECIO"
+                  android:layout_gravity="right"
+                  />
+       </LinearLayout>
+
+       <View android:layout_width="fill_parent"
+           android:layout_height="1dip"
+           android:background="?android:attr/listDivider" />
+       <LinearLayout android:id="@+id/layout"
+           android:layout_marginTop="20dp"
+           android:layout_width="wrap_content"
+           android:layout_height="fill_parent">
+              <ListView android:id="@+id/listview"
+                  android:layout_marginTop="170dp"
+                  android:layout_height="fill_parent"
+                  android:layout_width="fill_parent">
+              </ListView>
+       </LinearLayout>
+
+
+
+
+       <android.support.design.widget.CoordinatorLayout
+           xmlns:android="http://schemas.android.com/apk/res/android"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent"
+           android:fitsSystemWindows="true">
+
+
+              <TextView
+                  android:id="@+id/tvLastUpdate"
+                  android:layout_width="fill_parent"
+                  android:layout_height="wrap_content"
+                  android:text="@string/lbl_footer_lstudpt"
+                  android:textColor="@color/UmkBlanco"
+                  android:background="@color/UmkAzulOscuro"
+                  android:textStyle="bold"
+                  android:textSize="18sp"
+                  android:gravity="center_horizontal"
+                  android:layout_gravity="left|bottom" />
+              <android.support.design.widget.FloatingActionButton
+                  android:id="@+id/fab"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_gravity="bottom|end"
+                  android:layout_margin="@dimen/fab_margin"
+                  android:src="@android:drawable/ic_dialog_info"
+                  android:tint="@color/UmkBlanco"
+                  app:backgroundTint="@color/UmkAzulOscuro"
+                  />
+       </android.support.design.widget.CoordinatorLayout>
+
+
+
+</RelativeLayout>

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <SearchView
+        android:id="@+id/searchView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:background="@color/md_blue_50"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="50dp"
+        android:queryHint="@string/Label_text_search"
+        >
+    </SearchView>
+    <ListView
+        android:id="@+id/ListView1"
+        android:layout_marginTop="100dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    </ListView>
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fitsSystemWindows="true">
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/lbl_footer_lstudpt"
+            android:id="@+id/tvLastUpdate"
+            android:textColor="@color/md_blue_50"
+            android:background="@color/md_indigo_A100"
+            android:layout_gravity="left|bottom" />
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/fab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_margin="@dimen/fab_margin"
+
+            android:src="@android:drawable/ic_dialog_info" />
+
+    </android.support.design.widget.CoordinatorLayout>
+
+
+</RelativeLayout>
