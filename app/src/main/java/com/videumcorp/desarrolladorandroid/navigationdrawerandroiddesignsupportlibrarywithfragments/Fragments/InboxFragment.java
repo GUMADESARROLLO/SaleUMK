@@ -126,7 +126,6 @@ public class InboxFragment extends Fragment {
 
         String[] from = new String[] {"rowid", "art", "Cantidad"};
         int[] to = new int[] { R.id.item1, R.id.item2, R.id.item3};
-
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
 
 
