@@ -18,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -261,17 +262,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             mAuthTask = null;
             showProgress(false);
 
+
             if (success) {
                 mEmailView.getText().toString();
                 mPasswordView.getText().toString();
-
-
                 Cursor res = myDB.GetAllData(mEmailView.getText().toString(), mPasswordView.getText().toString());
+                Log.d("LOGCANT",String.valueOf(res.getCount()));
                 if (res.getCount() == 0) {
                     Login(mEmailView.getText().toString(), mPasswordView.getText().toString());
                 } else {
-
-                    CallView(mEmailView.getText().toString());
+                    CallView(mEmailView.getText().toString(),myDB.GetNameUser(mEmailView.getText().toString()));
                 }
 
             } else {
@@ -290,8 +290,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void Login(String User, String Passw){
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
-        paramentros.put("U",User);
-        paramentros.put("P",Passw);
+        paramentros.put("U",User.toUpperCase());
+        paramentros.put("P",Passw.toUpperCase());
 
         Cnx.post(ClssURL.getURL_login(), paramentros, new AsyncHttpResponseHandler() {
             @Override
@@ -299,18 +299,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (statusCode==200){
                     ArrayList<String> MeEncontro = obtDatosUS(new String(responseBody));
                     String[] items = MeEncontro.get(0).toString().split(",");
-                    if (Integer.parseInt(items[2])==0){
+                    if (Integer.parseInt(items[3])==0){
                         Error404("Informacion Equivocada");
                     }else{
-                        boolean Inserted = myDB.insertDataUS(items[0].toString(),items[1].toString());
+                        boolean Inserted = myDB.insertDataUS(items[0].toString(),items[1].toString(),items[2].toString());
                         if (Inserted == true){
-                            CallView(items[0].toString());
+                            CallView(items[0].toString(),items[2].toString());
                         }else{
                             Error404("Error de Actualizacion de datos");
                         }
-
                     }
-
                 }else{
                     Error404("Sin Cobertura de datos.");
                 }
@@ -320,13 +318,12 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
                 Error404("Sin Cobertura de datos.");
             }
-
-
         });
     }
-    public void CallView(String User){
+    public void CallView(String User, String Nombre){
         Intent MenuIntent = new Intent(LoginActivity.this,MainActivity.class);
         MenuIntent.putExtra("Vendedor",User.toUpperCase());
+        MenuIntent.putExtra("VendedorNombre",Nombre.toUpperCase());
         LoginActivity.this.startActivity(MenuIntent);
         finish();
 
@@ -348,6 +345,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             for (int i=0; i<jsonArray.length(); i++){
                 texto = jsonArray.getJSONObject(i).getString("Usr")+ "," +
                         jsonArray.getJSONObject(i).getString("Pss")+ "," +
+                        jsonArray.getJSONObject(i).getString("NOMBRE")+ "," +
                         jsonArray.getJSONObject(i).getString("Correcto");
                 listado.add(texto);
             }

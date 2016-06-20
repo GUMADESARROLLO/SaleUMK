@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
     ActionBar actionBar;
     TextView nameUser;
+    TextView nameUserName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,9 +46,12 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String Vendedor = intent.getStringExtra("Vendedor");
+        String VendedorName = intent.getStringExtra("VendedorNombre");
 
         nameUser = (TextView) findViewById(R.id.nav_drw_header_lbl);
+        nameUserName = (TextView) findViewById(R.id.nav_drw_header_lbl1);
         nameUser.setText(Vendedor.toUpperCase());
+        nameUserName.setText(VendedorName.toUpperCase());
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (navigationView != null) {

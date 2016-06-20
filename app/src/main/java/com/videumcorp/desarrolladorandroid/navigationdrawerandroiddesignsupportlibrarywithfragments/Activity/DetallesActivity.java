@@ -29,17 +29,17 @@ public class DetallesActivity extends AppCompatActivity {
         }
         List<Anime> items = new ArrayList<>();
 
-        items.add(new Anime("Bedegas", 230));
-        items.add(new Anime("Lotes", 456));
-        items.add(new Anime("Vencimiento", 342));
+        //items.add(new Anime("Bedegas", 230));
+        //items.add(new Anime("Lotes", 456));
+        //items.add(new Anime("Vencimiento", 342));
 
 
-        recycler = (RecyclerView) findViewById(R.id.reciclador);
+/*        recycler = (RecyclerView) findViewById(R.id.reciclador);
         recycler.setHasFixedSize(true);
         lManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(lManager);
         adapter = new AnimeAdapter(items);
-        recycler.setAdapter(adapter);
+        recycler.setAdapter(adapter);*/
     }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();

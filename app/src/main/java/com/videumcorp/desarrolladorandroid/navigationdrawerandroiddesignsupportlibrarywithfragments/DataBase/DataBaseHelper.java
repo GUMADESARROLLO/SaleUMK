@@ -24,6 +24,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     //TABLA USUARIOS
     public static final String TABLE_USUARIO = "USUARIOS";
     public static final String COL_1 = "US";
+    public static final String COL_22 = "NOMBRE";
     public static final String COL_2 = "PS";
 
 
@@ -66,7 +67,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_USUARIO + "("+ COL_1 +" TEXT,"+ COL_2 +" TEXT, "+ COL_21 +" TEXT)");
+        db.execSQL("create table " + TABLE_USUARIO + "("+ COL_1 +" TEXT,"+ COL_2 +" TEXT, "+ COL_21 +" TEXT,"+ COL_22 +" TEXT)");
         db.execSQL("create table " + TABLE_ARTICULO +" ("+ COL_3 +" TEXT,"+ COL_4 +" TEXT,"+ COL_5 +" TEXT,"+ COL_6 +" TEXT, "+ COL_21 +" TEXT )" );
         db.execSQL("create table " + TABLE_LIQ6 +" ("+ COL_7 +" TEXT,"+ COL_8 +" TEXT,"+ COL_9 +" INTEGER,"+ COL_10 +" TEXT, "+ COL_11 +" TEXT, "+COL_12+" TEXT, "+ COL_21 +" TEXT )" );
         db.execSQL("create table " + TABLE_LIQ12 +" ("+ COL_7 +" TEXT,"+ COL_8 +" TEXT,"+ COL_9 +" INTEGER,"+ COL_10 +" TEXT, "+ COL_11 +" TEXT, "+COL_12+" TEXT, "+ COL_21 +" TEXT )" );
@@ -88,11 +89,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
 
 
-    public boolean insertDataUS(String US, String PSS){
+    public boolean insertDataUS(String US, String PSS,String Nombre){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_1,US);
         contentValues.put(COL_2,PSS);
+        contentValues.put(COL_22,Nombre);
         contentValues.put(COL_21,Datetime());
         long result = db.insert(TABLE_USUARIO,null,contentValues);
         if (result == -1){
@@ -176,7 +178,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     }
     public Cursor GetAllData(String U,String P){
         SQLiteDatabase db = this.getWritableDatabase();
-        String Query = "SELECT * FROM " + TABLE_USUARIO +" WHERE "+ COL_1 +"="+ '"' + U.trim().toUpperCase() + '"' +" and "+ COL_2 +"="+ '"' +P.trim() + '"' +"";
+        String Query = "SELECT * FROM " + TABLE_USUARIO +" WHERE "+ COL_1 +"="+ '"' + U.trim().toUpperCase() + '"' +" and "+ COL_2 +"="+ '"' +P.trim().toUpperCase() + '"' +"";
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
@@ -187,6 +189,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
+    public String GetNameUser(String Usr){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Nombre="";
+        String Query = "SELECT * FROM " + TABLE_USUARIO + " WHERE "+ COL_22 +"="+ '"'+ Usr.trim().toUpperCase()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        if (res.getCount()==0){
+            Nombre ="Error Acreditación";
+        }else{
+            if (res.moveToFirst()) {
+                do {
+                    Nombre = res.getString(3);
+                } while(res.moveToNext());
+            }
+
+        }
+        return Nombre;
+    }
+
+
 
 
 
