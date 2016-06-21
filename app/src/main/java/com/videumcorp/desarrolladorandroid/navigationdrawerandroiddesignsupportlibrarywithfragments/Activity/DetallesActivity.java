@@ -36,7 +36,7 @@ public class DetallesActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        List<Anime> items = new ArrayList<>();
+
 
         lv_bodegas = (ListView) findViewById(R.id.listview_Bodegas);
         lv_reglas= (ListView) findViewById(R.id.listview_reglas);
@@ -48,12 +48,14 @@ public class DetallesActivity extends AppCompatActivity {
         loadData_lote();
         loadData_liq();
 
-        //items.add(new Anime("Bedegas", 230));
-        //items.add(new Anime("Lotes", 456));
-        //items.add(new Anime("Vencimiento", 342));
+/*
+        items.add(new Anime("Bedegas", 230));
+        items.add(new Anime("Lotes", 456));
+        items.add(new Anime("Vencimiento", 342));
+        List<Anime> items = new ArrayList<>();
 
 
-/*        recycler = (RecyclerView) findViewById(R.id.reciclador);
+        recycler = (RecyclerView) findViewById(R.id.reciclador);
         recycler.setHasFixedSize(true);
         lManager = new LinearLayoutManager(this);
         recycler.setLayoutManager(lManager);

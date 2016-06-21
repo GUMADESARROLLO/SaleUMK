@@ -33,6 +33,7 @@ import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportl
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.R;
 
 
+import org.apache.http.Header;
 import org.json.JSONArray;
 
 import java.util.ArrayList;
@@ -175,7 +176,53 @@ public class InboxFragment extends Fragment {
                 texto = jsonArray.getJSONObject(i).getString("ARTICULO")+ "," +
                         jsonArray.getJSONObject(i).getString("DESCRIPCION")+ "," +
                         jsonArray.getJSONObject(i).getString("TOTAL_EXISTENCIA")+ "," +
-                        jsonArray.getJSONObject(i).getString("PRECIO");
+                        jsonArray.getJSONObject(i).getString("PRECIO")+ "," +
+                        jsonArray.getJSONObject(i).getString("PUNTOS")+ "," +
+                        jsonArray.getJSONObject(i).getString("BODEGAS")+ "," +
+                        jsonArray.getJSONObject(i).getString("REGLAS");
+                listado.add(texto);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return listado;
+
+    }
+    public ArrayList<String> obtDatosExistenciaLote(String response){
+        ArrayList<String> listado = new ArrayList<String>();
+        try{
+            JSONArray jsonArray = new JSONArray(response);
+            String texto;
+
+            for (int i=0; i<jsonArray.length(); i++){
+                texto = jsonArray.getJSONObject(i).getString("ARTICULO")+ "," +
+                        jsonArray.getJSONObject(i).getString("LOTE")+ "," +
+                        jsonArray.getJSONObject(i).getString("BODEGAS")+ "," +
+                        jsonArray.getJSONObject(i).getString("CANT_DISPONIBLE")+ "," +
+                        jsonArray.getJSONObject(i).getString("BODEGA");
+                listado.add(texto);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return listado;
+
+    }
+    public ArrayList<String> obtDatosLiq12(String response){
+        ArrayList<String> listado = new ArrayList<String>();
+        try{
+            JSONArray jsonArray = new JSONArray(response);
+            String texto;
+
+            for (int i=0; i<jsonArray.length(); i++){
+                texto = jsonArray.getJSONObject(i).getString("ARTICULO")+ "," +
+                        jsonArray.getJSONObject(i).getString("DESCRIPCION")+ "," +
+                        jsonArray.getJSONObject(i).getString("DIAS_VENCIMIENTO")+ "," +
+                        jsonArray.getJSONObject(i).getString("CANT_DISPONIBLE")+ "," +
+                        jsonArray.getJSONObject(i).getString("fecha_vencimientoR")+ "," +
+                        jsonArray.getJSONObject(i).getString("LOTE");
                 listado.add(texto);
             }
 
@@ -188,8 +235,6 @@ public class InboxFragment extends Fragment {
     public void CallInve(){
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
-        //paramentros.put("U",User);
-        //paramentros.put("P",Passw);
 
         Cnx.post(ClssURL.getUrlInve(), paramentros, new AsyncHttpResponseHandler() {
             @Override
@@ -205,12 +250,18 @@ public class InboxFragment extends Fragment {
 
                     for (int n=0; n<MeEncontro.size();n++){
                         String[] items = MeEncontro.get(n).toString().split(",");
-                        Inserted = myDB.insertDataArticulo(items[0].toString(),items[1].toString(),items[2].toString(),items[3].toString());
+                        Inserted = myDB.insertDataArticulo(
+                                items[0].toString(),
+                                items[1].toString(),
+                                items[2].toString(),
+                                items[3].toString(),
+                                items[4].toString(),
+                                items[5].toString(),
+                                items[6].toString()
+                                );
                     }
 
                     if (Inserted == true){
-                        loadData();
-                        Toast.makeText(getActivity(), "Actualización completada",Toast.LENGTH_SHORT).show();
 
                     }else{
                         Error404("Error de Actualizacion de datos");
@@ -227,6 +278,83 @@ public class InboxFragment extends Fragment {
                 Error404("Sin Cobertura de datos.");
             }
         });
+        Cnx.post(ClssURL.getURL_liq12(), paramentros, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody) {
+
+                boolean Inserted=false;
+                if (statusCode==200){
+
+                    ArrayList<String> MeEncontro = obtDatosLiq12(new String(responseBody));
+                    SQLiteDatabase db = myDB.getWritableDatabase();
+                    db.execSQL("DELETE FROM LIQ12");
+
+
+                    for (int n=0; n<MeEncontro.size();n++){
+                        String[] items = MeEncontro.get(n).toString().split(",");
+                        Inserted = myDB.insertDataLIQ12(
+                                items[0].toString(),
+                                items[1].toString(),
+                                items[2].toString(),
+                                items[3].toString(),
+                                items[4].toString(),
+                                items[5].toString()
+                        );
+                    }
+
+                    if (Inserted == true){
+                    }else{
+                        Error404("Error de Actualizacion de datos");
+                    }
+
+                }else{
+                    Error404("Sin Cobertura de datos.");
+                }
+
+
+            }
+            @Override
+            public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
+                Error404("Sin Cobertura de datos.");
+            }
+        });
+        Cnx.post(ClssURL.getURL_ExistenciaLotes(), paramentros, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                boolean Inserted=false;
+                if (statusCode==200){
+
+                    ArrayList<String> MeEncontro = obtDatosExistenciaLote(new String(responseBody));
+                    SQLiteDatabase db = myDB.getWritableDatabase();
+                    db.execSQL("DELETE FROM EXISTENCIA_LOTE");
+                    for (int n=0; n<MeEncontro.size();n++){
+                        String[] items = MeEncontro.get(n).toString().split(",");
+                        Inserted = myDB.insertExiLote(items[0].toString(),items[1].toString(),items[2].toString(),items[3].toString(),items[3].toString());
+                    }
+
+                    if (Inserted == true){
+                        loadData();
+                        Toast.makeText(getActivity(), "Actualización Completada",Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        Error404("Error de Actualizacion de datos");
+                    }
+
+                }else{
+                    Error404("Sin Cobertura de datos.");
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
+
+
+
     }
 
 }

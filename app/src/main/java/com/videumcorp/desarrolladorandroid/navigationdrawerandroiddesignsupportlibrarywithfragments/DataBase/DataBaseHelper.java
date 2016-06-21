@@ -34,6 +34,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COL_4 = "DESCRIPCION";
     public static final String COL_5 = "CANTIDAD";
     public static final String COL_6 = "PRECIO";
+    public static final String COL_34 = "PUNTOS";
+    public static final String COL_35 = "BODEGAS";
+    public static final String COL_36 = "REGLAS";
+
 
     //TABLA INVENTARIO A LIQUIDAR A 6 MESES
     public static final String TABLE_LIQ6 = "LIQ6";
@@ -49,6 +53,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     //TABLA INVENTARIO A LIQUIDAR A 6 MESES
     public static final String TABLE_CLIENTE = "CLIENTES";
+
     public static final String COL_13 = "CLIENTE";
     public static final String COL_14 = "NOMBRE";
     public static final String COL_15 = "DIRECCION";
@@ -58,7 +63,21 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COL_19 = "SALDO";
     public static final String COL_20 = "DISPO";
 
+    public static final String COL_23 = "NoVencidos";
+    public static final String COL_24 = "Dias30";
+    public static final String COL_25 = "Dias60";
+    public static final String COL_26 = "Dias90";
+    public static final String COL_27 = "Dias120";
+    public static final String COL_28 = "Mas120";
+
     public static final String COL_21 = "LSTUDTP";
+
+    public static final String TABLE_EXISTENCIA_LOTE = "EXISTENCIA_LOTE";
+    public static final String COL_33 = "ARTICULO";
+    public static final String COL_29 = "LOTE";
+    public static final String COL_30 = "FECHA_VENCIMIENTO";
+    public static final String COL_31 = "CANT_DISPONIBLE";
+    public static final String COL_32 = "BODEGA";
 
     public DataBaseHelper(Context context) {
         super(context.getApplicationContext(), DATABASE_NAME,null,1);
@@ -68,11 +87,37 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_USUARIO + "("+ COL_1 +" TEXT,"+ COL_2 +" TEXT, "+ COL_21 +" TEXT,"+ COL_22 +" TEXT)");
-        db.execSQL("create table " + TABLE_ARTICULO +" ("+ COL_3 +" TEXT,"+ COL_4 +" TEXT,"+ COL_5 +" TEXT,"+ COL_6 +" TEXT, "+ COL_21 +" TEXT )" );
+
+        db.execSQL("create table " + TABLE_ARTICULO +" ("+
+                COL_3 +" TEXT,"+
+                COL_4 +" TEXT,"+
+                COL_5 +" TEXT,"+
+                COL_6 +" TEXT, "+
+                COL_21 +" TEXT ,"+
+                COL_34 +" TEXT,"+
+                COL_35 +" TEXT,"+
+                COL_36 +" TEXT)");
         db.execSQL("create table " + TABLE_LIQ6 +" ("+ COL_7 +" TEXT,"+ COL_8 +" TEXT,"+ COL_9 +" INTEGER,"+ COL_10 +" TEXT, "+ COL_11 +" TEXT, "+COL_12+" TEXT, "+ COL_21 +" TEXT )" );
         db.execSQL("create table " + TABLE_LIQ12 +" ("+ COL_7 +" TEXT,"+ COL_8 +" TEXT,"+ COL_9 +" INTEGER,"+ COL_10 +" TEXT, "+ COL_11 +" TEXT, "+COL_12+" TEXT, "+ COL_21 +" TEXT )" );
-        db.execSQL("create table " + TABLE_CLIENTE +" ("+ COL_13 +" TEXT,"+ COL_14 +" TEXT,"+ COL_15 +" TEXT,"+ COL_16 +" TEXT, "+ COL_17 +" TEXT, "+COL_18+" TEXT," + COL_19 +" TEXT,"+ COL_20 +" TEXT, "+ COL_21 +" TEXT )" );
+        db.execSQL("create table " + TABLE_CLIENTE +" ("+
+                COL_13 +" TEXT,"+
+                COL_14 +" TEXT,"+
+                COL_15 +" TEXT,"+
+                COL_16 +" TEXT,"+
+                COL_17 +" TEXT,"+
+                COL_18 +" TEXT,"+
+                COL_19 +" TEXT,"+
+                COL_20 +" TEXT,"+
+                COL_21 +" TEXT,"+
+                COL_23 +" TEXT,"+
+                COL_24 +" TEXT,"+
+                COL_25 +" TEXT,"+
+                COL_26 +" TEXT,"+
+                COL_27 +" TEXT,"+
+                COL_28 +" TEXT )" );
+        db.execSQL("create table " + TABLE_EXISTENCIA_LOTE + "("+ COL_29 +" TEXT, "+COL_33+" TEXT,"+ COL_30 +" TEXT, "+ COL_31 +" TEXT,"+ COL_32 +" TEXT)");
     }
+
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -85,6 +130,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_LIQ12);
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_CLIENTE);
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_EXISTENCIA_LOTE);
         onCreate(db);
     }
 
@@ -103,13 +150,31 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-    public boolean insertDataArticulo(String Articulo, String Descrip,String Exist,String Precio){
+    public boolean insertExiLote(String ARTICULO,String LOTE, String FECHA_VENCIMIENTO,String CANT_DISPONIBLE,String BODEGA){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_33,ARTICULO);
+        contentValues.put(COL_29,LOTE);
+        contentValues.put(COL_30,FECHA_VENCIMIENTO);
+        contentValues.put(COL_31,CANT_DISPONIBLE);
+        contentValues.put(COL_32,BODEGA);
+        long result = db.insert(TABLE_EXISTENCIA_LOTE,null,contentValues);
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    public boolean insertDataArticulo(String Articulo, String Descrip,String Exist,String Precio,String PUNTOS,String BODEGAS,String REGLAS){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_3,Articulo);
         contentValues.put(COL_4,Descrip);
         contentValues.put(COL_5,Exist);
         contentValues.put(COL_6,Precio);
+        contentValues.put(COL_34,PUNTOS);
+        contentValues.put(COL_35,BODEGAS);
+        contentValues.put(COL_36,REGLAS);
         contentValues.put(COL_21,Datetime());
         long result = db.insert(TABLE_ARTICULO,null,contentValues);
         if (result == -1){
@@ -152,7 +217,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-    public boolean insertDataCliente(String CLIENTE, String NOMBRE,String DIRECCION,String TELEFONO1,String MOROSO,String LIMITE_CREDITO,String SALDO,String DISPO){
+    public boolean insertDataCliente(String CLIENTE, String NOMBRE,String DIRECCION,String TELEFONO1,String MOROSO,String LIMITE_CREDITO,String SALDO,String DISPO,String NoVencidos,String Dias30,String Dias60,String Dias90,String Dias120,String Mas120){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_13,CLIENTE);
@@ -164,6 +229,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_19,SALDO);
         contentValues.put(COL_20,DISPO);
         contentValues.put(COL_21,Datetime());
+        contentValues.put(COL_23,NoVencidos);
+        contentValues.put(COL_24,Dias30);
+        contentValues.put(COL_25,Dias60);
+        contentValues.put(COL_26,Dias90);
+        contentValues.put(COL_27,Dias120);
+        contentValues.put(COL_28,Mas120);
+
         long result = db.insert(TABLE_CLIENTE,null,contentValues);
         if (result == -1){
             return false;

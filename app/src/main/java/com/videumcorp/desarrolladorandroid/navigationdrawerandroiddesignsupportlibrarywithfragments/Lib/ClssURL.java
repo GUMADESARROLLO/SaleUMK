@@ -12,8 +12,17 @@ public class ClssURL {
     private static String URL_liq6  = "http://"+ SERVER +"/APIREST/InventarioLiq6.php";
     private static String URL_liq12 = "http://"+ SERVER +"/APIREST/InventarioLiq12.php";
     private static String URL_mtlc = "http://"+ SERVER +"/APIREST/MTCL.php";
+    private static String URL_ExistenciaLotes = "http://"+ SERVER +"/APIREST/ExistenciaLotes.php";
 
     public ClssURL() {
+    }
+
+    public static String getSERVER() {
+        return SERVER;
+    }
+
+    public static void setSERVER(String SERVER) {
+        ClssURL.SERVER = SERVER;
     }
 
     public static String getUrlInve() {
@@ -56,5 +65,11 @@ public class ClssURL {
         ClssURL.URL_mtlc = URL_mtlc;
     }
 
+    public static String getURL_ExistenciaLotes() {
+        return URL_ExistenciaLotes;
+    }
 
+    public static void setURL_ExistenciaLotes(String URL_ExistenciaLotes) {
+        ClssURL.URL_ExistenciaLotes = URL_ExistenciaLotes;
+    }
 }

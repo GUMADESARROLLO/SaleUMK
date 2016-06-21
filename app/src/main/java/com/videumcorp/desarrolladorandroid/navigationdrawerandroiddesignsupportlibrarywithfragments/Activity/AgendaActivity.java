@@ -168,17 +168,20 @@ public class AgendaActivity extends AppCompatActivity implements SearchView.OnQu
 
                             for (int n = 0; n < MeEncontro.size(); n++) {
                                 String[] items = MeEncontro.get(n).toString().split(",");
-                                Inserted = myDB.insertDataArticulo(items[0].toString(), items[1].toString(), items[2].toString(), items[3].toString());
+                                Inserted = myDB.insertDataArticulo(
+                                        items[0].toString(),
+                                        items[1].toString(),
+                                        items[2].toString(),
+                                        items[3].toString(),
+                                        items[4].toString(),
+                                        items[5].toString(),
+                                        items[6].toString()
+                                );
                             }
 
 
                             if (Inserted == true) {
-                                Toast.makeText(getApplicationContext(), "Actualización completada", Toast.LENGTH_SHORT).show();
-
-                                ClearList();
-                                displayList();
-
-
+                                Toast.makeText(getApplicationContext(), "Ya Casi terminamos.....", Toast.LENGTH_SHORT).show();
                                 //CallView(items[0].toString());
                                 //progressDialog.dismiss();
                             } else {
@@ -211,7 +214,10 @@ public class AgendaActivity extends AppCompatActivity implements SearchView.OnQu
                 texto = jsonArray.getJSONObject(i).getString("ARTICULO")+ "," +
                         jsonArray.getJSONObject(i).getString("DESCRIPCION")+ "," +
                         jsonArray.getJSONObject(i).getString("TOTAL_EXISTENCIA")+ "," +
-                        jsonArray.getJSONObject(i).getString("PRECIO");
+                        jsonArray.getJSONObject(i).getString("PRECIO")+ "," +
+                        jsonArray.getJSONObject(i).getString("PUNTOS")+ "," +
+                        jsonArray.getJSONObject(i).getString("BODEGAS")+ "," +
+                        jsonArray.getJSONObject(i).getString("REGLAS");
                 listado.add(texto);
             }
 

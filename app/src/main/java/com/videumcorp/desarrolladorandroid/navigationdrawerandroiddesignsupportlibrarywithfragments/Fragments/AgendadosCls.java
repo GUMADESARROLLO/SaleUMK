@@ -240,7 +240,21 @@ public class AgendadosCls extends Fragment  {
 
                     for (int n=0; n<MeEncontro.size();n++){
                         String[] items = MeEncontro.get(n).toString().split(",");
-                        Inserted = myDB.insertDataCliente(items[0].toString(),items[1].toString(),items[2].toString(),items[3].toString(),items[4].toString(),items[5].toString(),items[6].toString(),items[7].toString());
+                        Inserted = myDB.insertDataCliente(
+                                items[0].toString(),
+                                items[1].toString(),
+                                items[2].toString(),
+                                items[3].toString(),
+                                items[4].toString(),
+                                items[5].toString(),
+                                items[6].toString(),
+                                items[7].toString(),
+                                items[8].toString(),
+                                items[9].toString(),
+                                items[10].toString(),
+                                items[11].toString(),
+                                items[12].toString(),
+                                items[13].toString());
                     }
 
                     if (Inserted == true){

@@ -163,7 +163,13 @@ public class StarredFragment extends Fragment {
                         jsonArray.getJSONObject(i).getString("MOROSO")+ "," +
                         jsonArray.getJSONObject(i).getString("LIMITE_CREDITO")+ "," +
                         jsonArray.getJSONObject(i).getString("SALDO")+ "," +
-                        jsonArray.getJSONObject(i).getString("DISPO");
+                        jsonArray.getJSONObject(i).getString("DISPO")+ "," +
+                        jsonArray.getJSONObject(i).getString("NoVencidos")+ "," +
+                        jsonArray.getJSONObject(i).getString("Dias30")+ "," +
+                        jsonArray.getJSONObject(i).getString("Dias60")+ "," +
+                        jsonArray.getJSONObject(i).getString("Dias90")+ "," +
+                        jsonArray.getJSONObject(i).getString("Dias120")+ "," +
+                        jsonArray.getJSONObject(i).getString("Mas120");
                 listado.add(texto);
             }
 
@@ -195,7 +201,23 @@ public class StarredFragment extends Fragment {
 
                     for (int n=0; n<MeEncontro.size();n++){
                         String[] items = MeEncontro.get(n).toString().split(",");
-                        Inserted = myDB.insertDataCliente(items[0].toString(),items[1].toString(),items[2].toString(),items[3].toString(),items[4].toString(),items[5].toString(),items[6].toString(),items[7].toString());
+                        Inserted = myDB.insertDataCliente(
+                                items[0].toString(),
+                                items[1].toString(),
+                                items[2].toString(),
+                                items[3].toString(),
+                                items[4].toString(),
+                                items[5].toString(),
+                                items[6].toString(),
+                                items[7].toString(),
+                                items[8].toString(),
+                                items[9].toString(),
+                                items[10].toString(),
+                                items[11].toString(),
+                                items[12].toString(),
+                                items[13].toString()
+
+                        );
                     }
 
                     if (Inserted == true){
