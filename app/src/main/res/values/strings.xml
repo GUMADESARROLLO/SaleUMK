@@ -48,5 +48,7 @@
     <string name="Viernes">Viernes</string>
     <string name="prompt_WeekStart">Semana Inicio</string>
     <string name="prompt_WeekEnd">Semana Fin</string>
+    <string name="Pront_No">No</string>
+    <string name="Pront_NameBanco">Banco</string>
 
 </resources>

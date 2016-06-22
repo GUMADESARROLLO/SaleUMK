@@ -45,7 +45,7 @@
         <activity
             android:name=".Activity.FrmCobro_Activity"
             android:label="@string/title_activity_frm_cobro_"
-            android:theme="@style/Base.AppTheme" />
+            android:theme="@style/Base.AppTheme.ActionBar" />
         <activity
             android:name=".Activity.ObservacionActivity"
             android:label="@string/title_activity_observacion"

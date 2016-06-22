@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:id="@+id/Item_articulo"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="ARTICULO"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_descr"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Descripcion"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_cant"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Canitdad"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_precio"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Precio"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_valor"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Valor"
+        android:layout_gravity="left"
+        />
+
+</LinearLayout>

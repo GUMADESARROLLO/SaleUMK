@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:id="@+id/Item_recibo"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Factura No"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_vFactura"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Valor Factura"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_VNC"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Valor N/C"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_Retencion"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Retencion"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_Descuento"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Descuento"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_VRecibo"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Valor Recibo"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_Saldo"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Saldo"
+        android:layout_gravity="left"
+        />
+</LinearLayout>

@@ -30,6 +30,7 @@ import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportl
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.DataBase.DataBaseHelper;
 
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Activity.MainActivity;
+import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Lib.Variables;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.R;
 
 
@@ -44,6 +45,7 @@ import java.util.List;
 public class InboxFragment extends Fragment {
 
     DataBaseHelper myDB;
+    Variables myVa;
 
     ListView lv;
 
@@ -99,7 +101,8 @@ public class InboxFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
                 String Cod = ClearString(selectedFromList);
-                Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
+                myVa.setInv_Articulo(Cod);
+                //Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
                 Intent mint = new Intent(getActivity(),DetallesActivity.class);
                 getActivity().startActivity(mint);
 
