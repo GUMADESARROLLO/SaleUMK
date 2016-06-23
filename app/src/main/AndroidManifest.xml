@@ -24,6 +24,7 @@
             android:label="@string/title_activity_login">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
 
@@ -66,7 +67,11 @@
         <activity
             android:name=".Activity.CalendarioActivity"
             android:label="@string/title_activity_calendario"
-            android:theme="@style/Base.AppTheme.ActionBar"></activity>
+            android:theme="@style/Base.AppTheme.ActionBar" />
+        <activity
+            android:name=".Activity.bandejaCobroActivity"
+            android:label="@string/title_activity_bandeja_cobro"
+            android:theme="@style/Base.AppTheme.ActionBar" />
     </application>
 
 </manifest>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    >
+
+    <TextView
+        android:id="@+id/Item_Bandeja_recibo"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="RECIBO"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_bandeja_fecha"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="FECHA"
+        android:layout_gravity="left"
+        />
+    <TextView
+        android:id="@+id/Item_bandeja_monto"
+        android:layout_height="fill_parent"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:textColor="@color/UmkAzulOscuro"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="MONTO"
+        android:layout_gravity="left"
+        />
+</LinearLayout>

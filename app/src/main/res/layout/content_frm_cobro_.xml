@@ -26,13 +26,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:background="@color/UmkAzulOscuro"
-
-                >
+                android:background="@color/UmkAzulOscuro">
 
                 <TextView
                     android:id="@+id/item_FECHA_VENCE"
@@ -43,7 +40,7 @@
                     android:textStyle="bold"
                     android:gravity="center_horizontal"
                     android:padding="10dp"
-                    android:text="FECHA VENCIMIENTO"
+                    android:text="DATOS DE RECIBO"
                     android:layout_gravity="left"
                     />
 

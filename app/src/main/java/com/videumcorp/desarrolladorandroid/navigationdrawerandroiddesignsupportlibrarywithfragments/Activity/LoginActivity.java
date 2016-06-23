@@ -37,6 +37,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.DataBase.DataBaseHelper;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Lib.ClssURL;
+import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Lib.Variables;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.R;
 
 import org.apache.http.Header;
@@ -46,6 +47,7 @@ import org.json.JSONArray;
 
 public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<Cursor> {
     DataBaseHelper myDB;
+    Variables myVar;
 
     private static final String[] DUMMY_CREDENTIALS = new String[]{
             "foo@example.com:hello", "bar@example.com:world"
@@ -322,8 +324,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     }
     public void CallView(String User, String Nombre){
         Intent MenuIntent = new Intent(LoginActivity.this,MainActivity.class);
+
         MenuIntent.putExtra("Vendedor",User.toUpperCase());
-        MenuIntent.putExtra("VendedorNombre",Nombre.toUpperCase());
+
+        myVar.setNameVendedor(Nombre.toUpperCase());
+
         LoginActivity.this.startActivity(MenuIntent);
         finish();
 

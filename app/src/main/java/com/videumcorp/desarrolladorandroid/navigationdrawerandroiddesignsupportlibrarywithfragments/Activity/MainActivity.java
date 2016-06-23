@@ -19,6 +19,7 @@ import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportl
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Fragments.Liq12Fragment;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Fragments.Liq6Fragment;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Fragments.StarredFragment;
+import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Lib.Variables;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.R;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
     ActionBar actionBar;
     TextView nameUser;
     TextView nameUserName;
+
+    Variables myVar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         String Vendedor = intent.getStringExtra("Vendedor");
-        String VendedorName = intent.getStringExtra("VendedorNombre");
+
 
         nameUser = (TextView) findViewById(R.id.nav_drw_header_lbl);
         nameUserName = (TextView) findViewById(R.id.nav_drw_header_lbl1);
         nameUser.setText(Vendedor.toUpperCase());
-        nameUserName.setText(VendedorName.toUpperCase());
+        nameUserName.setText(myVar.getNameVendedor().toUpperCase());
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
         if (navigationView != null) {

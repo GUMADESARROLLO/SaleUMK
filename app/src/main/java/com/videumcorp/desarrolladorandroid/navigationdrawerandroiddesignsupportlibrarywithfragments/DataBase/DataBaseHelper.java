@@ -132,11 +132,44 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 COL_27 +" TEXT,"+
                 COL_28 +" TEXT )" );
         db.execSQL("create table " + TABLE_EXISTENCIA_LOTE + "("+ COL_29 +" TEXT, "+COL_33+" TEXT,"+ COL_30 +" TEXT, "+ COL_31 +" TEXT,"+ COL_32 +" TEXT)");
+        
+        db.execSQL("CREATE TABLE Recibo (" +
+                "IdRecibo  INTEGER," +
+                "IdCliente  TEXT," +
+                "IdVendedor  TEXT," +
+                "Fecha  TEXT," +
+                "MRecibido  REAL," +
+                "TC  REAL," +
+                "TM  BLOB," +
+                "Recibimos  TEXT," +
+                "LCantidad  TEXT," +
+                "Concepto  TEXT," +
+                "Efectivo  BLOB," +
+                "CHK  BLOB," +
+                "NumCHK  TEXT," +
+                "Banco  TEXT" +
+                ")");
+        
+        db.execSQL("CREATE TABLE RDetalle (" +
+                "IdRD  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
+                "IDRecibo  INTEGER," +
+                "NFactura  TEXT," +
+                "FValor  REAL," +
+                "ValorNC  REAL," +
+                "Retencion  REAL," +
+                "Descuento  REAL," +
+                "VRecibo  REAL," +
+                "Saldo  REAL" +
+                ")");
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS RDetalle ");
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS Recibo");
+        onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_USUARIO);
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_ARTICULO);
@@ -296,7 +329,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public String GetNameUser(String Usr){
         SQLiteDatabase db = this.getWritableDatabase();
         String Nombre="";
-        String Query = "SELECT * FROM " + TABLE_USUARIO + " WHERE "+ COL_22 +"="+ '"'+ Usr.trim().toUpperCase()+'"';
+        String Query = "SELECT * FROM " + TABLE_USUARIO + " WHERE "+ COL_1 +"="+ '"'+ Usr.trim().toUpperCase()+'"';
         Cursor res = db.rawQuery(Query ,null);
         if (res.getCount()==0){
             Nombre ="Error Acreditación";

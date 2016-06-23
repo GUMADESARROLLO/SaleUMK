@@ -50,5 +50,6 @@
     <string name="prompt_WeekEnd">Semana Fin</string>
     <string name="Pront_No">No</string>
     <string name="Pront_NameBanco">Banco</string>
+    <string name="title_activity_bandeja_cobro">COBROS REALIZADOS</string>
 
 </resources>

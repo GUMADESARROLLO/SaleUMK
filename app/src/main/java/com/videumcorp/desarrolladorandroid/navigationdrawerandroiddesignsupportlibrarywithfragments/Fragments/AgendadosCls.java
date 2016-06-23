@@ -30,6 +30,7 @@ import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportl
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Activity.FrmCobro_Activity;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Activity.InfoClientesActivity;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Activity.ObservacionActivity;
+import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Activity.bandejaCobroActivity;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Adapters.SpecialAdapter;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Lib.ClssURL;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.DataBase.DataBaseHelper;
@@ -68,7 +69,7 @@ public class AgendadosCls extends Fragment  {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 ListView modeListView = new ListView(getActivity());
                 //String Cod = ClearString(selectedFromList);
-                String[] modes = new String[] { "PEDIDO", "COBRO","OBSERVACION" };
+                String[] modes = new String[] { "PEDIDO", "COBRO","VISITA" };
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(getActivity(),android.R.layout.simple_list_item_1, android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
                 builder.setView(modeListView);
@@ -85,7 +86,7 @@ public class AgendadosCls extends Fragment  {
                                 getActivity().startActivity(Mint);
                                 break;
                             case 1:
-                                Intent Mint2 = new Intent(getActivity(),FrmCobro_Activity.class);
+                                Intent Mint2 = new Intent(getActivity(),bandejaCobroActivity.class);
                                 getActivity().startActivity(Mint2);
                                 break;
                             case 2:

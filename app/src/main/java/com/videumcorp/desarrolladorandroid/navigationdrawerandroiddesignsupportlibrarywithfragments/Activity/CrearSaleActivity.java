@@ -105,8 +105,6 @@ public class CrearSaleActivity extends AppCompatActivity {
     }
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_pedido,menu);
-
-
         return true;
     }
 

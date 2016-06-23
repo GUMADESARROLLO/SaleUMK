@@ -6,6 +6,24 @@ package com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupport
 public class Variables {
     private static String Inv_Articulo ;
     private static String Inv_Cliente ;
+    private static String NameVendedor;
+    private static String IdVendedor;
+
+    public static String getNameVendedor() {
+        return NameVendedor;
+    }
+
+    public static void setNameVendedor(String nameVendedor) {
+        NameVendedor = nameVendedor;
+    }
+
+    public static String getIdVendedor() {
+        return IdVendedor;
+    }
+
+    public static void setIdVendedor(String idVendedor) {
+        IdVendedor = idVendedor;
+    }
 
     public Variables() {
     }
