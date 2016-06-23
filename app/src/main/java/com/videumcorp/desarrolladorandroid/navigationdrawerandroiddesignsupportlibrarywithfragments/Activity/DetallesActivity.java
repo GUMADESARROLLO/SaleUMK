@@ -1,15 +1,18 @@
 package com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Activity;
 
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Adapters.AnimeAdapter;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Adapters.SpecialAdapter;
+import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.DataBase.DataBaseHelper;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Lib.Anime;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Lib.Variables;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.R;
@@ -31,25 +34,54 @@ public class DetallesActivity extends AppCompatActivity {
     SpecialAdapter adapter2;
 
     Variables myVa;
+    DataBaseHelper myDB;
+
+    String Bodegas;
+    String Reglas;
+    String txtTitulo;
+    TextView titulo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalles);
-        ((DetallesActivity) this).getSupportActionBar().setTitle("Informacion Articulo");
+        ((DetallesActivity) this).getSupportActionBar().setTitle("INFORMACION ARTICULO");
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        Toast.makeText(DetallesActivity.this, myVa.getInv_Articulo(), Toast.LENGTH_SHORT).show();
 
+        myDB = new DataBaseHelper(DetallesActivity.this);
 
         lv_bodegas = (ListView) findViewById(R.id.listview_Bodegas);
         lv_reglas= (ListView) findViewById(R.id.listview_reglas);
         lv_lote= (ListView) findViewById(R.id.listview_lotes);
         lv_liq= (ListView) findViewById(R.id.listview_liq);
 
-        loadData_bodegas();
-        loadData_reglas();
+        titulo = (TextView) findViewById(R.id.TituloArticulo);
+
+
+
+
+
+
+
+        Cursor res = myDB.GetInfoArt(myVa.getInv_Articulo());
+        if (res.getCount()==0){
+            Bodegas = "";
+            Reglas = "";
+        }else{
+            if (res.moveToFirst()) {
+                do {
+                    txtTitulo = res.getString(1)+ "\n" + res.getString(0);
+                    Bodegas = res.getString(6);
+                    Reglas = res.getString(7);
+                } while(res.moveToNext());
+            }
+
+        }
+        titulo.setText(txtTitulo);
+        loadData_bodegas(Bodegas);
+        loadData_reglas(Reglas);
         loadData_lote();
         loadData_liq();
 
@@ -72,13 +104,26 @@ public class DetallesActivity extends AppCompatActivity {
         int[] to = new int[] { R.id.item_LOTE_VENCE, R.id.item_vencimiento, R.id.item_cant_vence, R.id.item_DIAS_LIQ};
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
 
-        for (int i= 0;i<2;i++){
+        Cursor res = myDB.GetLiq(myVa.getInv_Articulo());
+        if (res.getCount()==0){
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("lote", "[000]");
-            map.put("vencimiento","[000]");
-            map.put("cantidad", "[000]");
-            map.put("dias","[000]");
+            map.put("lote", "");
+            map.put("vencimiento","");
+            map.put("cantidad", "");
+            map.put("dias","");
             fillMaps.add(map);
+        }else{
+            if (res.moveToFirst()) {
+                do {
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("lote", res.getString(5));
+                    map.put("vencimiento",res.getString(4));
+                    map.put("cantidad", res.getString(3));
+                    map.put("dias",res.getString(2));
+                    fillMaps.add(map);
+                } while(res.moveToNext());
+            }
+
         }
         adapter2 = new SpecialAdapter(this, fillMaps, R.layout.grid_item_articulo_liq, from, to);
         lv_liq.setAdapter(adapter2);
@@ -89,43 +134,67 @@ public class DetallesActivity extends AppCompatActivity {
         int[] to = new int[] { R.id.item_LOTE_VENCE, R.id.item_FECHA_lote_VENCE, R.id.item_cant_lote, R.id.item_BODEGA_lote};
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
 
-        for (int i= 0;i<2;i++){
+        Cursor res = myDB.GetLotesArt(myVa.getInv_Articulo());
+        if (res.getCount()==0){
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("lote", "[000]");
-            map.put("fecha","[000]");
-            map.put("cantidad", "[000]");
-            map.put("bodega","[000]");
+            map.put("lote", "");
+            map.put("fecha","");
+            map.put("cantidad", "");
+            map.put("bodega","");
             fillMaps.add(map);
+        }else{
+            if (res.moveToFirst()) {
+                do {
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("lote", res.getString(0));
+                    map.put("fecha",res.getString(2));
+                    map.put("cantidad", res.getString(3));
+                    map.put("bodega",res.getString(4));
+                    fillMaps.add(map);
+                } while(res.moveToNext());
+            }
+
         }
+
         adapter2 = new SpecialAdapter(this, fillMaps, R.layout.grid_item_articulo_lotes, from, to);
         lv_lote.setAdapter(adapter2);
 
     }
-    private void loadData_bodegas(){
+    private void loadData_bodegas(String Bodegas){
+
+
         String[] from = new String[] { "Bodega", "Cantidad"};
         int[] to = new int[] { R.id.item_Bodegas, R.id.item_cant_Bodegas};
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
 
-        for (int i= 0;i<2;i++){
+
+        String[] bdg = Bodegas.toString().split("xxx");
+        for(int b=0;b < bdg.length;b++){
+            String[] item = bdg[b].toString().split("_");
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("Bodega", "[000]");
-            map.put("Cantidad","[000]");
+            map.put("Bodega", item[0].toString()+ " " + item[1].toString());
+            map.put("Cantidad",item[2].toString());
             fillMaps.add(map);
         }
+
+
         adapter2 = new SpecialAdapter(this, fillMaps, R.layout.grid_item_articulo_bodega, from, to);
         lv_bodegas.setAdapter(adapter2);
 
     }
-    private void loadData_reglas(){
+    private void loadData_reglas(String Reglas){
         String[] from = new String[] { "Reglas"};
         int[] to = new int[] { R.id.item_reglas};
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
 
-        for (int i= 0;i<2;i++){
+
+        String[] Rules = Reglas.toString().split("xxx");
+        for(int b=0;b < Rules.length;b++){
             HashMap<String, String> map = new HashMap<String, String>();
-            map.put("Reglas","[000]");
+            map.put("Reglas",Rules[b].toString());
             fillMaps.add(map);
         }
+
         adapter2 = new SpecialAdapter(this, fillMaps, R.layout.grid_item_articulo_reglas, from, to);
         lv_reglas.setAdapter(adapter2);
 

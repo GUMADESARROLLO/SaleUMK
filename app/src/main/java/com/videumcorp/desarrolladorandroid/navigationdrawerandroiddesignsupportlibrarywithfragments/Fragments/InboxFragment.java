@@ -333,7 +333,7 @@ public class InboxFragment extends Fragment {
                     db.execSQL("DELETE FROM EXISTENCIA_LOTE");
                     for (int n=0; n<MeEncontro.size();n++){
                         String[] items = MeEncontro.get(n).toString().split(",");
-                        Inserted = myDB.insertExiLote(items[0].toString(),items[1].toString(),items[2].toString(),items[3].toString(),items[3].toString());
+                        Inserted = myDB.insertExiLote(items[0].toString(),items[1].toString(),items[2].toString(),items[3].toString(),items[4].toString());
                     }
 
                     if (Inserted == true){

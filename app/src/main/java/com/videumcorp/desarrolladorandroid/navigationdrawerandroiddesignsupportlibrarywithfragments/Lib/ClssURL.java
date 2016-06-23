@@ -4,8 +4,8 @@ package com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupport
  * Created by marangelo.php on 25/05/2016.
  */
 public class ClssURL {
-    private static String SERVER = "192.168.1.78:8448";
-    //private static String SERVER = "165.98.75.219:8448";
+    //private static String SERVER = "192.168.1.78:8448";
+    private static String SERVER = "165.98.75.219:8448";
 
     private static String URL_INVE  = "http://"+ SERVER +"/APIREST/Inventario.php";
     private static String URL_login = "http://"+ SERVER +"/APIREST/Login.php";
@@ -13,6 +13,8 @@ public class ClssURL {
     private static String URL_liq12 = "http://"+ SERVER +"/APIREST/InventarioLiq12.php";
     private static String URL_mtlc = "http://"+ SERVER +"/APIREST/MTCL.php";
     private static String URL_ExistenciaLotes = "http://"+ SERVER +"/APIREST/ExistenciaLotes.php";
+
+    private static String URL_Factura = "http://"+ SERVER +"/APIREST/FACTURAS.php";
 
     public ClssURL() {
     }
@@ -71,5 +73,13 @@ public class ClssURL {
 
     public static void setURL_ExistenciaLotes(String URL_ExistenciaLotes) {
         ClssURL.URL_ExistenciaLotes = URL_ExistenciaLotes;
+    }
+
+    public static String getURL_Factura() {
+        return URL_Factura;
+    }
+
+    public static void setURL_Factura(String URL_Factura) {
+        ClssURL.URL_Factura = URL_Factura;
     }
 }

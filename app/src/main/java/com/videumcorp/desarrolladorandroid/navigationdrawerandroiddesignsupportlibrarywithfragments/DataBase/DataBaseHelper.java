@@ -79,6 +79,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COL_31 = "CANT_DISPONIBLE";
     public static final String COL_32 = "BODEGA";
 
+    public static final String TABLE_FACTURAS = "FACTURAS";
+    public static final String COL_37 = "FACTURA";
+    public static final String COL_38 = "CLIENTE";
+    public static final String COL_39 = "VENDEDOR";
+    public static final String COL_40 = "MONTO";
+    public static final String COL_41 = "SALDO";
+
+
+
     public DataBaseHelper(Context context) {
         super(context.getApplicationContext(), DATABASE_NAME,null,1);
         SQLiteDatabase db = this.getWritableDatabase();
@@ -87,6 +96,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         db.execSQL("create table " + TABLE_USUARIO + "("+ COL_1 +" TEXT,"+ COL_2 +" TEXT, "+ COL_21 +" TEXT,"+ COL_22 +" TEXT)");
+
+        db.execSQL("create table " + TABLE_FACTURAS +" ("+
+                COL_37 +" TEXT,"+
+                COL_38 +" TEXT,"+
+                COL_39 +" TEXT,"+
+                COL_40 +" TEXT, "+
+                COL_41 +" TEXT)");
 
         db.execSQL("create table " + TABLE_ARTICULO +" ("+
                 COL_3 +" TEXT,"+
@@ -133,9 +149,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_EXISTENCIA_LOTE);
         onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_FACTURAS);
+        onCreate(db);
     }
 
-
+    public boolean insertFacturas(String FACTURA, String CLIENTE,String VENDEDOR,String MONTO, String SALDO){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put(COL_37,FACTURA);
+        contentValues.put(COL_38,CLIENTE);
+        contentValues.put(COL_39,VENDEDOR);
+        contentValues.put(COL_40,MONTO);
+        contentValues.put(COL_41,SALDO);
+        long result = db.insert(TABLE_FACTURAS,null,contentValues);
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
     public boolean insertDataUS(String US, String PSS,String Nombre){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
@@ -278,9 +310,35 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return Nombre;
     }
-
-
-
-
+    public Cursor GetInfoArt(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM " + TABLE_ARTICULO + " WHERE "+ COL_3 +"="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor GetLotesArt(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM " + TABLE_EXISTENCIA_LOTE + " WHERE "+ COL_33 +"="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor GetLiq(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM " + TABLE_LIQ12 + " WHERE "+ COL_7 +"="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor InfoCliente(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM " + TABLE_CLIENTE + " WHERE "+ COL_13 +"="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor InfoClienteFactura(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM " + TABLE_FACTURAS + " WHERE "+ COL_38 +"="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
 
 }

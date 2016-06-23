@@ -25,6 +25,7 @@ import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportl
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Lib.ClssURL;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.DataBase.DataBaseHelper;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Activity.MainActivity;
+import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.Lib.Variables;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.R;
 
 import org.apache.http.Header;
@@ -38,6 +39,7 @@ import java.util.List;
 public class StarredFragment extends Fragment {
 
     DataBaseHelper myDB;
+    Variables myVar;
     ListView lv;
     SearchView sv;
     ArrayAdapter<String> adapter;
@@ -84,7 +86,8 @@ public class StarredFragment extends Fragment {
                 String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
                 //String codigo = selectedFromList.substring(selectedFromList.indexOf("[")+1, selectedFromList.length()-1);
                 String Cod = ClearString(selectedFromList);
-                Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
+                myVar.setInv_Cliente(Cod);
+                //Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
                 Intent mint = new Intent(getActivity(),InfoClientesActivity.class);
                 getActivity().startActivity(mint);
 
@@ -115,8 +118,6 @@ public class StarredFragment extends Fragment {
         int[] to = new int[] { R.id.item1, R.id.item2, R.id.item3};
 
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
-
-
 
         Cursor res =  myDB.GetData("CLIENTES");
         if (res.moveToFirst()) {
@@ -179,12 +180,32 @@ public class StarredFragment extends Fragment {
         return listado;
 
     }
+    public ArrayList<String> obtDatosFacturas(String response){
+        ArrayList<String> listado = new ArrayList<String>();
+        try{
+            JSONArray jsonArray = new JSONArray(response);
+            String texto;
+
+            for (int i=0; i<jsonArray.length(); i++){
+                texto = jsonArray.getJSONObject(i).getString("FACTURA")+ "," +
+                        jsonArray.getJSONObject(i).getString("CLIENTE")+ "," +
+                        jsonArray.getJSONObject(i).getString("VENDEDOR")+ "," +
+                        jsonArray.getJSONObject(i).getString("MONTO")+ "," +
+                        jsonArray.getJSONObject(i).getString("SALDO");
+                listado.add(texto);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return listado;
+
+    }
     public void CallInve(){
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
         Intent intent = getActivity().getIntent();
         String Vendedor = intent.getStringExtra("Vendedor");
-
         paramentros.put("C","F17");
 
         Cnx.post(ClssURL.getURL_mtlc(), paramentros, new AsyncHttpResponseHandler() {
@@ -216,6 +237,44 @@ public class StarredFragment extends Fragment {
                                 items[11].toString(),
                                 items[12].toString(),
                                 items[13].toString()
+
+                        );
+                    }
+
+                    if (Inserted == true){
+                    }else{
+                        Error404("Error de Actualizacion de datos");
+                    }
+
+                }else{
+                    Error404("Sin Cobertura de datos.");
+                }
+
+
+            }
+            @Override
+            public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
+                Error404("Sin Cobertura de datos.");
+            }
+        });
+        Cnx.post(ClssURL.getURL_Factura(), paramentros, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                boolean Inserted=false;
+                if (statusCode==200){
+
+                    ArrayList<String> MeEncontro = obtDatosFacturas(new String(responseBody));
+                    SQLiteDatabase db = myDB.getWritableDatabase();
+                    db.execSQL("DELETE FROM FACTURAS");
+                    for (int n=0; n<MeEncontro.size();n++){
+                        String[] items = MeEncontro.get(n).toString().split(",");
+                        Inserted = myDB.insertFacturas(
+                                items[0].toString(),
+                                items[1].toString(),
+                                items[2].toString(),
+                                items[3].toString(),
+                                items[4].toString()
 
                         );
                     }
