@@ -3,25 +3,28 @@
     android:layout_width="match_parent" android:layout_height="match_parent">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:background="#e3f2fd"
+        android:background="@color/UmkBlanco"
         android:layout_height="match_parent">
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:id="@+id/child_icon"/>
+
         <TextView
             android:layout_width="fill_parent"
             android:layout_height="50dp"
             android:gravity="left"
             android:padding="10dp"
+            android:textColor="@color/UmkAzulOscuro"
             android:id="@+id/chil_text"
             android:paddingLeft="45sp"
-
             android:textAppearance="?android:textAppearanceMedium"
+            />
 
+            <TextView
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:gravity="left"
+                android:padding="10dp"
+                android:paddingLeft="45sp"
+                android:textAppearance="?android:textAppearanceMedium"
             />
 
 
