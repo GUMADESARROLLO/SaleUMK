@@ -29,4 +29,5 @@ public class ParentRow {
     public void setChildList(ArrayList<ChildRow> childList) {
         this.childList = childList;
     }
+
 }

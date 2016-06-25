@@ -91,13 +91,15 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
             } while(res.moveToNext());
         }*/
 
-        String[] Clientes ={"FARMACIA FARMA DESCUENTO","FARMACIA FARMA VALUE/ RUC J310000170967","COMISARIATO DE LA POLICIA NACIONAL - RUC J0130000001725"};
+        String[] Clientes ={"00931,FARMACIA FARMA DESCUENTO","00943,FARMACIA FARMA VALUE/ RUC J310000170967","00950,FARMACIA FARMEX","01191,FARMACIA LA FAMILIAR - RUC 0013108770039L"};
+
+        String[] empry = new String[0];
 
         CrearList("LUNES", Clientes);
-        CrearList("MARTES", Clientes);
-        CrearList("MIERCOLES", Clientes);
-        CrearList("JUEVES", Clientes);
-        CrearList("VIERNES", Clientes);
+        CrearList("MARTES", empry);
+        CrearList("MIERCOLES", empry);
+        CrearList("JUEVES", empry);
+        CrearList("VIERNES", empry);
 
 
 
@@ -112,7 +114,8 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
 
         parentRow = new ParentRow(Dia,childRows);
         for (int i=0;i<Cliente.length;i++){
-            childRows.add(new ChildRow(Cliente[i]));
+            String[] items = Cliente[i].toString().split(",");
+            childRows.add(new ChildRow(R.drawable.ic_remove_white_24dp,items[1],items[0]));
         }
 
 

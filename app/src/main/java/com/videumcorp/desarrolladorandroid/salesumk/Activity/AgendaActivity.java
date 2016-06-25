@@ -7,10 +7,14 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -27,19 +31,12 @@ import org.json.JSONArray;
 
 import java.util.ArrayList;
 
-public class AgendaActivity extends AppCompatActivity implements SearchView.OnQueryTextListener,SearchView.OnCloseListener {
-
-
+public class AgendaActivity extends AppCompatActivity{
     DataBaseHelper myDB;
-    private SearchManager searchManager;
-    private android.widget.SearchView searchView;
     private MyExpandableListAdapter listAdapter;
     private ExpandableListView myList;
     private ArrayList<ParentRow> parentList = new ArrayList<ParentRow>();
     private ArrayList<ParentRow> showTheseParentList = new ArrayList<ParentRow>();
-    private MenuItem searchItem;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +46,8 @@ public class AgendaActivity extends AppCompatActivity implements SearchView.OnQu
         this.getSupportActionBar().setTitle("");
 
 
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+
+
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -58,20 +55,11 @@ public class AgendaActivity extends AppCompatActivity implements SearchView.OnQu
 
         myDB = new DataBaseHelper(this);
 
-       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClearList();
-                Loading();
-                CallInve();
-                //Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG).setAction("Action", null).show();
 
-            }
-        });*/
-        searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         parentList = new ArrayList<ParentRow>();
         showTheseParentList = new ArrayList<ParentRow>();
+
+
 
 
 
@@ -112,6 +100,7 @@ public class AgendaActivity extends AppCompatActivity implements SearchView.OnQu
         myList.setAdapter(listAdapter);
 
     }
+
     private void loadData(){
         /*Cursor res =  myDB.GetData("Articulo");
         if (res.moveToFirst()) {
@@ -136,7 +125,7 @@ public class AgendaActivity extends AppCompatActivity implements SearchView.OnQu
 
 
         parentRow = new ParentRow(Dia,childRows);
-        childRows.add(new ChildRow(Cliente));
+        childRows.add(new ChildRow(R.drawable.ic_close_black_36dp,Cliente,"MyCod"));
 
         parentList.add(parentRow);
     }
@@ -227,17 +216,7 @@ public class AgendaActivity extends AppCompatActivity implements SearchView.OnQu
         return listado;
 
     }
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_search,menu);
-        searchItem = menu.findItem(R.id.action_search);
-        searchView = (android.widget.SearchView) MenuItemCompat.getActionView(searchItem);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        searchView.setIconifiedByDefault(false);
-        searchView.setOnQueryTextListener(this);
-        searchView.setOnCloseListener(this);
-        searchView.requestFocus();
-        return true;
-    }
+
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
@@ -248,24 +227,5 @@ public class AgendaActivity extends AppCompatActivity implements SearchView.OnQu
     }
 
 
-    @Override
-    public boolean onClose() {
-        listAdapter.filterData("");
-        expandAll();
-        return false;
-    }
 
-    @Override
-    public boolean onQueryTextSubmit(String query) {
-        listAdapter.filterData(query);
-        expandAll();
-        return false;
-    }
-
-    @Override
-    public boolean onQueryTextChange(String newText) {
-        listAdapter.filterData(newText);
-        expandAll();
-        return false;
-    }
 }

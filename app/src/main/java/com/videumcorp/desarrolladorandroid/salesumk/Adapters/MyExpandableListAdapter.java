@@ -2,6 +2,7 @@ package com.videumcorp.desarrolladorandroid.salesumk.Adapters;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -11,10 +12,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
+import android.widget.ExpandableListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.videumcorp.desarrolladorandroid.salesumk.Activity.AgendaActivity;
 import com.videumcorp.desarrolladorandroid.salesumk.Activity.CrearSaleActivity;
 import com.videumcorp.desarrolladorandroid.salesumk.Activity.ObservacionActivity;
 import com.videumcorp.desarrolladorandroid.salesumk.Activity.bandejaCobroActivity;
@@ -31,6 +35,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     private Context context;
     private ArrayList<ParentRow> parentRowList;
     private ArrayList<ParentRow> originalList;
+    private AgendaActivity Agenda;
 
 
     public MyExpandableListAdapter(Context context, ArrayList<ParentRow> originalList) {
@@ -81,44 +86,103 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         ParentRow parentRow = (ParentRow) getGroup(groupPosition);
-
         if (convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater)
                     context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.parent_row,null);
         }
-
-
         TextView heading = (TextView) convertView.findViewById(R.id.parent_row);
+        TextView add = (TextView) convertView.findViewById(R.id.add_cls);
 
+
+        final View finalConvertView = convertView;
+
+        add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final CharSequence[] items = {"Cliente 1","Cliente 2"};
+
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
+                builder.setSingleChoiceItems(items,-1, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int item) {
+                        Toast.makeText(finalConvertView.getContext(), items[item], Toast.LENGTH_SHORT).show();
+
+                    }
+                }).create().show();
+               /*
+                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                builder.setView(inflater.inflate(R.layout.fragment_starred, null))
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                // sign in the user ...
+                            }
+                        })
+                        .setNegativeButton("NEL", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        }).create().show();*/
+
+                //Toast.makeText(finalConvertView.getContext(), "AGREGA AL PUTO!!!....", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
         heading.setText(parentRow.getName().trim());
         return convertView;
     }
 
+
     @Override
-    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        ChildRow childRow = (ChildRow) getChild(groupPosition,childPosition);
+    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
+        final ChildRow childRow = (ChildRow) getChild(groupPosition,childPosition);
         if (convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.child_row,null);
         }
+
+
+
+        ImageView childIcon = (ImageView) convertView.findViewById(R.id.icon);
+        childIcon.setImageResource(R.drawable.ic_close_black_36dp);
+
         final TextView childText = (TextView) convertView.findViewById(R.id.chil_text);
         childText.setText(childRow.getText().trim());
+
+        final TextView childCod = (TextView) convertView.findViewById(R.id.chil_text_cod);
+        childCod.setText(childRow.getCod().trim());
+
+
         final View finalConvertView = convertView;
-        final int grupo = groupPosition;
+
+
+
+        childIcon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               Toast.makeText(finalConvertView.getContext(), childCod.getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
         childText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
                 ListView modeListView = new ListView(finalConvertView.getContext());
-                String[] modes = new String[] { "PEDIDO", "COBRO","VISITA" };
+                String[] modes = new String[] { "PEDIDO", "COBRO","VISITA"};
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(finalConvertView.getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
                 builder.setView(modeListView);
                 final Dialog dialog = builder.create();
                 dialog.show();
+
+                //Toast.makeText(finalConvertView.getContext(), "Grupo: "+String.valueOf(grupo)+" Posicion "+String.valueOf(childPosition), Toast.LENGTH_SHORT).show();
                 modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -137,33 +201,11 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                                 finalConvertView.getContext().startActivity(Mint3);
                                 break;
                         }
-
-
                         dialog.dismiss();
                     }
                 });
             }
         });
-
-       /* childText.setOnClickListener(new View.OnClickListener(){
-            public void onClick(View v){
-                //Toast.makeText(finalConvertView.getContext(),childText.getText(),Toast.LENGTH_SHORT).show();
-
-                String Nombre = String.valueOf(finalConvertView.getContext());
-                int Posicion = Nombre.indexOf("mtcl");
-                if (Posicion != -1){
-                    Log.d("Vista de","CLIENTES");
-                    Toast.makeText(finalConvertView.getContext(),String.valueOf(finalConvertView.getContext()),Toast.LENGTH_SHORT).show();
-                    //Intent MenuIntent = new Intent(context,Sale_Activity.class);
-                    //MenuIntent.putExtra("Vendedor",User.toUpperCase());
-                    //context.startActivity(MenuIntent);
-
-                }
-
-
-            }
-        });
-        */
         return convertView;
     }
 
