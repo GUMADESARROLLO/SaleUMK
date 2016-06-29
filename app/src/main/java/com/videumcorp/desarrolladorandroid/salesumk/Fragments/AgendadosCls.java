@@ -46,18 +46,6 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
         showTheseParentList = new ArrayList<ParentRow>();
 
 
-/*      FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ClearList();
-                CallInve();
-            }
-        });
-
-
-        */
-
         displayList();
         expandAll();
 

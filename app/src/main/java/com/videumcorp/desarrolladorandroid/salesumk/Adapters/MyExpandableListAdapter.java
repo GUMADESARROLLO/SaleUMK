@@ -161,6 +161,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
 
 
+
+
         childIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -178,10 +180,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 String[] modes = new String[] { "PEDIDO", "COBRO","VISITA"};
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(finalConvertView.getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
-                builder.setView(modeListView);
-                final Dialog dialog = builder.create();
-                dialog.show();
-
+                builder.setView(modeListView).create().show();
                 //Toast.makeText(finalConvertView.getContext(), "Grupo: "+String.valueOf(grupo)+" Posicion "+String.valueOf(childPosition), Toast.LENGTH_SHORT).show();
                 modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
@@ -191,6 +190,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                             case 0:
                                 Intent Mint = new Intent(finalConvertView.getContext(),CrearSaleActivity.class);
                                 finalConvertView.getContext().startActivity(Mint);
+
                                 break;
                             case 1:
                                 Intent Mint2 = new Intent(finalConvertView.getContext(),bandejaCobroActivity.class);
@@ -201,9 +201,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                                 finalConvertView.getContext().startActivity(Mint3);
                                 break;
                         }
-                        dialog.dismiss();
+
                     }
                 });
+
             }
         });
         return convertView;

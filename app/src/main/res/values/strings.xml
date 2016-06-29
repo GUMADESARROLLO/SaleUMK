@@ -30,6 +30,27 @@
         <item>Tipificacion 4</item>
         <item>Tipificacion 5</item>
     </string-array>
+
+    <string-array name="TM">
+        <item>C$</item>
+        <item>$</item>
+    </string-array>
+
+    <string-array name="UMD">
+        <item>AMP</item>
+        <item>BLS</item>
+        <item>BTR</item>
+        <item>CAP</item>
+        <item>CJA</item>
+        <item>FAM</item>
+        <item>FCO</item>
+        <item>JPR</item>
+        <item>PMO</item>
+        <item>UND</item>
+    </string-array>
+
+
+
     <string name="title_activity_agenda">AgendaActivity</string>
     <string name="app_label">Buscar</string>
     <string name="search_hint">Buscame</string>

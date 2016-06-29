@@ -56,7 +56,13 @@
                 android:layout_marginTop="40dp"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
+                android:entries="@array/TM"
                 android:orientation="horizontal">
+                <Spinner
+                    android:entries="@array/TM"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/spinner"/>
                 <AutoCompleteTextView
                     android:id="@+id/txtVRecibo"
                     android:layout_weight="1"
@@ -90,16 +96,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
-                <AutoCompleteTextView
-                    android:id="@+id/txtVUS"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="U$:"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:layout_gravity="left"/>
+
                 <AutoCompleteTextView
                     android:id="@+id/txtTC"
                     android:layout_weight="1"

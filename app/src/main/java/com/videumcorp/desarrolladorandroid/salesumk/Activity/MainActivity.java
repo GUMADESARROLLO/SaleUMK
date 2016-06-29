@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import com.videumcorp.desarrolladorandroid.salesumk.Fragments.AgendadosCls;
@@ -130,11 +131,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void setFragment(int position) {
+
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
+
         final Intent intent = getIntent();
+
+        FrameLayout frame = (FrameLayout) findViewById(R.id.fragment);
+        frame.removeAllViews();
+
 
         switch (position) {
             case 0:

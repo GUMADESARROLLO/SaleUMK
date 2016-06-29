@@ -6,7 +6,9 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Spinner;
 
 import com.videumcorp.desarrolladorandroid.salesumk.Adapters.SpecialAdapter;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.R;
@@ -38,6 +40,9 @@ public class FrmCobro_Activity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+
+
         loadData();
     }
     public boolean onOptionsItemSelected(MenuItem item){

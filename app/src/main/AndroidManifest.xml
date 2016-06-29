@@ -50,7 +50,7 @@
         <activity
             android:name="com.videumcorp.desarrolladorandroid.salesumk.Activity.ObservacionActivity"
             android:label="@string/title_activity_observacion"
-            android:theme="@style/Base.AppTheme" />
+            android:theme="@style/Base.AppTheme.Pedido" />
         <activity
             android:name="com.videumcorp.desarrolladorandroid.salesumk.Activity.AgendaActivity"
             android:label="@string/title_activity_agenda"
