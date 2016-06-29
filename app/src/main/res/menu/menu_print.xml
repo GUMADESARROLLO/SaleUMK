@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Menu_print"
+    tools:context="com.videumcorp.desarrolladorandroid.salesumk.Activity.TicketActivity">
+
+
+
+    <item
+        android:id="@+id/action_print"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_print_white_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="send" />
+
+
+</menu>

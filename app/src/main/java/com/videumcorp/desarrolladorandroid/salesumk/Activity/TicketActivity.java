@@ -8,6 +8,8 @@ import android.net.Uri;
 import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
@@ -30,29 +32,18 @@ public class TicketActivity extends AppCompatActivity {
 
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
+        setTitle("");
+        if (getSupportActionBar() != null){
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
         lv = (ListView) findViewById(R.id.ListView1);
         btnPrint = (TextView) findViewById(R.id.idPrint);
         view = (LinearLayout)findViewById(R.id.idViewTicket);
-        btnPrint.setOnClickListener(new View.OnClickListener() {
-
-
-            @Override
-            public void onClick(View v) {
-                v.setDrawingCacheEnabled(true);
-                v.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
-                        View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
-                v.layout(0, 0, v.getMeasuredWidth(), v.getMeasuredHeight());
-                v.buildDrawingCache(true);
-                Bitmap b = viewToBitmap(view);
-                storeImage(b);
-                //Toast.makeText(TicketActivity.this, "Crear la imagen del Layout", Toast.LENGTH_SHORT).show();
-
-            }
-        });
 
 
 
@@ -65,6 +56,37 @@ public class TicketActivity extends AppCompatActivity {
 
 
     }
+    public boolean onOptionsItemSelected(MenuItem item){
+        int id = item.getItemId();
+
+
+
+        if (id == 16908332){
+            finish();
+        }
+
+        if(id == R.id.action_print){
+
+            Bitmap b = viewToBitmap(view);
+            storeImage(b);
+
+        }
+        /*switch (titulo){
+            case "send":
+
+                break;
+            case "Cancelar":
+                finish();
+                break;
+
+        }*/
+        return super.onOptionsItemSelected(item);
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_print,menu);
+        return true;
+    }
+
     public Bitmap viewToBitmap(View view) {
         Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.RGB_565);
         Canvas canvas = new Canvas(bitmap);

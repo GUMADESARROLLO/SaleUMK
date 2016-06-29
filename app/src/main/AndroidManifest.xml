@@ -38,7 +38,7 @@
         <activity
             android:name="com.videumcorp.desarrolladorandroid.salesumk.Activity.PedidoActivity"
             android:label="@string/title_activity_pedido"
-            android:theme="@style/AppTheme" />
+            android:theme="@style/Base.AppTheme.ActionBar" />
         <activity
             android:name="com.videumcorp.desarrolladorandroid.salesumk.Activity.CrearSaleActivity"
             android:label="@string/title_activity_crear_sale"
@@ -54,8 +54,10 @@
         <activity
             android:name="com.videumcorp.desarrolladorandroid.salesumk.Activity.AgendaActivity"
             android:label="@string/title_activity_agenda"
-            android:theme="@style/Base.AppTheme.ActionBar" />
-        <activity android:name="com.videumcorp.desarrolladorandroid.salesumk.Activity.TicketActivity" />
+            android:theme="@style/Base.AppTheme.Pedido" />
+        <activity
+            android:name="com.videumcorp.desarrolladorandroid.salesumk.Activity.TicketActivity"
+            android:theme="@style/Base.AppTheme.ActionBar"/>
         <activity
             android:name="com.videumcorp.desarrolladorandroid.salesumk.Activity.DetallesActivity"
             android:label="@string/title_activity_detalles"
