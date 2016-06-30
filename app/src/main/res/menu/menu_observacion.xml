@@ -1,0 +1,16 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Menu_cobro"
+    tools:context="com.videumcorp.desarrolladorandroid.salesumk.Activity.ObservacionActivity">
+
+
+    <item
+        android:id="@+id/action_add"
+        android:orderInCategory="200"
+        android:icon="@drawable/ic_assignment_white_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="add" />
+
+
+</menu>
