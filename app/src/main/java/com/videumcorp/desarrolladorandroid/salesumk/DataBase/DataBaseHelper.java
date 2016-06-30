@@ -161,11 +161,16 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "VRecibo  REAL," +
                 "Saldo  REAL" +
                 ")");
+        db.execSQL("CREATE TABLE observaciones (" +
+                "Descrip  TEXT," +
+                "IdObserv  INTEGER" +
+                ");");
     }
 
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS observaciones ");
         db.execSQL("DROP TABLE IF EXISTS RDetalle ");
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS Recibo");

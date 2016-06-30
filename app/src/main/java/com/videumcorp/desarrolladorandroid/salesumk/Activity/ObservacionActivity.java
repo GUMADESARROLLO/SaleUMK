@@ -70,10 +70,16 @@ public class ObservacionActivity extends AppCompatActivity {
     private void displayListView() {
 
         ArrayList<Country> countryList = new ArrayList<Country>();
-        Country country = new Country("AFG","Afghanistan",false);
-        countryList.add(country);
-        country = new Country("ALB","Albania",true);
-        countryList.add(country);
+
+        String[] obser = getResources().getStringArray(R.array.obs);
+        for(int i=0;i<obser.length;i++){
+
+            Country country = new Country("",obser[i].toString(),false);
+            countryList.add(country);
+        }
+
+
+
 
 
 

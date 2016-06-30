@@ -48,6 +48,40 @@
         <item>PMO</item>
         <item>UND</item>
     </string-array>
+    <string-array name="obs">
+        <item>Impulsa productos Unimark</item>
+        <item>Impulsa mayores cantidades de pedido</item>
+        <item>Ofrece productos Ramos u otros</item>
+        <item>Ofrece la promocion del mes</item>
+        <item>Revisa el cuaderno de faltantes</item>
+        <item>Muestra el catalogo de productos</item>
+        <item>Oferta productos que no ha vendido antes</item>
+        <item>Establece negociaciones de mayor nivel</item>
+        <item>Ofrece servicios de valor agregado</item>
+        <item>Realiza gestion de cobro</item>
+        <item>Llena adecuadamente el recibo</item>
+        <item>Realiza deposito el mismo dia</item>
+        <item>Verifica la informacion en el comprobante</item>
+        <item>Aplica descuentos diferenciados</item>
+        <item>Aplica Notas de Credito</item>
+        <item>Verifica recepcion del pedido anterior</item>
+        <item>Verifica que el pedido llego completo</item>
+        <item>Verifica que se programe el pago</item>
+        <item>Posiciona la ventaja competitiva</item>
+        <item>Impulsa el uso de canjes</item>
+        <item>Muestra catalogo de Canjes</item>
+        <item>Llena formato de canjes adecuadamente</item>
+        <item>Recopila los vouchers</item>
+        <item>Destaca el Decimo Aniversario</item>
+        <item>Explica en que consiste la campaña</item>
+        <item>Impulsa que asistan al cierre de campaña</item>
+        <item>Tiene completo el perfil del cliente</item>
+        <item>Solicita documentos necesarios</item>
+        <item>Llena formatos faltantes</item>
+        <item>Retira producto vencido</item>
+        <item>Retira producto devuelto por otro motivo</item>
+        <item>Anda formulario CDP</item>
+    </string-array>
 
 
 
