@@ -39,7 +39,7 @@ import java.util.List;
 
 public class FrmCobro_Activity extends AppCompatActivity
         implements Validator.ValidationListener{
-    DataBaseHelper myDB;
+
     Variables vrb;
     SpecialAdapter adapter=null;
     ListView lv;
@@ -79,16 +79,6 @@ public class FrmCobro_Activity extends AppCompatActivity
         }
 
 
-        Cursor res =  myDB.InfoClienteFactura(vrb.getCliente_recibo_factura());
-        if (res.moveToFirst()) {
-
-            do {
-                Log.d("FACTURA: ",res.getString(0));
-
-            } while(res.moveToNext());
-
-
-        }
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);

@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
@@ -39,25 +40,53 @@ public class DialogAddFact extends DialogFragment {
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
         final View dialogView = inflater.inflate(R.layout.dialog_addfacturarecibo, null);
         alertDialogBuilder.setView(dialogView);
-        final Spinner spinner = (Spinner) dialogView.findViewById(R.id.spinner_factura);
+        Spinner spinner = (Spinner) dialogView.findViewById(R.id.spinner_factura);
 
+        int i=0;
+        String[] valores = new String[0];
+        myDB = new DataBaseHelper(getActivity());
+        final EditText edt = (EditText) dialogView.findViewById(R.id.idRecVR);
 
-        Cursor res =  myDB.InfoClienteFactura(vrb.getCliente_recibo_factura().toString());
-        if (res.moveToFirst()) {
+        Cursor res =  myDB.InfoClienteFactura(vrb.getCliente_recibo_factura());
+        if (res.getCount()==0){
+            valores = new String[]{"Sin Datos..."};
+        }else{
+            if (res.moveToFirst()) {
+                valores = new String[res.getCount()];
+                do {
+                    valores[i]=res.getString(0);
+                    i++;
 
-            do {
-                Log.d("FACTURA: ",res.getString(0));
-
-            } while(res.moveToNext());
-
-
+                } while(res.moveToNext());
+            }
         }
 
-        String[] valores = {"uno","dos","tres","cuatro","cinco","seis", "siete", "ocho"};
+        edt.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                Toast.makeText(getActivity(), "HACER LOS CALCULOS", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+        //String[] valores = {"uno","dos","tres","cuatro","cinco","seis", "siete", "ocho"};
         spinner.setAdapter(new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, valores));
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String scountry = parent.getItemAtPosition(position).toString();
+
+                Toast.makeText(getActivity(),scountry, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
 
-        //final EditText edt = (EditText) dialogView.findViewById(R.id.IdCantidad);
+
         //final  EditText edtBoni = (EditText) dialogView.findViewById(R.id.IdBonificado);
 
         alertDialogBuilder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {

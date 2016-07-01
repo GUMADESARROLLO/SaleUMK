@@ -74,7 +74,7 @@
         android:layout_marginLeft="4dp"
         android:layout_marginRight="4dp"
         android:layout_marginBottom="4dp"
-        android:hint="Valor Factura" />
+        android:hint="Valor Recibido" />
     <EditText
         android:id="@+id/idRecSaldo"
         android:layout_width="fill_parent"
