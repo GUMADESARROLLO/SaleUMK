@@ -41,31 +41,14 @@ public class AgendaActivity extends AppCompatActivity{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_agenda);
-
-
         this.getSupportActionBar().setTitle("");
-
-
-
-
-
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
         myDB = new DataBaseHelper(this);
-
-
         parentList = new ArrayList<ParentRow>();
         showTheseParentList = new ArrayList<ParentRow>();
-
-
-
-
-
         displayList();
-       
-
     }
 
     private void expandAll(){

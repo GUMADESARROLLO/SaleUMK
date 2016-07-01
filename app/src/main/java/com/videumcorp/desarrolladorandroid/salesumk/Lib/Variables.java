@@ -8,6 +8,15 @@ public class Variables {
     private static String Inv_Cliente ;
     private static String NameVendedor;
     private static String IdVendedor;
+    private static String Cliente_recibo_factura;
+
+    public static String getCliente_recibo_factura() {
+        return Cliente_recibo_factura;
+    }
+
+    public static void setCliente_recibo_factura(String cliente_recibo_factura) {
+        Cliente_recibo_factura = cliente_recibo_factura;
+    }
 
     public static String getNameVendedor() {
         return NameVendedor;

@@ -63,26 +63,27 @@
                     android:layout_width="60dp"
                     android:layout_height="40dp"
                     android:id="@+id/spinner"/>
-                <AutoCompleteTextView
+                <EditText
                     android:id="@+id/txtVRecibo"
+                    android:textColor="@color/UmkAzulOscuro"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="C$:"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:layout_gravity="left"/>
-                <AutoCompleteTextView
+                    android:hint="C$" />
+                <EditText
                     android:id="@+id/txtRCliente"
+                    android:textColor="@color/UmkAzulOscuro"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="Cod.Cliente"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:layout_gravity="right"/>
+                    android:hint="Cod.Cliente" />
+                <EditText
+                    android:id="@+id/txtCodRC"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Nº Recibo"/>
 
 
 
@@ -144,6 +145,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:hint="Recibimos de:"
+                    android:textColor="@color/UmkAzulOscuro"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:id="@+id/txtRecibmosDe" />
@@ -161,7 +163,8 @@
                 <EditText
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:hint="Recibimos de:"
+                    android:hint="La Cantidad de:"
+                    android:textColor="@color/UmkAzulOscuro"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:id="@+id/txtCntDe" />
@@ -181,6 +184,7 @@
                     android:layout_width="0dp"
                     android:layout_weight="1"
                     android:hint="En Concepto de:"
+                    android:textColor="@color/UmkAzulOscuro"
                     android:layout_height="wrap_content"
                     android:layout_gravity="left"
                     android:id="@+id/txtEnCntDe" />
@@ -280,15 +284,25 @@
                     android:layout_gravity="left"
                     />
                 <TextView
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
+                    android:layout_width="70dp"
                     android:layout_height="wrap_content"
                     android:textColor="@color/UmkBlanco"
                     android:textStyle="bold"
-                    android:gravity="center_horizontal"
                     android:padding="10dp"
-                    android:text="Saldo."
-                    android:layout_gravity="left"
+                    android:text="Saldo"
+                    android:gravity="center"
+                    />
+                <TextView
+                    android:id="@+id/AddFact"
+                    android:layout_width="30dp"
+                    android:background="@color/UmkAzulClaro"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="+"
+
                     />
 
 

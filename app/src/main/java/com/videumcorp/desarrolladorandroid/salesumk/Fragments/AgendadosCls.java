@@ -44,12 +44,8 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
 
         parentList = new ArrayList<ParentRow>();
         showTheseParentList = new ArrayList<ParentRow>();
-
-
         displayList();
         expandAll();
-
-
         return view;
     }
 

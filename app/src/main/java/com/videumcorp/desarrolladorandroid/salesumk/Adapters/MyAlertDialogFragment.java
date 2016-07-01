@@ -51,6 +51,7 @@ public class MyAlertDialogFragment extends DialogFragment {
 
         final EditText edt = (EditText) dialogView.findViewById(R.id.IdCantidad);
         final  EditText edtBoni = (EditText) dialogView.findViewById(R.id.IdBonificado);
+
         alertDialogBuilder.setPositiveButton("Agregar", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
                 Toast.makeText(getActivity(), edt.getText().toString(), Toast.LENGTH_LONG).show();

@@ -25,6 +25,7 @@ import com.videumcorp.desarrolladorandroid.salesumk.Activity.bandejaCobroActivit
 import com.videumcorp.desarrolladorandroid.salesumk.Lib.ChildRow;
 import com.videumcorp.desarrolladorandroid.salesumk.Lib.ParentRow;
 import com.videumcorp.desarrolladorandroid.navigationdrawerandroiddesignsupportlibrarywithfragments.R;
+import com.videumcorp.desarrolladorandroid.salesumk.Lib.Variables;
 
 import java.util.ArrayList;
 
@@ -32,6 +33,10 @@ import java.util.ArrayList;
  * Created by marangelo.php on 13/06/2016.
  */
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
+    Variables vrb;
+
+
+
     private Context context;
     private ArrayList<ParentRow> parentRowList;
     private ArrayList<ParentRow> originalList;
@@ -44,6 +49,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         this.parentRowList.addAll(originalList);
         this.originalList = new ArrayList<>();
         this.originalList.addAll(originalList);
+
     }
 
 
@@ -144,29 +150,16 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.child_row,null);
         }
-
-
-
         ImageView childIcon = (ImageView) convertView.findViewById(R.id.icon);
         childIcon.setImageResource(R.drawable.ic_close_black_36dp);
-
         final TextView childText = (TextView) convertView.findViewById(R.id.chil_text);
         childText.setText(childRow.getText().trim());
-
         final TextView childCod = (TextView) convertView.findViewById(R.id.chil_text_cod);
         childCod.setText(childRow.getCod().trim());
-
-
         final View finalConvertView = convertView;
-
-
-
-
-
         childIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                Toast.makeText(finalConvertView.getContext(), childCod.getText(), Toast.LENGTH_SHORT).show();
             }
         });
@@ -181,6 +174,10 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(finalConvertView.getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
                 builder.setView(modeListView).create().show();
+
+
+                vrb.setCliente_recibo_factura(childCod.getText().toString());
+
                 //Toast.makeText(finalConvertView.getContext(), "Grupo: "+String.valueOf(grupo)+" Posicion "+String.valueOf(childPosition), Toast.LENGTH_SHORT).show();
                 modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
