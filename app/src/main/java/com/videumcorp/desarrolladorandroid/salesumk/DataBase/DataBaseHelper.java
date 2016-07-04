@@ -378,5 +378,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
+    public String GetValorFacCobro(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Monto="";
+        String Query = "SELECT * FROM " + TABLE_FACTURAS + " WHERE "+ COL_37 +"="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        if (res.getCount()==0){
+            Monto ="Error Acreditación";
+        }else{
+            if (res.moveToFirst()) {
+                do {
+                    Monto = res.getString(4);
+                } while(res.moveToNext());
+            }
+
+        }
+        return Monto;
+    }
 
 }

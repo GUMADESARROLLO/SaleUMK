@@ -1,5 +1,13 @@
 package com.videumcorp.desarrolladorandroid.salesumk.Lib;
 
+import android.widget.ListView;
+
+import com.videumcorp.desarrolladorandroid.salesumk.Adapters.SpecialAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 /**
  * Created by marangelo.php on 21/06/2016.
  */
@@ -9,6 +17,34 @@ public class Variables {
     private static String NameVendedor;
     private static String IdVendedor;
     private static String Cliente_recibo_factura;
+
+    private static ListView lv_list_facturaCobro;
+    private static SpecialAdapter adapter = null;
+    private static List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+
+    public static List<HashMap<String, String>> getFillMaps() {
+        return fillMaps;
+    }
+
+    public static void setFillMaps(List<HashMap<String, String>> fillMaps) {
+        Variables.fillMaps = fillMaps;
+    }
+
+    public static SpecialAdapter getAdapter() {
+        return adapter;
+    }
+
+    public static void setAdapter(SpecialAdapter adapter) {
+        Variables.adapter = adapter;
+    }
+
+    public static ListView getLv_list_facturaCobro() {
+        return lv_list_facturaCobro;
+    }
+
+    public static void setLv_list_facturaCobro(ListView lv_list_facturaCobro) {
+        Variables.lv_list_facturaCobro = lv_list_facturaCobro;
+    }
 
     public static String getCliente_recibo_factura() {
         return Cliente_recibo_factura;

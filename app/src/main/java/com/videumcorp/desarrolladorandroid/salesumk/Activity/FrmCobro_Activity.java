@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -42,31 +43,35 @@ public class FrmCobro_Activity extends AppCompatActivity
 
     Variables vrb;
     SpecialAdapter adapter=null;
-    ListView lv;
+
 
 
     TextView addfact;
     Spinner spinner;
 
+    private EditText TC;
+    private EditText ECS;
+    private EditText monto;
+
     Validator validator;
     @Required(order = 1,message = "Campo requerido")
 
-    @TextRule(order = 2, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
-    private EditText monto;
 
-    @TextRule(order = 3, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
+
+
+    @TextRule(order = 2, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
     private EditText CodCliente;
 
-    @TextRule(order = 4, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
+    @TextRule(order = 3, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
     private EditText CodRecibo;
 
-    @TextRule(order = 5, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
+    @TextRule(order = 4, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
     private EditText Recibimosde;
 
-    @TextRule(order = 6, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
+    @TextRule(order = 5, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
     private EditText LaCantidadde;
 
-    @TextRule(order = 7, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
+    @TextRule(order = 6, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
     private EditText EnConcepto;
 
     @Override
@@ -77,15 +82,9 @@ public class FrmCobro_Activity extends AppCompatActivity
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
-
-
-
+        final Spinner TipoMoneda = (Spinner) findViewById(R.id.spinner);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        lv = (ListView) findViewById(R.id.listview_DRecibo);
-
-
-
+        vrb.setLv_list_facturaCobro((ListView) findViewById(R.id.listview_DRecibo));
 
 
 
@@ -93,9 +92,45 @@ public class FrmCobro_Activity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                validator.validate();
+                SaveRecibo();
+
+                TC.setError(null);
+                ECS.setError(null);
+                monto.setError(null);
+
+                int Tmoneda = (int) TipoMoneda.getSelectedItemId();
+                Log.d("XXXXXX",String.valueOf(Tmoneda));
+
+
+                if (Tmoneda == 0){
+                    if (TextUtils.isEmpty(monto.getText().toString()) ){
+                        monto.setError("Campo Requerido");
+                    }else{
+                        validator.validate();
+                    }
+
+
+                }else{
+                    if (TextUtils.isEmpty(TC.getText().toString()) || TextUtils.isEmpty(ECS.getText().toString())){
+                        TC.setError("Campo Requerido");
+                        ECS.setError("Campo Requerido");
+                    }else{
+                        validator.validate();
+                    }
+
+                }
+
+
+
+
+
             }
         });
+
+
+
+        TC = (EditText) findViewById(R.id.txtTC);
+        ECS = (EditText) findViewById(R.id.txtENC);
 
         monto = (EditText) findViewById(R.id.txtVRecibo);
         CodCliente = (EditText) findViewById(R.id.txtRCliente);
@@ -109,15 +144,37 @@ public class FrmCobro_Activity extends AppCompatActivity
         addfact.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 FragmentManager fm = getSupportFragmentManager();
                 DialogAddFact alertDialog = new DialogAddFact();
                 //alertDialog.setArticulo(Cod);
                 alertDialog.show(fm, "dialog_addfacturarecibo");
 
 
-                Toast.makeText(FrmCobro_Activity.this, "Llenar Lista", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FrmCobro_Activity.this, "Llenar Lista", Toast.LENGTH_SHORT).show();
 
+            }
+        });
+        vrb.getLv_list_facturaCobro().setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                //vrb.getLv_list_facturaCobro().getItemAtPosition(position);
+                AlertDialog.Builder builder = new AlertDialog.Builder(FrmCobro_Activity.this);
+                builder.setMessage("Desea Eliminar este Registro")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                vrb.getFillMaps().remove(position);
+                                vrb.getAdapter().notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                            }
+                        }).create().show();
+
+
+                //String selectedFromList = String.valueOf(vrb.getLv_list_facturaCobro().getItemAtPosition(position));
+                //Toast.makeText(FrmCobro_Activity.this, selectedFromList, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -125,10 +182,30 @@ public class FrmCobro_Activity extends AppCompatActivity
         validator.setValidationListener(this);
         loadData();
     }
+    private void SaveRecibo(){
+        //{Saldo=4981.59, VRecibido=0, Retencion=0, FacturaNo=FC002649, Descuento=0, ValorNC=0, vfactura=4981.59}
+
+        for (int i = 0; i < vrb.getLv_list_facturaCobro().getCount(); i++) {
+            String Cadena = String.valueOf(vrb.getLv_list_facturaCobro().getItemAtPosition(i));
+            Log.d("XXXXXX",Cadena);
+            Cadena = Cadena.replace("{","");
+            String[] Arry = Cadena.replace("}","").split(",");
+            for (int Ar=0;Ar<Arry.length;Ar++){
+                String[] ry = Arry[Ar].split("=");
+
+                Toast.makeText(FrmCobro_Activity.this, ry[0].toString(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(FrmCobro_Activity.this, ry[1].toString(), Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+    }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
         if (id == 16908332){
+            vrb.getFillMaps().clear();
             finish();
         }
         return super.onOptionsItemSelected(item);
@@ -136,10 +213,10 @@ public class FrmCobro_Activity extends AppCompatActivity
     private void loadData() {
         String[] from = new String[] { "FacturaNo","vfactura","ValorNC","Retencion","Descuento","VRecibido","Saldo"};
         int[] to = new int[] { R.id.Item_recibo,R.id.Item_vFactura,R.id.Item_VNC,R.id.Item_Retencion,R.id.Item_Descuento,R.id.Item_VRecibo,R.id.Item_Saldo};
-        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+
 
         String[] datos ={""};
-        for (int c=0;c<datos.length;c++){
+        /*for (int c=0;c<datos.length;c++){
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("FacturaNo", datos[c]);
             map.put("vfactura", datos[c]);
@@ -148,15 +225,16 @@ public class FrmCobro_Activity extends AppCompatActivity
             map.put("Descuento", datos[c]);
             map.put("VRecibido", datos[c]);
             map.put("Saldo", datos[c]);
-            fillMaps.add(map);
-        }
-        adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_recibo, from, to);
-        lv.setAdapter(adapter);
+            vrb.getFillMaps().add(map);
+        }*/
+        vrb.setAdapter(new SpecialAdapter(this, vrb.getFillMaps(), R.layout.grid_item_recibo, from, to));
+        vrb.getLv_list_facturaCobro().setAdapter(vrb.getAdapter());
+
     }
 
     @Override
     public void onValidationSucceeded() {
-        int cnt = lv.getAdapter().getCount();
+        int cnt = vrb.getLv_list_facturaCobro().getAdapter().getCount();
         if (cnt > 1){
             Toast.makeText(this, "Datos ingresados correctamente", Toast.LENGTH_SHORT).show();
         }else{
