@@ -84,7 +84,6 @@
     </string-array>
 
 
-
     <string name="title_activity_agenda">AgendaActivity</string>
     <string name="app_label">Buscar</string>
     <string name="search_hint">Buscame</string>
@@ -106,5 +105,6 @@
     <string name="Pront_No">No</string>
     <string name="Pront_NameBanco">Banco</string>
     <string name="title_activity_bandeja_cobro">COBROS REALIZADOS</string>
+    <string name="title_activity_bandeja_pedido">BandejaPedido</string>
 
 </resources>

@@ -2,7 +2,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/Menu_print"
-    tools:context="com.videumcorp.desarrolladorandroid.salesumk.Activity.TicketActivity">
+    tools:context="com.guma.desarrollo.salesumk.Activity.TicketActivity">
 
 
 

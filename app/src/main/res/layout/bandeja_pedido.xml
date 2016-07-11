@@ -5,9 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.guma.desarrollo.salesumk.Activity.CalendarioActivity">
-
-    <include layout="@layout/content_calendario" />
+    tools:context="com.guma.desarrollo.salesumk.Activity.BandejaPedido">
+    <include layout="@layout/content_bandeja_pedido" />
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"
