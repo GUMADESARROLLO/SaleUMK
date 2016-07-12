@@ -238,7 +238,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
+
 
             try {
                 // Simulate network access.
@@ -255,7 +255,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 }
             }
 
-            // TODO: register the new account here.
+
             return true;
         }
 
@@ -304,7 +304,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     if (Integer.parseInt(items[3])==0){
                         Error404("Informacion Equivocada");
                     }else{
-                        boolean Inserted = myDB.insertDataUS(items[0].toString(),items[1].toString(),items[2].toString());
+                        boolean Inserted = myDB.insertDataUS(items[0].toString(),items[1].toString(),items[2].toString(),items[3].toString());
                         if (Inserted == true){
                             CallView(items[0].toString(),items[2].toString());
                         }else{

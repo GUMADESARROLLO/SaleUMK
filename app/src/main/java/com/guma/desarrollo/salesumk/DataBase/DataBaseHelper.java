@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -17,10 +18,10 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "DataUMK.db";
 
     //TABLA USUARIOS
-    public static final String TABLE_USUARIO = "USUARIOS";
-    public static final String COL_1 = "US";
-    public static final String COL_22 = "NOMBRE";
-    public static final String COL_2 = "PS";
+    public static final String TABLE_USUARIO = "Usuarios";
+    public static final String COL_1 = "CodVendedor";
+    public static final String COL_22 = "NombreUsuario";
+    public static final String COL_2 = "Password";
 
 
     //TABLAS ARTICULOS
@@ -84,13 +85,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
 
     public DataBaseHelper(Context context) {
-        super(context.getApplicationContext(), DATABASE_NAME,null,1);
+        super(context.getApplicationContext(), DATABASE_NAME,null,2);
         SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL("create table " + TABLE_USUARIO + "("+ COL_1 +" TEXT,"+ COL_2 +" TEXT, "+ COL_21 +" TEXT,"+ COL_22 +" TEXT)");
+        //db.execSQL("create table " + TABLE_USUARIO + "("+ COL_1 +" TEXT,"+ COL_2 +" TEXT, "+ COL_21 +" TEXT,"+ COL_22 +" TEXT)");
 
         db.execSQL("create table " + TABLE_FACTURAS +" ("+
                 COL_37 +" TEXT,"+
@@ -127,35 +128,112 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 COL_27 +" TEXT,"+
                 COL_28 +" TEXT )" );
         db.execSQL("create table " + TABLE_EXISTENCIA_LOTE + "("+ COL_29 +" TEXT, "+COL_33+" TEXT,"+ COL_30 +" TEXT, "+ COL_31 +" TEXT,"+ COL_32 +" TEXT)");
-        
-        db.execSQL("CREATE TABLE Recibo (" +
-                "IdRecibo  INTEGER," +
-                "IdCliente  TEXT," +
-                "IdVendedor  TEXT," +
-                "Fecha  TEXT," +
-                "MRecibido  REAL," +
-                "TC  REAL," +
-                "TM  BLOB," +
-                "Recibimos  TEXT," +
-                "LCantidad  TEXT," +
-                "Concepto  TEXT," +
-                "Efectivo  BLOB," +
-                "CHK  BLOB," +
-                "NumCHK  TEXT," +
-                "Banco  TEXT" +
+
+
+        db.execSQL("CREATE TABLE Actividad(IdAE  INTEGER,Actividad  TEXT(150))");
+        db.execSQL("CREATE TABLE AE ("+
+                "IdPlan  TEXT,"+
+                "IdCliente  TEXT(50),"+
+                "IdAE  TEXT,"+
+                "IdEje  TEXT,"+
+                "Contacto1  BLOB,"+
+                "Contacto2  BLOB,"+
+                "Observacion  TEXT(250),"+
+                "Fecha  TEXT"+
                 ")");
-        
-        db.execSQL("CREATE TABLE RDetalle (" +
-                "IdRD  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL," +
-                "IDRecibo  INTEGER," +
-                "NFactura  TEXT," +
-                "FValor  REAL," +
-                "ValorNC  REAL," +
-                "Retencion  REAL," +
-                "Descuento  REAL," +
-                "VRecibo  REAL," +
-                "Saldo  REAL" +
+        db.execSQL("CREATE TABLE Agenda ("+
+                "IdPlan  INTEGER PRIMARY KEY NOT NULL,"+
+                "IdVendedor  INTEGER,"+
+                "Nombre  TEXT(50),"+
+                "Ruta  TEXT(10),"+
+                "Zona  TEXT(50),"+
+                "Rvisado  TEXT(100)"+
                 ")");
+        db.execSQL("CREATE TABLE DPedido ("+
+                "IdDP  INTEGER PRIMARY KEY NOT NULL,"+
+                "IdPedido  TEXT,"+
+                "IdArticulo  TEXT(50),"+
+                "Descripcion  TEXT(250),"+
+                "Cantidad  REAL(20,8),"+
+                "Precio  REAL(20,8)"+
+                ")");
+        db.execSQL("CREATE TABLE Ejecutiva(IdEje  INTEGER PRIMARY KEY NOT NULL,IdAE  INTEGER,Actividad  TEXT(150))");
+
+        db.execSQL("CREATE TABLE Pedido ("+
+                "IdPedido  TEXT PRIMARY KEY NOT NULL,"+
+                "IdVendedor  INTEGER,"+
+                "IdCliente  TEXT(50),"+
+                "Fecha  TEXT(10),"+
+                "Vendedor  TEXT(150),"+
+                "Cliente  TEXT(150),"+
+                "Direccion  TEXT(250),"+
+                "TM  BLOB,"+
+                "FP  BLOB,"+
+                "Plaza  TEXT(50),"+
+                "Descuento  REAL(20,8),"+
+                "IVA  REAL(20,8),"+
+                "Nota  TEXT(250)"+
+                ")");
+
+        db.execSQL("CREATE TABLE RDetalle ("+
+                "IdRD  INTEGER,"+
+                "IDRecibo  INTEGER,"+
+                "NFactura  TEXT(50),"+
+                "FValor  REAL(20,8),"+
+                "ValorNC  REAL(20,8),"+
+                "Retencion  REAL(20,8),"+
+                "Descuento  REAL(20,8),"+
+                "VRecibo  REAL(20,8),"+
+                "Saldo  REAL(20,8)"+
+                ")");
+
+        db.execSQL("CREATE TABLE Recibo ("+
+                "IdRecibo  INTEGER PRIMARY KEY NOT NULL,"+
+                "IdCliente  INTEGER,"+
+                "IdVendedor  TEXT,"+
+                "Fecha  TEXT(20),"+
+                "MRecibido  REAL(20,8),"+
+                "TC  REAL(20,8),"+
+                "TM  BLOB,"+
+                "Recibimos  TEXT(250),"+
+                "LCantidad  TEXT(250),"+
+                "Concepto  TEXT(250),"+
+                "Efectivo  BLOB,"+
+                "CHK  BLOB,"+
+                "NumCHK  TEXT(50),"+
+                "Banco  TEXT(100)"+
+                ")");
+        db.execSQL("CREATE TABLE Semanas (IdPlan  INTEGER,Semana  INTEGER)");
+
+        db.execSQL("CREATE TABLE Usuarios ("+
+                "UsuarioID  TEXT PRIMARY KEY NOT NULL,"+
+                "CodVendedor  TEXT(10),"+
+                "NombreUsuario  TEXT(100),"+
+                "Password  TEXT(20),"+
+                "Privilegio  INTEGER,"+
+                "Activo  BLOB,"+
+                "FechaCreacion  TEXT"+
+                ")");
+
+        db.execSQL("CREATE TABLE VClientes ("+
+                "IdPlan  INTEGER,"+
+                "Lunes  TEXT(50),"+
+                "Martes  TEXT(50),"+
+                "Miercoles  TEXT(50),"+
+                "Jueves  TEXT(50),"+
+                "Viernes  TEXT(50),"+
+                "Sabado  TEXT(50),"+
+                "Observaciones  TEXT(250)"+
+                ")");
+
+        db.execSQL("CREATE TABLE Visitas ("+
+                "IdPlan  INTEGER,"+
+                "IdCliente  INTEGER,"+
+                "Fecha  TEXT,"+
+                "Visitado  BLOB"+
+                ")");
+
+
         db.execSQL("CREATE TABLE observaciones (" +
                 "Descrip  TEXT," +
                 "IdObserv  INTEGER" +
@@ -165,12 +243,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+        db.execSQL("DROP TABLE IF EXISTS Visitas ");
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS VClientes ");
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS Pedido ");
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS DPedido ");
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS Agenda ");
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS Semanas ");
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS AE ");
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS Actividad ");
+        onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS observaciones ");
+        onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS RDetalle ");
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS Recibo");
         onCreate(db);
-        db.execSQL("DROP TABLE IF EXISTS "+ TABLE_USUARIO);
+        db.execSQL("DROP TABLE IF EXISTS Usuarios");
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_ARTICULO);
         onCreate(db);
@@ -201,13 +296,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-    public boolean insertDataUS(String US, String PSS,String Nombre){
+    public boolean insertDataUS(String Key,String US, String PSS,String Nombre){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
+        contentValues.put("UsuarioID",Key);
         contentValues.put(COL_1,US);
         contentValues.put(COL_2,PSS);
         contentValues.put(COL_22,Nombre);
-        contentValues.put(COL_21,Datetime());
+        contentValues.put("FechaCreacion",Datetime());
         long result = db.insert(TABLE_USUARIO,null,contentValues);
         if (result == -1){
             return false;
@@ -314,8 +410,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return Date;
     }
     public Cursor GetAllData(String U,String P){
+        // TODO: 12/07/2016 El error esta en la parte del orden que se le envia la base de datos al momentos de construir el JSON
+        // TODO: 12/07/2016 Se tiene que eliminar la base y realizar el proceso de nuevo
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM " + TABLE_USUARIO +" WHERE "+ COL_1 +"="+ '"' + U.trim().toUpperCase() + '"' +" and "+ COL_2 +"="+ '"' +P.trim().toUpperCase() + '"' +"";
+        Log.d("Query",Query);
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
