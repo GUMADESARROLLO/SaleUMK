@@ -410,8 +410,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         return Date;
     }
     public Cursor GetAllData(String U,String P){
-        // TODO: 12/07/2016 El error esta en la parte del orden que se le envia la base de datos al momentos de construir el JSON
-        // TODO: 12/07/2016 Se tiene que eliminar la base y realizar el proceso de nuevo
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM " + TABLE_USUARIO +" WHERE "+ COL_1 +"="+ '"' + U.trim().toUpperCase() + '"' +" and "+ COL_2 +"="+ '"' +P.trim().toUpperCase() + '"' +"";
         Log.d("Query",Query);
@@ -435,7 +433,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }else{
             if (res.moveToFirst()) {
                 do {
-                    Nombre = res.getString(3);
+                    Nombre = res.getString(2);
                 } while(res.moveToNext());
             }
 

@@ -269,7 +269,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 mEmailView.getText().toString();
                 mPasswordView.getText().toString();
                 Cursor res = myDB.GetAllData(mEmailView.getText().toString(), mPasswordView.getText().toString());
-                Log.d("LOGCANT",String.valueOf(res.getCount()));
+
                 if (res.getCount() == 0) {
                     Login(mEmailView.getText().toString(), mPasswordView.getText().toString());
                 } else {
@@ -300,13 +300,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode==200){
                     ArrayList<String> MeEncontro = obtDatosUS(new String(responseBody));
+                    Log.d("LOGIN",MeEncontro.get(0).toString());
                     String[] items = MeEncontro.get(0).toString().split(",");
-                    if (Integer.parseInt(items[3])==0){
+                    if (Integer.parseInt(items[4])==0){
                         Error404("Informacion Equivocada");
                     }else{
                         boolean Inserted = myDB.insertDataUS(items[0].toString(),items[1].toString(),items[2].toString(),items[3].toString());
+
                         if (Inserted == true){
-                            CallView(items[0].toString(),items[2].toString());
+                            CallView(items[1].toString(),items[3].toString());
                         }else{
                             Error404("Error de Actualizacion de datos");
                         }
@@ -348,7 +350,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             String texto;
 
             for (int i=0; i<jsonArray.length(); i++){
-                texto = jsonArray.getJSONObject(i).getString("Usr")+ "," +
+                texto = jsonArray.getJSONObject(i).getString("Key")+ "," +
+                        jsonArray.getJSONObject(i).getString("Usr")+ "," +
                         jsonArray.getJSONObject(i).getString("Pss")+ "," +
                         jsonArray.getJSONObject(i).getString("NOMBRE")+ "," +
                         jsonArray.getJSONObject(i).getString("Correcto");
