@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
@@ -11,12 +12,15 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guma.desarrollo.salesumk.Adapters.DatePickerFragment;
+import com.guma.desarrollo.salesumk.Lib.Numero_a_Letra;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
 import com.mobsandgeeks.saripaar.annotation.Required;
@@ -40,12 +44,11 @@ public class FrmCobro_Activity extends AppCompatActivity
     private EditText TC;
     private EditText ECS;
     private EditText monto;
+    private EditText FechaRecibo;
+    private Button BtnCallDatePciket;
 
     Validator validator;
     @Required(order = 1,message = "Campo requerido")
-
-
-
 
     @TextRule(order = 2, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
     private EditText CodCliente;
@@ -74,6 +77,13 @@ public class FrmCobro_Activity extends AppCompatActivity
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         vrb.setLv_list_facturaCobro((ListView) findViewById(R.id.listview_DRecibo));
 
+        final Numero_a_Letra NumLetra = new Numero_a_Letra();
+
+
+
+
+
+
 
 
 
@@ -87,7 +97,7 @@ public class FrmCobro_Activity extends AppCompatActivity
                 monto.setError(null);
 
                 int Tmoneda = (int) TipoMoneda.getSelectedItemId();
-                Log.d("XXXXXX",String.valueOf(Tmoneda));
+
 
 
                 if (Tmoneda == 0){
@@ -122,10 +132,43 @@ public class FrmCobro_Activity extends AppCompatActivity
 
         monto = (EditText) findViewById(R.id.txtVRecibo);
         CodCliente = (EditText) findViewById(R.id.txtRCliente);
+        CodCliente.setText(vrb.getCliente_recibo_factura());
+
         CodRecibo = (EditText) findViewById(R.id.txtCodRC);
 
+        FechaRecibo= (EditText) findViewById(R.id.txtDateR);
+        BtnCallDatePciket= (Button) findViewById(R.id.BtnCallDatePicket);
+        BtnCallDatePciket.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new DatePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "datePicker");
+            }
+        });
+
         Recibimosde = (EditText) findViewById(R.id.txtRecibmosDe);
+        Recibimosde.setText(vrb.getCliente_Name_recibo_factura());
+
         LaCantidadde = (EditText) findViewById(R.id.txtCntDe);
+
+        monto.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    if (monto.getText().toString().trim()==""){
+                        monto.setError("Campo vacio");
+                    }else{
+
+
+
+                        LaCantidadde.setText(NumLetra.Convertir(monto.getText().toString(),true, (int) TipoMoneda.getSelectedItemId()));
+                    }
+
+                }
+
+            }
+
+        });
         EnConcepto = (EditText) findViewById(R.id.txtEnCntDe);
 
         addfact = (TextView) findViewById(R.id.AddFact);
@@ -170,12 +213,13 @@ public class FrmCobro_Activity extends AppCompatActivity
         validator.setValidationListener(this);
         loadData();
     }
+
     private void SaveRecibo(){
         //{Saldo=4981.59, VRecibido=0, Retencion=0, FacturaNo=FC002649, Descuento=0, ValorNC=0, vfactura=4981.59}
 
         for (int i = 0; i < vrb.getLv_list_facturaCobro().getCount(); i++) {
             String Cadena = String.valueOf(vrb.getLv_list_facturaCobro().getItemAtPosition(i));
-            Log.d("XXXXXX",Cadena);
+
             Cadena = Cadena.replace("{","");
             String[] Arry = Cadena.replace("}","").split(",");
             for (int Ar=0;Ar<Arry.length;Ar++){

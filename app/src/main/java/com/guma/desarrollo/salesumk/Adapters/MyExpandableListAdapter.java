@@ -173,7 +173,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 modeListView.setAdapter(modeAdapter);
                 builder.setView(modeListView).create().show();
 
-
+                vrb.setCliente_Name_recibo_factura(childText.getText().toString());
                 vrb.setCliente_recibo_factura(childCod.getText().toString());
 
                 //Toast.makeText(finalConvertView.getContext(), "Grupo: "+String.valueOf(grupo)+" Posicion "+String.valueOf(childPosition), Toast.LENGTH_SHORT).show();

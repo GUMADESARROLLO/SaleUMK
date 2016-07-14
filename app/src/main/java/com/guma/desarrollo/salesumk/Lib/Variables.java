@@ -17,6 +17,15 @@ public class Variables {
     private static String NameVendedor;
     private static String IdVendedor;
     private static String Cliente_recibo_factura;
+    private static String Cliente_Name_recibo_factura;
+
+    public static String getCliente_Name_recibo_factura() {
+        return Cliente_Name_recibo_factura;
+    }
+
+    public static void setCliente_Name_recibo_factura(String cliente_Name_recibo_factura) {
+        Cliente_Name_recibo_factura = cliente_Name_recibo_factura;
+    }
 
     private static ListView lv_list_facturaCobro;
     private static SpecialAdapter adapter = null;

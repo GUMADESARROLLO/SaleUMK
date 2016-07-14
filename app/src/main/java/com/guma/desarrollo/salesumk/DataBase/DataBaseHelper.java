@@ -19,7 +19,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     //TABLA USUARIOS
     public static final String TABLE_USUARIO = "Usuarios";
-    public static final String COL_1 = "CodVendedor";
+    public static final String COL_1 = "IdVendedor";
     public static final String COL_22 = "NombreUsuario";
     public static final String COL_2 = "Password";
 
@@ -130,82 +130,106 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table " + TABLE_EXISTENCIA_LOTE + "("+ COL_29 +" TEXT, "+COL_33+" TEXT,"+ COL_30 +" TEXT, "+ COL_31 +" TEXT,"+ COL_32 +" TEXT)");
 
 
-        db.execSQL("CREATE TABLE Actividad(IdAE  INTEGER,Actividad  TEXT(150))");
-        db.execSQL("CREATE TABLE AE ("+
-                "IdPlan  TEXT,"+
-                "IdCliente  TEXT(50),"+
-                "IdAE  TEXT,"+
-                "IdEje  TEXT,"+
-                "Contacto1  BLOB,"+
-                "Contacto2  BLOB,"+
-                "Observacion  TEXT(250),"+
-                "Fecha  TEXT"+
-                ")");
-        db.execSQL("CREATE TABLE Agenda ("+
-                "IdPlan  INTEGER PRIMARY KEY NOT NULL,"+
-                "IdVendedor  INTEGER,"+
-                "Nombre  TEXT(50),"+
-                "Ruta  TEXT(10),"+
-                "Zona  TEXT(50),"+
-                "Rvisado  TEXT(100)"+
-                ")");
-        db.execSQL("CREATE TABLE DPedido ("+
-                "IdDP  INTEGER PRIMARY KEY NOT NULL,"+
-                "IdPedido  TEXT,"+
-                "IdArticulo  TEXT(50),"+
-                "Descripcion  TEXT(250),"+
-                "Cantidad  REAL(20,8),"+
-                "Precio  REAL(20,8)"+
-                ")");
-        db.execSQL("CREATE TABLE Ejecutiva(IdEje  INTEGER PRIMARY KEY NOT NULL,IdAE  INTEGER,Actividad  TEXT(150))");
-
-        db.execSQL("CREATE TABLE Pedido ("+
-                "IdPedido  TEXT PRIMARY KEY NOT NULL,"+
-                "IdVendedor  INTEGER,"+
-                "IdCliente  TEXT(50),"+
-                "Fecha  TEXT(10),"+
-                "Vendedor  TEXT(150),"+
-                "Cliente  TEXT(150),"+
-                "Direccion  TEXT(250),"+
-                "TM  BLOB,"+
-                "FP  BLOB,"+
-                "Plaza  TEXT(50),"+
-                "Descuento  REAL(20,8),"+
-                "IVA  REAL(20,8),"+
-                "Nota  TEXT(250)"+
+        db.execSQL("create table  Actividad" +
+                " (" +
+                "       IdAE              INTEGER," +
+                "       Actividad         TEXT(150)" +
                 ")");
 
-        db.execSQL("CREATE TABLE RDetalle ("+
-                "IdRD  INTEGER,"+
-                "IDRecibo  INTEGER,"+
-                "NFactura  TEXT(50),"+
-                "FValor  REAL(20,8),"+
-                "ValorNC  REAL(20,8),"+
-                "Retencion  REAL(20,8),"+
-                "Descuento  REAL(20,8),"+
-                "VRecibo  REAL(20,8),"+
-                "Saldo  REAL(20,8)"+
+        db.execSQL("create table  AE" +
+                " (" +
+                "       IdPlan            INTEGER," +
+                "       IdCliente         TEXT(50)," +
+                "       IdAE              INTEGER," +
+                "       IdEje             INTEGER," +
+                "       Contacto1         BOOLEAN," +
+                "       Contacto2         BOOLEAN," +
+                "       Observacion       TEXT(250)," +
+                "       Fecha             DATETIME" +
                 ")");
 
-        db.execSQL("CREATE TABLE Recibo ("+
-                "IdRecibo  INTEGER PRIMARY KEY NOT NULL,"+
-                "IdCliente  INTEGER,"+
-                "IdVendedor  TEXT,"+
-                "Fecha  TEXT(20),"+
-                "MRecibido  REAL(20,8),"+
-                "TC  REAL(20,8),"+
-                "TM  BLOB,"+
-                "Recibimos  TEXT(250),"+
-                "LCantidad  TEXT(250),"+
-                "Concepto  TEXT(250),"+
-                "Efectivo  BLOB,"+
-                "CHK  BLOB,"+
-                "NumCHK  TEXT(50),"+
-                "Banco  TEXT(100)"+
+        db.execSQL("create table  Agenda" +
+                " (" +
+                "       IdPlan            INTEGER primary key not null," +
+                "       IdVendedor        TEXT(10)," +
+                "       Nombre            TEXT(50)," +
+                "       Ruta              TEXT(10)," +
+                "       Zona              TEXT(50)," +
+                "       Revisado          TEXT(100)" +
                 ")");
-        db.execSQL("CREATE TABLE Semanas (IdPlan  INTEGER,Semana  INTEGER)");
 
-        db.execSQL("CREATE TABLE Usuarios ("+
+        db.execSQL("create table  DPedido" +
+                " (" +
+                "       IdDP              INTEGER primary key not null," +
+                "       IdPedido          INTEGER," +
+                "       IdArticulo        TEXT(50)," +
+                "       Descripcion       TEXT(250)," +
+                "       Cantidad          NUMERIC," +
+                "       Precio            NUMERIC" +
+                ")");
+
+        db.execSQL("create table  Ejecutiva" +
+                " (" +
+                "       IdEje             INTEGER primary key not null," +
+                "       IdAE              INTEGER," +
+                "       Actividad         TEXT(150)" +
+                ")");
+
+        db.execSQL("create table  Pedido" +
+                " (" +
+                "       IdPedido          INTEGER primary key not null," +
+                "       IdVendedor        TEXT(10)," +
+                "       IdCliente         TEXT(50)," +
+                "       Fecha             DATETIME," +
+                "       Vendedor          TEXT(150)," +
+                "       Cliente           TEXT(150)," +
+                "       Direccion         TEXT(250)," +
+                "       TM                BOOLEAN," +
+                "       FP                BOOLEAN," +
+                "       Plazo             TEXT(50)," +
+                "       Descuento         NUMERIC," +
+                "       IVA               NUMERIC," +
+                "       Nota              TEXT(250)" +
+                ")");
+
+        db.execSQL("create table  RDetalle" +
+                " (" +
+                "       IdRD              INTEGER not null," +
+                "       IdRecibo          INTEGER," +
+                "       NFactura          TEXT(50)," +
+                "       FValor            NUMERIC," +
+                "       ValorNC           NUMERIC," +
+                "       Retencion         NUMERIC," +
+                "       Descuento         NUMERIC," +
+                "       VRecibo           NUMERIC," +
+                "       Saldo             NUMERIC" +
+                ")");
+
+        db.execSQL("create table  Recibo" +
+                " (" +
+                "       IdRecibo          INTEGER primary key not null," +
+                "       IdCliente         TEXT(50)," +
+                "       IdVendedor        TEXT(10)," +
+                "       Fecha             DATETIME," +
+                "       MRecibido         NUMERIC," +
+                "       TC                NUMERIC," +
+                "       TM                BOOLEAN," +
+                "       Recibimos         TEXT(250)," +
+                "       LCantidad         TEXT(250)," +
+                "       Concepto          TEXT(250)," +
+                "       Efectivo          BOOLEAN," +
+                "       CHK               BOOLEAN," +
+                "       NumCHK            TEXT(50)," +
+                "       Banco             TEXT(100)" +
+                ")");
+
+        db.execSQL("create table  Semanas" +
+                " (" +
+                "       IdPlan            INTEGER," +
+                "       Semana            INTEGER" +
+                ")");
+
+       /* db.execSQL("CREATE TABLE Usuarios ("+
                 "UsuarioID  TEXT PRIMARY KEY NOT NULL,"+
                 "CodVendedor  TEXT(10),"+
                 "NombreUsuario  TEXT(100),"+
@@ -213,25 +237,45 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "Privilegio  INTEGER,"+
                 "Activo  BLOB,"+
                 "FechaCreacion  TEXT"+
+                ")");*/
+        db.execSQL("create table  Usuarios" +
+                " (" +
+                "       UsuarioID         INTEGER primary key not null," +
+                "       IdVendedor        TEXT(10)," +
+                "       NombreUsuario     TEXT(100)," +
+                "       Password          TEXT(20)," +
+                "       Privilegio        INTEGER," +
+                "       Activo            BOOLEAN," +
+                "       FechaCreacion     DATETIME" +
                 ")");
 
-        db.execSQL("CREATE TABLE VClientes ("+
-                "IdPlan  INTEGER,"+
-                "Lunes  TEXT(50),"+
-                "Martes  TEXT(50),"+
-                "Miercoles  TEXT(50),"+
-                "Jueves  TEXT(50),"+
-                "Viernes  TEXT(50),"+
-                "Sabado  TEXT(50),"+
-                "Observaciones  TEXT(250)"+
+        db.execSQL("create table  VClientes" +
+                " (" +
+                "       IdPlan            INTEGER," +
+                "       Lunes             TEXT(50)," +
+                "       Martes            TEXT(50)," +
+                "       Miercoles         TEXT(50)," +
+                "       Jueves            TEXT(50)," +
+                "       Viernes           TEXT(50)," +
+                "       Sabado            TEXT(50)," +
+                "       Observaciones     TEXT(250)" +
                 ")");
 
-        db.execSQL("CREATE TABLE Visitas ("+
-                "IdPlan  INTEGER,"+
-                "IdCliente  INTEGER,"+
-                "Fecha  TEXT,"+
-                "Visitado  BLOB"+
+        db.execSQL("create table  Visitas" +
+                " (" +
+                "       IdPlan            INTEGER references VClientes(IdPlan) not null," +
+                "       IdCliente         TEXT(50)," +
+                "       Fecha             DATETIME," +
+                "       Visitado          BOOLEAN" +
                 ")");
+        
+        db.execSQL("create table  GVendedor" +
+                " (" +
+                "       UsuarioID         INTEGER," +
+                "       IdVendedor        TEXT(10)," +
+                "       Activa            BOOLEAN," +
+                "       FechaB            DATETIME" +
+                ");");
 
 
         db.execSQL("CREATE TABLE observaciones (" +

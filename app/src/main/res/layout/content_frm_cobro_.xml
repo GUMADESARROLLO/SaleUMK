@@ -69,7 +69,7 @@
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:hint="C$" />
+                    android:hint="Monto" />
                 <EditText
                     android:id="@+id/txtRCliente"
                     android:textColor="@color/UmkAzulOscuro"
@@ -122,18 +122,24 @@
                     android:singleLine="true"
                     android:layout_gravity="left"/>
 
-                <EditText
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_gravity="right"
-                    android:gravity="right"
-                    android:textColor="@color/UmkAzulOscuro"
-                    android:hint="Fecha Recibo"
-                    android:layout_height="wrap_content"
-                    android:inputType="date"
-                    android:ems="10"
+                <AutoCompleteTextView
                     android:id="@+id/txtDateR"
-                    />
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Fecha"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_gravity="left"/>
+                <Button
+                    android:id="@+id/BtnCallDatePicket"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:text="+"/>
+
+
 
             </LinearLayout>
             <!--RECIBIMOS DE:-->
