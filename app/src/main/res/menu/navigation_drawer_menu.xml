@@ -37,10 +37,10 @@
 
     <item android:title="">
         <menu>
-           <!-- <item
-                android:id="@+id/item_aout"
-                android:icon="@drawable/ic_action_action_delete"
-                android:title="Cerrar Sessión" />-->
+            <item
+                android:id="@+id/item_about"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="ACERCA DE" />
         </menu>
     </item>
 

@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">UMKSales</string>
+    <string name="app_name">SalesUMK</string>
     <string name="action_settings">Cerrar Sessión</string>
     <string name="title_activity_settings">Settings</string>
-    <string name="title_activity_login">UMKSales</string>
+    <string name="title_activity_login">SalesUMK</string>
 
     <!-- Strings related to login -->
     <string name="prompt_email">Agente</string>
     <string name="prompt_password">Contaseña</string>
     <string name="action_sign_in">ENTRAR</string>
-    <string name="action_sign_in_short">SaleUMK</string>
+    <string name="action_sign_in_short">SalesUMK</string>
     <string name="error_invalid_email">Cambo Invalido</string>
     <string name="error_invalid_password">Contraseña muy Corta</string>
     <string name="error_incorrect_password">Contraseña incorrecta</string>

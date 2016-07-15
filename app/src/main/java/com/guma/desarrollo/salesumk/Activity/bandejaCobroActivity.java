@@ -9,8 +9,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
+import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class bandejaCobroActivity extends AppCompatActivity {
 
     SpecialAdapter adapter;
     ListView lv;
+    Variables vrb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +34,8 @@ public class bandejaCobroActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        TextView txtClienteCobro = (TextView) findViewById(R.id.txtLblClienteCobro);
+        txtClienteCobro.setText(vrb.getCliente_Name_recibo_factura());
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override

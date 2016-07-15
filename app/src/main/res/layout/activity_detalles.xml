@@ -278,7 +278,7 @@ android:scrollbars="vertical" />-->
             android:textColor="@color/UmkAzulOscuro"
             android:textStyle="bold"
             android:gravity="center"
-            android:text="PROXIMOS A VENCERSE"
+            android:text="LOTES A VENCERSE A UN AÑO"
             />
 
     </LinearLayout>

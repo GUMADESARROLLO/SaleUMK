@@ -89,6 +89,7 @@ public class InboxFragment extends Fragment {
             public void onClick(View view) {
                 ClearList();
                 CallInve();
+                loadData();
             }
         });
 

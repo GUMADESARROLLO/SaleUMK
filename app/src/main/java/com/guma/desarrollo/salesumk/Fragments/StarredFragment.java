@@ -63,6 +63,7 @@ public class StarredFragment extends Fragment {
             public void onClick(View view) {
                 ClearList();
                 CallInve();
+                loadData();
             }
         });
         loadData();

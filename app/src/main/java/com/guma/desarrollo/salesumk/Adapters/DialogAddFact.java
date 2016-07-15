@@ -61,7 +61,7 @@ public class DialogAddFact extends DialogFragment {
         //adapter = new SpecialAdapter(getActivity(), fillMaps, R.layout.grid_item_recibo, from, to);
         vrb.setAdapter(new SpecialAdapter(getActivity(), vrb.getFillMaps(), R.layout.grid_item_recibo, from, to));
 
-        Log.d(getTag(),vrb.getFillMaps().toString());
+
 
 
         Spinner spinner = (Spinner) dialogView.findViewById(R.id.spinner_factura);
