@@ -78,15 +78,6 @@ public class FrmCobro_Activity extends AppCompatActivity
         vrb.setLv_list_facturaCobro((ListView) findViewById(R.id.listview_DRecibo));
 
         final Numero_a_Letra NumLetra = new Numero_a_Letra();
-
-
-
-
-
-
-
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -218,17 +209,19 @@ public class FrmCobro_Activity extends AppCompatActivity
         //{Saldo=4981.59, VRecibido=0, Retencion=0, FacturaNo=FC002649, Descuento=0, ValorNC=0, vfactura=4981.59}
 
         for (int i = 0; i < vrb.getLv_list_facturaCobro().getCount(); i++) {
-            String Cadena = String.valueOf(vrb.getLv_list_facturaCobro().getItemAtPosition(i));
+        Log.d("LISTAFACTURA",vrb.getLv_list_facturaCobro().getItemAtPosition(i).toString());
+        /*    String Cadena = String.valueOf(vrb.getLv_list_facturaCobro().getItemAtPosition(i));
 
             Cadena = Cadena.replace("{","");
             String[] Arry = Cadena.replace("}","").split(",");
             for (int Ar=0;Ar<Arry.length;Ar++){
                 String[] ry = Arry[Ar].split("=");
 
-                Toast.makeText(FrmCobro_Activity.this, ry[0].toString(), Toast.LENGTH_SHORT).show();
-                Toast.makeText(FrmCobro_Activity.this, ry[1].toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FrmCobro_Activity.this, ry[0].toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(FrmCobro_Activity.this, ry[1].toString(), Toast.LENGTH_SHORT).show();
 
             }
+            */
 
         }
 
