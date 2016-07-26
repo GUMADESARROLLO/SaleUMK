@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -447,7 +448,52 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }else{
             return true;
         }
-    }public String Datetime(){
+    }
+    public boolean SaveRecibo(
+            String varIdRecibo,
+            String varIdCliente,
+            String varIdVendedor,
+            String varFecha,
+            String varMRecibido,
+            String varTC,
+            String varTM,
+            String varRecibimos,
+            String varLCantidad,
+            String varConcepto,
+            //boolean varEfectivo,boolean varCHK,
+            String varNumCHK,
+            String varBanco
+            ){
+
+
+
+
+       SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("IdRecibo",varIdRecibo);
+        contentValues.put("IdCliente",varIdCliente);
+        contentValues.put("IdVendedor",varIdVendedor);
+        contentValues.put("Fecha",varFecha);
+        contentValues.put("MRecibido",varMRecibido);
+        contentValues.put("TC",varTC);
+        contentValues.put("TM",varTM);
+        contentValues.put("Recibimos",varRecibimos);
+        contentValues.put("LCantidad",varLCantidad);
+        contentValues.put("Concepto",varConcepto);
+        /*contentValues.put("Efectivo",varEfectivo);
+        contentValues.put("CHK",varCHK);*/
+        contentValues.put("NumCHK",varNumCHK);
+        contentValues.put("Banco",varBanco);
+
+        long result = db.insert("Recibo",null,contentValues);
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
+
+    }
+    public String Datetime(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
         String Date = (dateFormat.format(cal.getTime()));

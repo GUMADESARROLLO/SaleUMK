@@ -110,17 +110,7 @@
                     android:singleLine="true"
                     android:layout_gravity="left"/>
 
-                <AutoCompleteTextView
-                    android:id="@+id/txtENC"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="EN C$:"
-                    android:textColor="@color/UmkAzulOscuro"
-                    android:inputType="numberDecimal"
-                    android:maxLines="1"
-                    android:singleLine="true"
-                    android:layout_gravity="left"/>
+
 
                 <AutoCompleteTextView
                     android:id="@+id/txtDateR"
@@ -342,20 +332,28 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal" >
 
-        <CheckBox
-            android:id="@+id/chckBxEfectivo"
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/opciones_banco"
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Efectivo"
-             />
-        <CheckBox
-            android:id="@+id/chckBxBanco"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:text="Banco"
-            />
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Efectivo"
+                android:id="@+id/chckBxEfectivo" />
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Banco"
+                android:id="@+id/chckBxBanco" />
+        </RadioGroup>
+
 
 
 

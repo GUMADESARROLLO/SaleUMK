@@ -15,11 +15,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.guma.desarrollo.salesumk.Adapters.DatePickerFragment;
+import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
 import com.guma.desarrollo.salesumk.Lib.Numero_a_Letra;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -32,7 +35,7 @@ import com.guma.desarrollo.salesumk.Lib.Variables;
 
 public class FrmCobro_Activity extends AppCompatActivity
         implements Validator.ValidationListener{
-
+    DataBaseHelper myDB;
     Variables vrb;
     SpecialAdapter adapter=null;
 
@@ -42,10 +45,12 @@ public class FrmCobro_Activity extends AppCompatActivity
     Spinner spinner;
 
     private EditText TC;
-    private EditText ECS;
+
     private EditText monto;
     private EditText FechaRecibo;
     private Button BtnCallDatePciket;
+
+
 
     Validator validator;
     @Required(order = 1,message = "Campo requerido")
@@ -65,6 +70,16 @@ public class FrmCobro_Activity extends AppCompatActivity
     @TextRule(order = 6, minLength = 2, maxLength = 999999999, message = "Ingrese al menos 2 Caracteres")
     private EditText EnConcepto;
 
+
+    private RadioButton rbtnEfectivo;
+    private RadioButton rbtnBanco;
+
+    private RadioGroup GrupoBanco;;
+
+    private EditText NoBanco;
+    private EditText ChkBanco;
+    private Spinner TipoMoneda;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,7 +88,8 @@ public class FrmCobro_Activity extends AppCompatActivity
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        final Spinner TipoMoneda = (Spinner) findViewById(R.id.spinner);
+        myDB = new DataBaseHelper(this);
+       TipoMoneda = (Spinner) findViewById(R.id.spinner);
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         vrb.setLv_list_facturaCobro((ListView) findViewById(R.id.listview_DRecibo));
 
@@ -81,36 +97,38 @@ public class FrmCobro_Activity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SaveRecibo();
+
 
                 TC.setError(null);
-                ECS.setError(null);
+
                 monto.setError(null);
+                FechaRecibo.setError(null);
 
                 int Tmoneda = (int) TipoMoneda.getSelectedItemId();
-
-
-
-                if (Tmoneda == 0){
-                    if (TextUtils.isEmpty(monto.getText().toString()) ){
-                        monto.setError("Campo Requerido");
-                    }else{
-                        validator.validate();
-                    }
-
+                if (GrupoBanco.getCheckedRadioButtonId()==-1){
+                    Toast.makeText(FrmCobro_Activity.this, "EFECTIVO 0 CHEQUE", Toast.LENGTH_SHORT).show();
 
                 }else{
-                    if (TextUtils.isEmpty(TC.getText().toString()) || TextUtils.isEmpty(ECS.getText().toString())){
-                        TC.setError("Campo Requerido");
-                        ECS.setError("Campo Requerido");
+                    if (TextUtils.isEmpty(FechaRecibo.getText().toString())){
+                        FechaRecibo.setError("Campo Requerido");
                     }else{
-                        validator.validate();
+                        if (Tmoneda == 0){
+                            if (TextUtils.isEmpty(monto.getText().toString()) ){
+                                monto.setError("Campo Requerido");
+                            }else{
+                                validator.validate();
+                            }
+
+                        }else{
+                            if (TextUtils.isEmpty(TC.getText().toString()) ){
+                                TC.setError("Campo Requerido");
+                            }else{
+                                validator.validate();
+                            }
+
+                        }
                     }
-
                 }
-
-
-
 
 
             }
@@ -119,7 +137,7 @@ public class FrmCobro_Activity extends AppCompatActivity
 
 
         TC = (EditText) findViewById(R.id.txtTC);
-        ECS = (EditText) findViewById(R.id.txtENC);
+
 
         monto = (EditText) findViewById(R.id.txtVRecibo);
         CodCliente = (EditText) findViewById(R.id.txtRCliente);
@@ -127,8 +145,17 @@ public class FrmCobro_Activity extends AppCompatActivity
 
         CodRecibo = (EditText) findViewById(R.id.txtCodRC);
 
-        FechaRecibo= (EditText) findViewById(R.id.txtDateR);
+        FechaRecibo = (EditText) findViewById(R.id.txtDateR);
         BtnCallDatePciket= (Button) findViewById(R.id.BtnCallDatePicket);
+
+        rbtnEfectivo = (RadioButton) findViewById(R.id.chckBxEfectivo);
+        rbtnBanco=(RadioButton) findViewById(R.id.chckBxBanco);
+
+        NoBanco = (EditText) findViewById(R.id.txtNoBanco);
+        ChkBanco= (EditText) findViewById(R.id.txtNameBanco);
+
+        GrupoBanco = (RadioGroup) findViewById(R.id.opciones_banco);
+
         BtnCallDatePciket.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,7 +233,43 @@ public class FrmCobro_Activity extends AppCompatActivity
     }
 
     private void SaveRecibo(){
+
         //{Saldo=4981.59, VRecibido=0, Retencion=0, FacturaNo=FC002649, Descuento=0, ValorNC=0, vfactura=4981.59}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        int Tmoneda = (int) TipoMoneda.getSelectedItemId();
+        boolean Inserted=false;
+        Inserted = myDB.SaveRecibo(
+                    CodRecibo.getText().toString(),
+                    CodCliente.getText().toString(),
+                    "F17",
+                    FechaRecibo.getText().toString(),
+                    monto.getText().toString(),
+                    TC.getText().toString(),
+                    String.valueOf(Tmoneda).toString(),
+                    Recibimosde.getText().toString(),
+                    LaCantidadde.getText().toString(),
+                    EnConcepto.getText().toString(),
+                    //rbtnEfectivo.isChecked(),rbtnBanco.isChecked(),
+                    NoBanco.getText().toString(),
+                    ChkBanco.getText().toString()
+        );
+
+
+
 
         for (int i = 0; i < vrb.getLv_list_facturaCobro().getCount(); i++) {
         Log.d("LISTAFACTURA",vrb.getLv_list_facturaCobro().getItemAtPosition(i).toString());
@@ -224,6 +287,16 @@ public class FrmCobro_Activity extends AppCompatActivity
             */
 
         }
+
+        if (Inserted == true){
+            Toast.makeText(this, "Datos Ingresados Correctamente", Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, "Datos No Ingresados Correctamente", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
 
     }
     public boolean onOptionsItemSelected(MenuItem item){
@@ -260,8 +333,9 @@ public class FrmCobro_Activity extends AppCompatActivity
     @Override
     public void onValidationSucceeded() {
         int cnt = vrb.getLv_list_facturaCobro().getAdapter().getCount();
-        if (cnt > 1){
-            Toast.makeText(this, "Datos ingresados correctamente", Toast.LENGTH_SHORT).show();
+        if (cnt > 0){
+            SaveRecibo();
+
         }else{
             Toast.makeText(this, "No hay Facturas Ingresadas", Toast.LENGTH_SHORT).show();
         }
