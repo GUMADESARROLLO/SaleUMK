@@ -1,0 +1,394 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:weightSum="1">
+
+
+
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="310dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/UmkAzulOscuro">
+
+                <TextView
+                    android:id="@+id/item_FECHA_VENCE"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:text="DATOS DE RECIBO"
+                    android:layout_gravity="left"
+                    />
+
+
+            </LinearLayout>
+
+            <View android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="?android:attr/listDivider" />
+            <!--Monto Recibo & CodCliente-->
+            <LinearLayout
+                android:padding="10dp"
+                android:layout_marginTop="40dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:entries="@array/TM"
+                android:orientation="horizontal">
+                <Spinner
+                    android:entries="@array/TM"
+                    android:layout_width="60dp"
+                    android:layout_height="40dp"
+                    android:id="@+id/spinner"/>
+                <EditText
+
+                    android:id="@+id/txtVRecibo"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Monto"
+                    android:enabled="false" />
+                <EditText
+                    android:id="@+id/txtRCliente"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Cod.Cliente"
+                    android:enabled="false" />
+                <EditText
+                    android:id="@+id/txtCodRC"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Nº Recibo"
+                    android:enabled="false" />
+
+
+
+
+            </LinearLayout>
+            <!--U$|T/C$|ENC$ & FechaRecibo-->
+            <LinearLayout
+                android:layout_marginTop="90dp"
+                android:padding="10dp"
+
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <AutoCompleteTextView
+                    android:id="@+id/txtTC"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:layout_height="wrap_content"
+                    android:hint="Tipo de Cambio"
+                    android:inputType="numberDecimal"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_gravity="left"
+                    android:enabled="false" />
+
+
+
+                <AutoCompleteTextView
+                    android:id="@+id/txtDateR"
+                    android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Fecha"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:inputType="text"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:layout_gravity="left"
+                    android:enabled="false" />
+
+            </LinearLayout>
+            <!--RECIBIMOS DE:-->
+            <LinearLayout
+                android:layout_marginTop="130dp"
+                android:padding="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:hint="Recibimos de:"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:id="@+id/txtRecibmosDe"
+                    android:enabled="false" />
+
+
+            </LinearLayout>
+            <!--LA CANTIDAD DE:-->
+            <LinearLayout
+                android:layout_marginTop="170dp"
+                android:padding="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:hint="La Cantidad de:"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:id="@+id/txtCntDe"
+                    android:enabled="false" />
+
+
+            </LinearLayout>
+            <!--EN CONCEPTO DE:-->
+            <LinearLayout
+                android:layout_marginTop="210dp"
+                android:padding="10dp"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal" >
+
+
+                <EditText
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:hint="En Concepto de:"
+                    android:textColor="@color/UmkAzulOscuro"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:id="@+id/txtEnCntDe"
+                    android:enabled="false" />
+
+
+            </LinearLayout>
+
+
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+    <android.support.v7.widget.CardView
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:card_view="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="450dp"
+        card_view:cardCornerRadius="4dp"
+        card_view:cardElevation="4dp"
+        card_view:cardUseCompatPadding="true"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:id="@+id/header_lotes"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:background="@color/UmkAzulOscuro"                >
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:text="Factura No."
+                    android:layout_gravity="left"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1.1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:text="Valor Factura"
+                    android:layout_gravity="left"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:text="Valor N/C"
+                    android:layout_gravity="left"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:text="Retencion"
+                    android:layout_gravity="left"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:text="Descuento"
+                    android:layout_gravity="left"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1.2"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:text="Valor Recibido"
+                    android:layout_gravity="left"
+                    />
+                <TextView
+                    android:layout_width="70dp"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:padding="10dp"
+                    android:text="Saldo"
+                    android:gravity="center"
+                    />
+                <TextView
+                    android:id="@+id/AddFact"
+                    android:layout_width="30dp"
+                    android:background="@color/UmkAzulClaro"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:padding="10dp"
+                    android:text="+"
+
+                    />
+
+
+            </LinearLayout>
+
+            <View android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="?android:attr/listDivider" />
+            <LinearLayout
+                android:layout_marginTop="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent">
+                <ListView android:id="@+id/listview_DRecibo"
+                    android:layout_marginTop="17dp"
+                    android:layout_height="fill_parent"
+                    android:layout_width="fill_parent">
+                </ListView>
+            </LinearLayout>
+
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+    <!--U$|T/C$|ENC$ & FechaRecibo-->
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:padding="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal" >
+
+        <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/opciones_banco"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal">
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Efectivo"
+                android:id="@+id/chckBxEfectivo"
+                android:enabled="false" />
+
+            <RadioButton
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:text="Banco"
+                android:id="@+id/chckBxBanco"
+                android:enabled="false" />
+        </RadioGroup>
+
+
+
+
+        <AutoCompleteTextView
+            android:id="@+id/txtNoBanco"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/Pront_No"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:enabled="false" />
+
+        <AutoCompleteTextView
+            android:id="@+id/txtNameBanco"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/Pront_NameBanco"
+            android:inputType="text"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:enabled="false" />
+
+
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

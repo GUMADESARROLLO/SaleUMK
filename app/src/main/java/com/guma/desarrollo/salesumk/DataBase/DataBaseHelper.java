@@ -11,6 +11,7 @@ import android.widget.Toast;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 /**
  * Created by marangelo.php on 23/05/2016.
@@ -159,7 +160,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Revisado          TEXT(100)" +
                 ")");
 
-        db.execSQL("create table  DPedido" +
+        db.execSQL("create table  PDetalle" +
                 " (" +
                 "       IdDP              INTEGER primary key not null," +
                 "       IdPedido          INTEGER," +
@@ -195,7 +196,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table  RDetalle" +
                 " (" +
-                "       IdRD              INTEGER not null," +
                 "       IdRecibo          INTEGER," +
                 "       NFactura          TEXT(50)," +
                 "       FValor            NUMERIC," +
@@ -208,9 +208,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table  Recibo" +
                 " (" +
-                "       IdRecibo          INTEGER primary key not null," +
+                "       IdRecibo          TEXT(14) primary key not null," +
                 "       IdCliente         TEXT(50)," +
-                "       IdVendedor        TEXT(10)," +
+                "       Vendedor          TEXT(150)," +
                 "       Fecha             DATETIME," +
                 "       MRecibido         NUMERIC," +
                 "       TC                NUMERIC," +
@@ -452,6 +452,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public boolean SaveRecibo(
             String varIdRecibo,
             String varIdCliente,
+            String varCodVendedor,
             String varIdVendedor,
             String varFecha,
             String varMRecibido,
@@ -460,19 +461,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             String varRecibimos,
             String varLCantidad,
             String varConcepto,
-            //boolean varEfectivo,boolean varCHK,
+            boolean varEfectivo,boolean varCHK,
             String varNumCHK,
             String varBanco
             ){
 
-
+        String CodR = varCodVendedor + "-"+ varIdRecibo;
 
 
        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("IdRecibo",varIdRecibo);
+        contentValues.put("IdRecibo",CodR);
         contentValues.put("IdCliente",varIdCliente);
-        contentValues.put("IdVendedor",varIdVendedor);
+        contentValues.put("Vendedor",varIdVendedor);
         contentValues.put("Fecha",varFecha);
         contentValues.put("MRecibido",varMRecibido);
         contentValues.put("TC",varTC);
@@ -480,8 +481,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("Recibimos",varRecibimos);
         contentValues.put("LCantidad",varLCantidad);
         contentValues.put("Concepto",varConcepto);
-        /*contentValues.put("Efectivo",varEfectivo);
-        contentValues.put("CHK",varCHK);*/
+        contentValues.put("Efectivo",varEfectivo);
+        contentValues.put("CHK",varCHK);
         contentValues.put("NumCHK",varNumCHK);
         contentValues.put("Banco",varBanco);
 
@@ -535,6 +536,45 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String Query = "SELECT * FROM " + TABLE_ARTICULO + " WHERE "+ COL_3 +"="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
+    }
+    public String[] GetCobros(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int i=0;
+        String Query = "SELECT * FROM Recibo WHERE IdCliente="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        String vareturn[] = new String[res.getCount()];
+        if (res.getCount()!=0){
+            if (res.moveToFirst()) {
+                do {
+                    vareturn[i] = res.getString(0)+","+res.getString(3)+","+res.getString(4);
+                    i++;
+                } while(res.moveToNext());
+            }
+        }
+        return vareturn;
+    }
+    public Cursor GetInfoRecibo(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM Recibo WHERE IdRecibo="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor GetAllRecibo(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM Recibo";
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public boolean DeleteRecibo(String value){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Log.e("Eliminar",value);
+        long result = db.delete("Recibo", "IdRecibo" + "= '" + value + "'", null);
+        db.close();
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
     public Cursor GetLotesArt(String Id){
         SQLiteDatabase db = this.getWritableDatabase();

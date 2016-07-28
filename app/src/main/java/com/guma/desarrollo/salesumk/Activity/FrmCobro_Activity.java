@@ -39,6 +39,8 @@ public class FrmCobro_Activity extends AppCompatActivity
     Variables vrb;
     SpecialAdapter adapter=null;
 
+    Variables myVar;
+
 
 
     TextView addfact;
@@ -236,26 +238,13 @@ public class FrmCobro_Activity extends AppCompatActivity
 
         //{Saldo=4981.59, VRecibido=0, Retencion=0, FacturaNo=FC002649, Descuento=0, ValorNC=0, vfactura=4981.59}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         int Tmoneda = (int) TipoMoneda.getSelectedItemId();
-        boolean Inserted=false;
+        boolean Inserted = false;
         Inserted = myDB.SaveRecibo(
                     CodRecibo.getText().toString(),
                     CodCliente.getText().toString(),
-                    "F17",
+                    myVar.getIdVendedor().toUpperCase().toString(),
+                    myVar.getNameVendedor().toUpperCase().toString(),
                     FechaRecibo.getText().toString(),
                     monto.getText().toString(),
                     TC.getText().toString(),
@@ -263,7 +252,7 @@ public class FrmCobro_Activity extends AppCompatActivity
                     Recibimosde.getText().toString(),
                     LaCantidadde.getText().toString(),
                     EnConcepto.getText().toString(),
-                    //rbtnEfectivo.isChecked(),rbtnBanco.isChecked(),
+                    rbtnEfectivo.isChecked(),rbtnBanco.isChecked(),
                     NoBanco.getText().toString(),
                     ChkBanco.getText().toString()
         );
@@ -290,6 +279,7 @@ public class FrmCobro_Activity extends AppCompatActivity
 
         if (Inserted == true){
             Toast.makeText(this, "Datos Ingresados Correctamente", Toast.LENGTH_SHORT).show();
+            finish();
         }else{
             Toast.makeText(this, "Datos No Ingresados Correctamente", Toast.LENGTH_SHORT).show();
         }

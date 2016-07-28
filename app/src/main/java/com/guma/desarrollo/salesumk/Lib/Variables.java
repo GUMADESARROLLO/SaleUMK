@@ -18,6 +18,15 @@ public class Variables {
     private static String IdVendedor;
     private static String Cliente_recibo_factura;
     private static String Cliente_Name_recibo_factura;
+    private static String idViewRecibo;
+
+    public static String getIdViewRecibo() {
+        return idViewRecibo;
+    }
+
+    public static void setIdViewRecibo(String idViewRecibo) {
+        Variables.idViewRecibo = idViewRecibo;
+    }
 
     public static String getCliente_Name_recibo_factura() {
         return Cliente_Name_recibo_factura;

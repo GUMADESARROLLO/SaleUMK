@@ -330,6 +330,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         MenuIntent.putExtra("Vendedor",User.toUpperCase());
 
         myVar.setNameVendedor(Nombre.toUpperCase());
+        myVar.setIdVendedor(User.toUpperCase());
 
         LoginActivity.this.startActivity(MenuIntent);
         finish();
