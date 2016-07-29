@@ -4,8 +4,8 @@ package com.guma.desarrollo.salesumk.Lib;
  * Created by marangelo.php on 25/05/2016.
  */
 public class ClssURL {
-    //private static String SERVER = "192.168.1.78:8448";
-    private static String SERVER = "165.98.75.219:8448";
+    private static String SERVER = "192.168.1.78:8448";
+    //private static String SERVER = "165.98.75.219:8448";
 
     private static String URL_INVE  = "http://"+ SERVER +"/APIREST/Inventario.php";
     private static String URL_login = "http://"+ SERVER +"/APIREST/Login.php";
@@ -15,6 +15,15 @@ public class ClssURL {
     private static String URL_ExistenciaLotes = "http://"+ SERVER +"/APIREST/ExistenciaLotes.php";
 
     private static String URL_Factura = "http://"+ SERVER +"/APIREST/FACTURAS.php";
+    private static String URL_doom = "http://"+ SERVER +"/APIREST/Doom.php";
+
+    public static String getURL_doom() {
+        return URL_doom;
+    }
+
+    public static void setURL_doom(String URL_doom) {
+        ClssURL.URL_doom = URL_doom;
+    }
 
     public ClssURL() {
     }

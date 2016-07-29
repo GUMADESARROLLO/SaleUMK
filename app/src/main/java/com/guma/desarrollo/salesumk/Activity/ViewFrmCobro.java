@@ -5,18 +5,26 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
 import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class ViewFrmCobro extends AppCompatActivity{
 
     Variables vrb;
     DataBaseHelper myDB;
+    SpecialAdapter adapter;
+    ListView lv;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,6 +51,7 @@ public class ViewFrmCobro extends AppCompatActivity{
 
         EditText NBanco          = (EditText) findViewById(R.id.txtNoBanco);
         EditText NombreBanco     = (EditText) findViewById(R.id.txtNameBanco);
+        lv = (ListView) findViewById(R.id.listview_DRecibo);
 
 
         myDB = new DataBaseHelper(ViewFrmCobro.this);
@@ -51,6 +60,7 @@ public class ViewFrmCobro extends AppCompatActivity{
 
 
         Cursor res = myDB.GetInfoRecibo(vrb.getIdViewRecibo());
+        loadData();
         if (res.getCount()!=0){
             if (res.moveToFirst()) {
                 do {
@@ -82,6 +92,32 @@ public class ViewFrmCobro extends AppCompatActivity{
             }
         }
     }
+    private void loadData() {
+        String[] from = new String[] { "FacturaNo","vfactura","ValorNC","Retencion","Descuento","VRecibido","Saldo"};
+        int[] to = new int[] { R.id.Item_recibo,R.id.Item_vFactura,R.id.Item_VNC,R.id.Item_Retencion,R.id.Item_Descuento,R.id.Item_VRecibo,R.id.Item_Saldo};
+        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+        Cursor res = myDB.GetInfoRDetalle(vrb.getIdViewRecibo());
+        if (res.getCount()!=0){
+            if (res.moveToFirst()) {
+                do {
+
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("FacturaNo", res.getString(1));
+                    map.put("vfactura", res.getString(2));
+                    map.put("ValorNC", res.getString(3));
+                    map.put("Retencion", res.getString(4));
+                    map.put("Descuento", res.getString(5));
+                    map.put("VRecibido", res.getString(6));
+                    map.put("Saldo", res.getString(7));
+                    fillMaps.add(map);
+
+                } while(res.moveToNext());
+            }
+        }
+        adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_recibo, from, to);
+        lv.setAdapter(adapter);
+    }
+
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 

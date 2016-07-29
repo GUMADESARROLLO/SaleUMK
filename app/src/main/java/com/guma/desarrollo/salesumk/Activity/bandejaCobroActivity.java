@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -21,10 +22,20 @@ import android.widget.Toast;
 
 import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
 import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
+import com.guma.desarrollo.salesumk.Lib.ClssURL;
+import com.guma.desarrollo.salesumk.Lib.Funciones;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
+import org.apache.http.Header;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -34,24 +45,43 @@ public class bandejaCobroActivity extends AppCompatActivity {
     ListView lv;
     Variables vrb;
     DataBaseHelper myDB;
-    private  String SqlSyncInsert ;
+    Funciones vrf;
+    private  String SqlSyncInsert;
+    private  String SqlSyncInsertDetalles;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bandeja_cobro);
+
+        //ASGINACION DE TITULOS AL ACTIVITY
         setTitle("COBROS REALIZADOS");
+
+        //INICIALIZADOR DEL LISTADO DE
         lv = (ListView) findViewById(R.id.listview_bandeja_cobro);
+
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
+
+
         myDB = new DataBaseHelper(bandejaCobroActivity.this);
         TextView txtClienteCobro = (TextView) findViewById(R.id.txtLblClienteCobro);
+
+        //CODIGO DE CLIENTE PARA BUSCAR LOS RECIBOS
         txtClienteCobro.setText(vrb.getCliente_Name_recibo_factura());
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+
+        final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+
+
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //ENCABEZADOS DE LOS RECIBOS
                 Cursor res = myDB.GetAllRecibo();
                 if (res.getCount()!=0){
                     SqlSyncInsert = "INSERT INTO recibo (IdRecibo, IdCliente, Vendedor, Fecha, MRecibo, TC, TM, Recibimos, LCantidad, Concepto, Efectivo, CHK, NumCHK, Banco) VALUES";
@@ -62,15 +92,15 @@ public class bandejaCobroActivity extends AppCompatActivity {
                                     "'"+res.getString(0)+"',"+
                                             "'"+res.getString(1)+"',"+
                                             "'"+res.getString(2)+"',"+
-                                            "'"+res.getString(3)+"',"+
+                                            "'"+vrf.DateFormat(res.getString(3))+"',"+
                                             "'"+res.getString(4)+"',"+
                                             "'"+res.getString(5)+"',"+
-                                            "b '"+res.getString(6)+"',"+
+                                            "'"+res.getString(6)+"',"+
                                             "'"+res.getString(7)+"',"+
                                             "'"+res.getString(8)+"',"+
                                             "'"+res.getString(9)+"',"+
-                                            "b '"+res.getString(10)+"',"+
-                                            "b '"+res.getString(11)+"',"+
+                                            "'"+res.getString(10)+"',"+
+                                            "'"+res.getString(11)+"',"+
                                             "'"+res.getString(12)+"',"+
                                             "'"+res.getString(13)+"'"
                                             +"),";
@@ -79,23 +109,33 @@ public class bandejaCobroActivity extends AppCompatActivity {
                     }
                 }
 
-                // TODO: 28/07/2016 verificar los tipos de datos booleanos en las base de datos mysql 
-                Log.d("SUPERMEGAULTRAQUERRY",SqlSyncInsert);
+                //DETALLES DE LOS RECIBOS
+                Cursor ResDetalle = myDB.GetAllRDetalle();
+                if (ResDetalle.getCount()!=0){
+                    SqlSyncInsertDetalles = "INSERT INTO rdetalle (IdRecibo, NFactura, FValor, ValorNC, Retencion, Descuento, VRecibo, Saldo) VALUES";
+                    if (ResDetalle.moveToFirst()){
+                        do {
+                            SqlSyncInsertDetalles +=
+                                    "("+
+                                            "'"+ResDetalle.getString(0)+"',"+
+                                            "'"+ResDetalle.getString(1)+"',"+
+                                            "'"+ResDetalle.getString(2)+"',"+
+                                            "'"+ResDetalle.getString(3)+"',"+
+                                            "'"+ResDetalle.getString(4)+"',"+
+                                            "'"+ResDetalle.getString(5)+"',"+
+                                            "'"+ResDetalle.getString(6)+"',"+
+                                            "'"+ResDetalle.getString(7)+"'"
+                                            +"),";
+                        } while(ResDetalle.moveToNext());
+                        SqlSyncInsertDetalles = SqlSyncInsertDetalles.substring(0,SqlSyncInsertDetalles.length()-1);
+                    }
+                }
 
-                Toast.makeText(bandejaCobroActivity.this, SqlSyncInsert, Toast.LENGTH_LONG).show();
-
-                //SQLITE
-                //INSERT INTO "main"."Recibo"
-                //VALUES ('F17-3622', '00042', 'ESPERANZA CASTILLO', '28/6/2016', 1080, '', 0, 'COMISARIATO DE LA POLICIA NACIONAL - RUC J0130000001725', 'UN MIL OCHENTA NETOS.', 'concetorio gogia', 1, 0, '', '');
-
-                //MYSQL
-                //INSERT INTO recibo (IdRecibo, IdCliente, Vendedor, Fecha, MRecibo, TC, TM, Recibimos, LCantidad, Concepto, Efectivo, CHK, NumCHK, Banco)
-                // VALUES
-                // ('F17-3622', '00042', 'ESPERANZA CASTILLO', '0000-00-00', 1080, NULL, b'0', 'COMISARIATO DE LA POLICIA NACIONAL - RUC J0130000001725', 'UN MIL OCHENTA NETOS.', 'concetorio gogia', b'1', b'0', NULL, NULL),
-                // ('F17-3626', '00042', 'ESPERANZA CASTILLO', '0000-00-00', 1080, NULL, b'0', 'COMISARIATO DE LA POLICIA NACIONAL - RUC J0130000001725', 'UN MIL OCHENTA NETOS.', 'concetorio gogia', b'1', b'0', NULL, NULL);
+                Log.d("DETALLE",SqlSyncInsertDetalles);
 
 
 
+                Push(SqlSyncInsert,SqlSyncInsertDetalles);
             }
         });
 
@@ -124,7 +164,7 @@ public class bandejaCobroActivity extends AppCompatActivity {
                                     })
                                     .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                                         public void onClick(DialogInterface dialog, int id) {
-                                            // User cancelled the dialog
+
                                         }
                                     }).create().show();
                         }else{
@@ -143,6 +183,7 @@ public class bandejaCobroActivity extends AppCompatActivity {
         });
         loadData();
     }
+
     private String ClearString(String cadena){
         String Star="RECIBO=";
         int c1 = cadena.indexOf(Star)+Star.length();
@@ -172,15 +213,11 @@ public class bandejaCobroActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_cobro,menu);
         return true;
     }
-
     private void loadData() {
         String[] from = new String[] { "RECIBO","FECHA","MONTO"};
         int[] to = new int[] { R.id.Item_Bandeja_recibo,R.id.Item_bandeja_fecha,R.id.Item_bandeja_monto};
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
-
-
         String[] datos = myDB.GetCobros(vrb.getCliente_recibo_factura());
-        //String[] datos ={"t1,t2,t3"};
         for (int c=0;c<datos.length;c++){
             String[] valores = datos[c].split(",");
             HashMap<String, String> map = new HashMap<String, String>();
@@ -193,4 +230,57 @@ public class bandejaCobroActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
     }
 
+    private void Push(String SqlPush,String SqlPushDetalle){
+        AsyncHttpClient Cnx = new AsyncHttpClient();
+        RequestParams PushDataRecibo = new RequestParams();
+        RequestParams PushDataRDetalle = new RequestParams();
+        PushDataRecibo.put("D",SqlPush);
+        PushDataRDetalle.put("D",SqlPushDetalle);
+
+
+        Cnx.post(ClssURL.getURL_doom(), PushDataRecibo, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (statusCode==200){
+                    SQLiteDatabase db = myDB.getWritableDatabase();
+                    db.execSQL("DELETE FROM Recibo");
+                }else{
+                    Error("Problemas de Conexion al Servidor de Recibos");
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Error("Problemas de Conexion al Servidor Recibos");
+            }
+        });
+
+        Cnx.post(ClssURL.getURL_doom(), PushDataRDetalle, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                if (statusCode==200){
+                    Error("La Informacion Fue Ingresada Al Servidor");
+
+                    SQLiteDatabase db = myDB.getWritableDatabase();
+                    db.execSQL("DELETE FROM RDetalle");
+                }else{
+                    Error("Problemas de Conexion al Servidor de detalle");
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Error("Problemas de Conexion al Servidor de detalle");
+            }
+        });
+
+
+    }
+    public void Error(String TipoError){
+        android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(bandejaCobroActivity.this);
+        builder.setMessage(TipoError)
+                .setNegativeButton("OK",null)
+                .create()
+                .show();
+    }
+
 }
+

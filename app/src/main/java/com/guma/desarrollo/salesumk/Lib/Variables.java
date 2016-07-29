@@ -106,4 +106,5 @@ public class Variables {
     public static void setInv_Cliente(String inv_Cliente) {
         Inv_Cliente = inv_Cliente;
     }
+
 }

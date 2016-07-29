@@ -494,6 +494,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
 
     }
+    public void SaveDetalleRecibo(String SQL){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Log.d("SQLPARAINCERT","INSERT INTO rdetalle VALUES " + SQL);
+        db.execSQL("INSERT INTO rdetalle VALUES " + SQL);
+        db.close();
+    }
     public String Datetime(){
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
@@ -559,16 +565,29 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
+    public Cursor GetInfoRDetalle(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM RDetalle WHERE IdRecibo="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
     public Cursor GetAllRecibo(){
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Recibo";
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
+    public Cursor GetAllRDetalle(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM RDetalle";
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
     public boolean DeleteRecibo(String value){
         SQLiteDatabase db = this.getWritableDatabase();
-        Log.e("Eliminar",value);
-        long result = db.delete("Recibo", "IdRecibo" + "= '" + value + "'", null);
+
+        db.delete("Recibo", "IdRecibo" + "= '" + value + "'", null);
+        long result  = db.delete("RDetalle", "IdRecibo" + "= '" + value + "'", null);
         db.close();
         if (result == -1){
             return false;

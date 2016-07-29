@@ -23,6 +23,7 @@ import android.widget.Toast;
 
 import com.guma.desarrollo.salesumk.Adapters.DatePickerFragment;
 import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
+import com.guma.desarrollo.salesumk.Lib.Funciones;
 import com.guma.desarrollo.salesumk.Lib.Numero_a_Letra;
 import com.mobsandgeeks.saripaar.Rule;
 import com.mobsandgeeks.saripaar.Validator;
@@ -37,9 +38,10 @@ public class FrmCobro_Activity extends AppCompatActivity
         implements Validator.ValidationListener{
     DataBaseHelper myDB;
     Variables vrb;
+    Funciones vrf;
     SpecialAdapter adapter=null;
 
-    Variables myVar;
+
 
 
 
@@ -81,6 +83,7 @@ public class FrmCobro_Activity extends AppCompatActivity
     private EditText NoBanco;
     private EditText ChkBanco;
     private Spinner TipoMoneda;
+    private  String SqlInsert="";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -236,15 +239,17 @@ public class FrmCobro_Activity extends AppCompatActivity
 
     private void SaveRecibo(){
 
-        //{Saldo=4981.59, VRecibido=0, Retencion=0, FacturaNo=FC002649, Descuento=0, ValorNC=0, vfactura=4981.59}
+
+
+
 
         int Tmoneda = (int) TipoMoneda.getSelectedItemId();
         boolean Inserted = false;
         Inserted = myDB.SaveRecibo(
                     CodRecibo.getText().toString(),
                     CodCliente.getText().toString(),
-                    myVar.getIdVendedor().toUpperCase().toString(),
-                    myVar.getNameVendedor().toUpperCase().toString(),
+                    vrb.getIdVendedor().toUpperCase().toString(),
+                    vrb.getNameVendedor().toUpperCase().toString(),
                     FechaRecibo.getText().toString(),
                     monto.getText().toString(),
                     TC.getText().toString(),
@@ -256,30 +261,31 @@ public class FrmCobro_Activity extends AppCompatActivity
                     NoBanco.getText().toString(),
                     ChkBanco.getText().toString()
         );
+        String CodFact = vrb.getIdVendedor().toUpperCase().toString() + "-"+CodRecibo.getText().toString();
 
 
-
-
+        //{Saldo=4981.59, VRecibido=0, Retencion=0, FacturaNo=FC002649, Descuento=0, ValorNC=0, vfactura=4981.59}
         for (int i = 0; i < vrb.getLv_list_facturaCobro().getCount(); i++) {
-        Log.d("LISTAFACTURA",vrb.getLv_list_facturaCobro().getItemAtPosition(i).toString());
-        /*    String Cadena = String.valueOf(vrb.getLv_list_facturaCobro().getItemAtPosition(i));
 
-            Cadena = Cadena.replace("{","");
-            String[] Arry = Cadena.replace("}","").split(",");
-            for (int Ar=0;Ar<Arry.length;Ar++){
-                String[] ry = Arry[Ar].split("=");
+            String Cadena = String.valueOf(vrb.getLv_list_facturaCobro().getItemAtPosition(i));
+            String Arry[] = vrf.ClearStrgList(Cadena).split(",");
 
-                //Toast.makeText(FrmCobro_Activity.this, ry[0].toString(), Toast.LENGTH_SHORT).show();
-                //Toast.makeText(FrmCobro_Activity.this, ry[1].toString(), Toast.LENGTH_SHORT).show();
+            String Factura      = Arry[3].substring(Arry[3].indexOf("=")+1);
+            String vfactura     = Arry[6].substring(Arry[6].indexOf("=")+1);
+            String NC           = Arry[5].substring(Arry[5].indexOf("=")+1);
+            String Retencion    = Arry[2].substring(Arry[2].indexOf("=")+1);
+            String Descuento    = Arry[4].substring(Arry[4].indexOf("=")+1);
+            String VRecibido    = Arry[1].substring(Arry[1].indexOf("=")+1);
+            String Saldo        = Arry[0].substring(Arry[0].indexOf("=")+1);
 
-            }
-            */
-
+            SqlInsert +="("+"'"+CodFact+"'," +"'"+Factura+"'," +""+"'"+vfactura+"',"+"'"+NC+"',"+"'"+Retencion+"',"+"'"+Descuento+"',"+"'"+VRecibido+"',"+"'"+Saldo+"'"+"),";
         }
+        SqlInsert = SqlInsert.substring(0,SqlInsert.length()-1);
+        myDB.SaveDetalleRecibo(SqlInsert);
 
         if (Inserted == true){
             Toast.makeText(this, "Datos Ingresados Correctamente", Toast.LENGTH_SHORT).show();
-            finish();
+            //finish();
         }else{
             Toast.makeText(this, "Datos No Ingresados Correctamente", Toast.LENGTH_SHORT).show();
         }
@@ -289,6 +295,7 @@ public class FrmCobro_Activity extends AppCompatActivity
 
 
     }
+
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
