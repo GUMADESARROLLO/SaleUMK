@@ -136,8 +136,8 @@ public class InfoClientesActivity extends AppCompatActivity {
     }
     private void loadData_Cliente_Factura() {
 
-        String[] from = new String[] {"Factura","Monto","Saldo"};
-        int[] to = new int[] { R.id.Item_Factura,R.id.Item_Monto,R.id.Item_Saldo};
+        String[] from = new String[] {"Factura","FechaVence","Monto","Saldo"};
+        int[] to = new int[] { R.id.Item_Factura,R.id.Item_Factura_Vence,R.id.Item_Monto,R.id.Item_Saldo};
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
 
 
@@ -145,6 +145,7 @@ public class InfoClientesActivity extends AppCompatActivity {
         if (res.getCount()==0){
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("Factura", "");
+            map.put("FechaVence", "");
             map.put("Monto", "");
             map.put("Saldo", "");
             fillMaps.add(map);
@@ -154,6 +155,7 @@ public class InfoClientesActivity extends AppCompatActivity {
                 do {
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("Factura", res.getString(0));
+                    map.put("FechaVence", res.getString(5));
                     map.put("Monto", res.getString(4));
                     map.put("Saldo", res.getString(3));
                     fillMaps.add(map);

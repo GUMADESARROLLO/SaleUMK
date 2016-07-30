@@ -192,7 +192,8 @@ public class StarredFragment extends Fragment {
                         jsonArray.getJSONObject(i).getString("CLIENTE")+ "," +
                         jsonArray.getJSONObject(i).getString("VENDEDOR")+ "," +
                         jsonArray.getJSONObject(i).getString("MONTO")+ "," +
-                        jsonArray.getJSONObject(i).getString("SALDO");
+                        jsonArray.getJSONObject(i).getString("SALDO")+ "," +
+                        jsonArray.getJSONObject(i).getString("FECHA_VENCE");
                 listado.add(texto);
             }
 
@@ -205,8 +206,8 @@ public class StarredFragment extends Fragment {
     public void CallInve(){
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
-        Intent intent = getActivity().getIntent();
-        String Vendedor = intent.getStringExtra("Vendedor");
+
+
         paramentros.put("C",myVar.getIdVendedor());
 
         Cnx.post(ClssURL.getURL_mtlc(), paramentros, new AsyncHttpResponseHandler() {
@@ -278,7 +279,8 @@ public class StarredFragment extends Fragment {
                                 items[1].toString(),
                                 items[2].toString(),
                                 items[3].toString(),
-                                items[4].toString()
+                                items[4].toString(),
+                                items[5].toString()
 
                         );
                     }

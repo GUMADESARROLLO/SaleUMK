@@ -100,7 +100,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 COL_38 +" TEXT,"+
                 COL_39 +" TEXT,"+
                 COL_40 +" TEXT, "+
-                COL_41 +" TEXT)");
+                COL_41 +" TEXT, "+
+                "FECHA_VENCE TEXT)");
 
         db.execSQL("create table " + TABLE_ARTICULO +" ("+
                 COL_3 +" TEXT,"+
@@ -326,7 +327,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         onCreate(db);
     }
 
-    public boolean insertFacturas(String FACTURA, String CLIENTE,String VENDEDOR,String MONTO, String SALDO){
+    public boolean insertFacturas(String FACTURA, String CLIENTE,String VENDEDOR,String MONTO, String SALDO,String FECHA_VENCE){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_37,FACTURA);
@@ -334,6 +335,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_39,VENDEDOR);
         contentValues.put(COL_40,MONTO);
         contentValues.put(COL_41,SALDO);
+        contentValues.put("FECHA_VENCE",FECHA_VENCE);
         long result = db.insert(TABLE_FACTURAS,null,contentValues);
         if (result == -1){
             return false;

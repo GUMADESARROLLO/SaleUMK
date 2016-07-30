@@ -165,6 +165,17 @@
                     android:textStyle="bold"
                     android:gravity="center_horizontal"
                     android:padding="10dp"
+                    android:text="FECHA VENCE"
+                    android:layout_gravity="left"
+                    />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/UmkBlanco"
+                    android:textStyle="bold"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
                     android:text="MONTO"
                     android:layout_gravity="left"
                     />
