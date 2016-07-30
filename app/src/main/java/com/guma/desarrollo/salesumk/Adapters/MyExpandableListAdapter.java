@@ -168,7 +168,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
                 ListView modeListView = new ListView(finalConvertView.getContext());
-                String[] modes = new String[] { "PEDIDO", "COBRO","VISITA"};
+                String[] modes = new String[] { "PEDIDO", "COBRO","MOTIVO DE VISITA"};
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(finalConvertView.getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
                 builder.setView(modeListView).create().show();

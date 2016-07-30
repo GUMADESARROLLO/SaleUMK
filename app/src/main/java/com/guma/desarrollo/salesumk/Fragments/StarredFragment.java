@@ -207,7 +207,7 @@ public class StarredFragment extends Fragment {
         RequestParams paramentros = new RequestParams();
         Intent intent = getActivity().getIntent();
         String Vendedor = intent.getStringExtra("Vendedor");
-        paramentros.put("C","F17");
+        paramentros.put("C",myVar.getIdVendedor());
 
         Cnx.post(ClssURL.getURL_mtlc(), paramentros, new AsyncHttpResponseHandler() {
             @Override
@@ -258,6 +258,9 @@ public class StarredFragment extends Fragment {
                 Error404("Sin Cobertura de datos.");
             }
         });
+
+
+        // TODO: 30/07/2016 QUEDA PENDIENTE AGREGAR LA FECHA DE VENCIMIENTO DE LA FACTURA
         Cnx.post(ClssURL.getURL_Factura(), paramentros, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {

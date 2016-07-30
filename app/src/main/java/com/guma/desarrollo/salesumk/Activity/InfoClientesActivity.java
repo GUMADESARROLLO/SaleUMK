@@ -73,7 +73,7 @@ public class InfoClientesActivity extends AppCompatActivity {
 
         Cursor res = myDB.InfoCliente(myVa.getInv_Cliente());
         if (res.getCount()==0){
-            datos = new String[]{"NOMBRE:", "DIRECCION:", "TELEFONO:", "SALDO:", "LIMITE CREDITO:", "DISPONIBLE", "MOROSO:"};
+            datos = new String[]{"NOMBRE:", "DIRECCION:", "TELEFONO:", "SALDO:", "LIMITE CREDITO:", "DISPONIBLE"};
 
         }else{
             if (res.moveToFirst()) {
@@ -84,8 +84,8 @@ public class InfoClientesActivity extends AppCompatActivity {
                             "TELEFONO: "+ res.getString(3),
                             "SALDO: "+ res.getString(6),
                             "LIMITE CREDITO: "+ res.getString(5),
-                            "DISPONIBLE: "+ res.getString(7),
-                            "MOROSO: "+ res.getString(4)};
+                            "DISPONIBLE: "+ res.getString(7)};
+                            //,"MOROSO: "+ res.getString(4)};
                 } while(res.moveToNext());
             }
 

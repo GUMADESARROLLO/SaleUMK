@@ -229,7 +229,6 @@ public class bandejaCobroActivity extends AppCompatActivity {
         adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_bandeja_cobro, from, to);
         lv.setAdapter(adapter);
     }
-
     private void Push(String SqlPush,String SqlPushDetalle){
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams PushDataRecibo = new RequestParams();
