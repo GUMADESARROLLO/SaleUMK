@@ -1,6 +1,7 @@
 package com.guma.desarrollo.salesumk.Fragments;
 
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -55,6 +56,8 @@ public class InboxFragment extends Fragment {
     SpecialAdapter adapter2;
     TextView txt;
     TextView id;
+    List<HashMap<String, String>> fillMaps;
+    ProgressDialog pdialog;
 
 
     @Override
@@ -131,7 +134,7 @@ public class InboxFragment extends Fragment {
 
         String[] from = new String[] {"rowid", "art", "Cantidad"};
         int[] to = new int[] { R.id.item1, R.id.item2, R.id.item3};
-        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+        fillMaps = new ArrayList<HashMap<String, String>>();
 
 
 
@@ -239,6 +242,7 @@ public class InboxFragment extends Fragment {
     public void CallInve(){
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
+        pdialog = ProgressDialog.show(getActivity(), "","Procesando. Porfavor Espere...", true);
 
         Cnx.post(ClssURL.getUrlInve(), paramentros, new AsyncHttpResponseHandler() {
             @Override
@@ -266,6 +270,7 @@ public class InboxFragment extends Fragment {
                     }
 
                     if (Inserted == true){
+
 
                     }else{
                         Error404("Error de Actualizacion de datos");
@@ -338,6 +343,9 @@ public class InboxFragment extends Fragment {
                     }
 
                     if (Inserted == true){
+                        fillMaps.clear();
+                        adapter2.notifyDataSetChanged();
+                        pdialog.dismiss();
                         loadData();
                         Toast.makeText(getActivity(), "Actualización Completada",Toast.LENGTH_SHORT).show();
 

@@ -1,7 +1,9 @@
 package com.guma.desarrollo.salesumk.Activity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.DialogFragment;
@@ -40,19 +42,17 @@ public class FrmCobro_Activity extends AppCompatActivity
     Variables vrb;
     Funciones vrf;
     SpecialAdapter adapter=null;
-
-
-
-
-
     TextView addfact;
     Spinner spinner;
-
     private EditText TC;
-
     private EditText monto;
     private EditText FechaRecibo;
     private Button BtnCallDatePciket;
+
+
+    bandejaCobroActivity Bandeja = new bandejaCobroActivity() ;
+
+
 
 
 
@@ -200,12 +200,7 @@ public class FrmCobro_Activity extends AppCompatActivity
             public void onClick(View v) {
                 FragmentManager fm = getSupportFragmentManager();
                 DialogAddFact alertDialog = new DialogAddFact();
-                //alertDialog.setArticulo(Cod);
                 alertDialog.show(fm, "dialog_addfacturarecibo");
-
-
-                //Toast.makeText(FrmCobro_Activity.this, "Llenar Lista", Toast.LENGTH_SHORT).show();
-
             }
         });
         vrb.getLv_list_facturaCobro().setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -222,13 +217,9 @@ public class FrmCobro_Activity extends AppCompatActivity
                         })
                         .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
-                                // User cancelled the dialog
+
                             }
                         }).create().show();
-
-
-                //String selectedFromList = String.valueOf(vrb.getLv_list_facturaCobro().getItemAtPosition(position));
-                //Toast.makeText(FrmCobro_Activity.this, selectedFromList, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -238,22 +229,17 @@ public class FrmCobro_Activity extends AppCompatActivity
     }
 
     private void SaveRecibo(){
-
-
-
-
-
         int Tmoneda = (int) TipoMoneda.getSelectedItemId();
         boolean Inserted = false;
         Inserted = myDB.SaveRecibo(
                     CodRecibo.getText().toString(),
                     CodCliente.getText().toString(),
-                    vrb.getIdVendedor().toUpperCase().toString(),
-                    vrb.getNameVendedor().toUpperCase().toString(),
+                    vrb.getIdVendedor().toUpperCase(),
+                    vrb.getNameVendedor().toUpperCase(),
                     FechaRecibo.getText().toString(),
                     monto.getText().toString(),
                     TC.getText().toString(),
-                    String.valueOf(Tmoneda).toString(),
+                    String.valueOf(Tmoneda),
                     Recibimosde.getText().toString(),
                     LaCantidadde.getText().toString(),
                     EnConcepto.getText().toString(),
@@ -261,7 +247,7 @@ public class FrmCobro_Activity extends AppCompatActivity
                     NoBanco.getText().toString(),
                     ChkBanco.getText().toString()
         );
-        String CodFact = vrb.getIdVendedor().toUpperCase().toString() + "-"+CodRecibo.getText().toString();
+        String CodFact = vrb.getIdVendedor().toUpperCase()+ "-"+CodRecibo.getText().toString();
 
 
         //{Saldo=4981.59, VRecibido=0, Retencion=0, FacturaNo=FC002649, Descuento=0, ValorNC=0, vfactura=4981.59}
@@ -285,7 +271,7 @@ public class FrmCobro_Activity extends AppCompatActivity
 
         if (Inserted == true){
             Toast.makeText(this, "Datos Ingresados Correctamente", Toast.LENGTH_SHORT).show();
-            //finish();
+            Back();
         }else{
             Toast.makeText(this, "Datos No Ingresados Correctamente", Toast.LENGTH_SHORT).show();
         }
@@ -296,32 +282,26 @@ public class FrmCobro_Activity extends AppCompatActivity
 
     }
 
+    public void Back(){
+        vrb.getFillMaps().clear();
+        vrb.getFillMapsBandejaCobro().clear();
+        Intent MenuIntent = new Intent(FrmCobro_Activity.this,bandejaCobroActivity.class);
+        FrmCobro_Activity.this.startActivity(MenuIntent);
+        finish();
+
+    }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
         if (id == 16908332){
-            vrb.getFillMaps().clear();
-            finish();
+            Back();
         }
         return super.onOptionsItemSelected(item);
     }
     private void loadData() {
         String[] from = new String[] { "FacturaNo","vfactura","ValorNC","Retencion","Descuento","VRecibido","Saldo"};
         int[] to = new int[] { R.id.Item_recibo,R.id.Item_vFactura,R.id.Item_VNC,R.id.Item_Retencion,R.id.Item_Descuento,R.id.Item_VRecibo,R.id.Item_Saldo};
-
-
         String[] datos ={""};
-        /*for (int c=0;c<datos.length;c++){
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("FacturaNo", datos[c]);
-            map.put("vfactura", datos[c]);
-            map.put("ValorNC", datos[c]);
-            map.put("Retencion", datos[c]);
-            map.put("Descuento", datos[c]);
-            map.put("VRecibido", datos[c]);
-            map.put("Saldo", datos[c]);
-            vrb.getFillMaps().add(map);
-        }*/
         vrb.setAdapter(new SpecialAdapter(this, vrb.getFillMaps(), R.layout.grid_item_recibo, from, to));
         vrb.getLv_list_facturaCobro().setAdapter(vrb.getAdapter());
 
@@ -332,7 +312,6 @@ public class FrmCobro_Activity extends AppCompatActivity
         int cnt = vrb.getLv_list_facturaCobro().getAdapter().getCount();
         if (cnt > 0){
             SaveRecibo();
-
         }else{
             Toast.makeText(this, "No hay Facturas Ingresadas", Toast.LENGTH_SHORT).show();
         }

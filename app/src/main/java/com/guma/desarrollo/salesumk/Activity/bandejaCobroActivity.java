@@ -1,6 +1,8 @@
 package com.guma.desarrollo.salesumk.Activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -41,13 +43,15 @@ import java.util.List;
 
 public class bandejaCobroActivity extends AppCompatActivity {
 
-    SpecialAdapter adapter;
-    ListView lv;
     Variables vrb;
     DataBaseHelper myDB;
     Funciones vrf;
     private  String SqlSyncInsert;
     private  String SqlSyncInsertDetalles;
+
+    ProgressDialog pdialog;
+
+    List<HashMap<String, String>> fillMaps;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +60,10 @@ public class bandejaCobroActivity extends AppCompatActivity {
 
         //ASGINACION DE TITULOS AL ACTIVITY
         setTitle("COBROS REALIZADOS");
+        vrb.getFillMapsBandejaCobro().clear();
 
         //INICIALIZADOR DEL LISTADO DE
-        lv = (ListView) findViewById(R.id.listview_bandeja_cobro);
+        vrb.setLv_list_facturaCobroBandejaCobro((ListView) findViewById(R.id.listview_bandeja_cobro));
 
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -81,6 +86,7 @@ public class bandejaCobroActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 //ENCABEZADOS DE LOS RECIBOS
                 Cursor res = myDB.GetAllRecibo();
                 if (res.getCount()!=0){
@@ -130,20 +136,16 @@ public class bandejaCobroActivity extends AppCompatActivity {
                         SqlSyncInsertDetalles = SqlSyncInsertDetalles.substring(0,SqlSyncInsertDetalles.length()-1);
                     }
                 }
-
-                Log.d("DETALLE",SqlSyncInsertDetalles);
-
-
-
                 Push(SqlSyncInsert,SqlSyncInsertDetalles);
             }
         });
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        vrb.getLv_list_facturaCobroBandejaCobro().setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                vrb.setIdViewRecibo(ClearString(String.valueOf(lv.getItemAtPosition(position))));
+                vrb.setIdViewRecibo(ClearString(String.valueOf(vrb.getLv_list_facturaCobroBandejaCobro().getItemAtPosition(position))));
+
 
 
                 final AlertDialog.Builder builder = new AlertDialog.Builder(bandejaCobroActivity.this);
@@ -157,6 +159,9 @@ public class bandejaCobroActivity extends AppCompatActivity {
                                         public void onClick(DialogInterface dialog, int id) {
                                             if (myDB.DeleteRecibo(vrb.getIdViewRecibo()) == true){
                                                 Toast.makeText(bandejaCobroActivity.this, "Se Elimino Correctamente el Recibo", Toast.LENGTH_LONG).show();
+                                                vrb.getFillMapsBandejaCobro().remove(position);
+                                                vrb.getAdapterBandejaCobro().notifyDataSetChanged();
+
                                             }else{
                                                 Toast.makeText(bandejaCobroActivity.this, "No se pudo Eliminar el recibo", Toast.LENGTH_LONG).show();
                                             }
@@ -197,12 +202,14 @@ public class bandejaCobroActivity extends AppCompatActivity {
         String titulo = String.valueOf(item.getTitle());
 
         if (id == 16908332){
+            vrb.getFillMapsBandejaCobro().clear();
             finish();
         }
         switch (titulo){
             case "add":
                 Intent MenuIntent = new Intent(bandejaCobroActivity.this,FrmCobro_Activity.class);
                 bandejaCobroActivity.this.startActivity(MenuIntent);
+                finish();
                 break;
 
 
@@ -216,7 +223,6 @@ public class bandejaCobroActivity extends AppCompatActivity {
     private void loadData() {
         String[] from = new String[] { "RECIBO","FECHA","MONTO"};
         int[] to = new int[] { R.id.Item_Bandeja_recibo,R.id.Item_bandeja_fecha,R.id.Item_bandeja_monto};
-        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
         String[] datos = myDB.GetCobros(vrb.getCliente_recibo_factura());
         for (int c=0;c<datos.length;c++){
             String[] valores = datos[c].split(",");
@@ -224,10 +230,18 @@ public class bandejaCobroActivity extends AppCompatActivity {
             map.put("RECIBO", valores[0]);
             map.put("FECHA", valores[1]);
             map.put("MONTO", valores[2]);
-            fillMaps.add(map);
+            vrb.getFillMapsBandejaCobro().add(map);
         }
-        adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_bandeja_cobro, from, to);
-        lv.setAdapter(adapter);
+        //vrb.adapter = new SpecialAdapter(this, vrb.getFillMapsBandejaCobro(), R.layout.grid_item_bandeja_cobro, from, to);
+        //lv.setAdapter(adapter);
+
+        vrb.setAdapterBandejaCobro(new SpecialAdapter(this, vrb.getFillMapsBandejaCobro(), R.layout.grid_item_bandeja_cobro, from, to));
+        vrb.getLv_list_facturaCobroBandejaCobro().setAdapter(vrb.getAdapterBandejaCobro());
+
+
+
+
+
     }
     private void Push(String SqlPush,String SqlPushDetalle){
         AsyncHttpClient Cnx = new AsyncHttpClient();
@@ -236,7 +250,7 @@ public class bandejaCobroActivity extends AppCompatActivity {
         PushDataRecibo.put("D",SqlPush);
         PushDataRDetalle.put("D",SqlPushDetalle);
 
-
+        pdialog = ProgressDialog.show(bandejaCobroActivity.this, "","Procesando. Porfavor Espere...", true);
         Cnx.post(ClssURL.getURL_doom(), PushDataRecibo, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -257,6 +271,10 @@ public class bandejaCobroActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 if (statusCode==200){
+
+                    vrb.getFillMapsBandejaCobro().clear();
+                    vrb.getAdapterBandejaCobro().notifyDataSetChanged();
+                    pdialog.dismiss();
                     Error("La Informacion Fue Ingresada Al Servidor");
 
                     SQLiteDatabase db = myDB.getWritableDatabase();
@@ -272,6 +290,9 @@ public class bandejaCobroActivity extends AppCompatActivity {
         });
 
 
+
+
+
     }
     public void Error(String TipoError){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(bandejaCobroActivity.this);
@@ -280,6 +301,7 @@ public class bandejaCobroActivity extends AppCompatActivity {
                 .create()
                 .show();
     }
+
 
 }
 

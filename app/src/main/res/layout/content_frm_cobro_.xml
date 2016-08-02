@@ -64,6 +64,7 @@
                     android:layout_height="40dp"
                     android:id="@+id/spinner"/>
                 <EditText
+                    android:inputType="numberDecimal"
                     android:id="@+id/txtVRecibo"
                     android:textColor="@color/UmkAzulOscuro"
                     android:layout_weight="1"
@@ -72,12 +73,14 @@
                     android:hint="Monto" />
                 <EditText
                     android:id="@+id/txtRCliente"
+                    android:enabled="false"
                     android:textColor="@color/UmkAzulOscuro"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Cod.Cliente" />
                 <EditText
+                    android:inputType="number"
                     android:id="@+id/txtCodRC"
                     android:textColor="@color/UmkAzulOscuro"
                     android:layout_weight="1"
@@ -115,6 +118,7 @@
                 <AutoCompleteTextView
                     android:id="@+id/txtDateR"
                     android:layout_weight="1"
+                    android:enabled="false"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:hint="Fecha"
@@ -143,6 +147,7 @@
                 <EditText
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:enabled="false"
                     android:hint="Recibimos de:"
                     android:textColor="@color/UmkAzulOscuro"
                     android:layout_height="wrap_content"
@@ -162,6 +167,7 @@
                 <EditText
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:enabled="false"
                     android:hint="La Cantidad de:"
                     android:textColor="@color/UmkAzulOscuro"
                     android:layout_height="wrap_content"

@@ -1,5 +1,6 @@
 package com.guma.desarrollo.salesumk.Fragments;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -45,6 +46,9 @@ public class StarredFragment extends Fragment {
     ArrayAdapter<String> adapter;
     SpecialAdapter adapter2;
     TextView txt;
+
+    ProgressDialog pdialog;
+    List<HashMap<String, String>> fillMaps;
 
 
     @Override
@@ -118,7 +122,7 @@ public class StarredFragment extends Fragment {
         String[] from = new String[] {"rowid", "namecliente", "telefono"};
         int[] to = new int[] { R.id.item1, R.id.item2, R.id.item3};
 
-        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+        fillMaps = new ArrayList<HashMap<String, String>>();
 
         Cursor res =  myDB.GetData("CLIENTES");
         if (res.moveToFirst()) {
@@ -206,9 +210,9 @@ public class StarredFragment extends Fragment {
     public void CallInve(){
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
-
-
         paramentros.put("C",myVar.getIdVendedor());
+
+        pdialog = ProgressDialog.show(getActivity(), "","Procesando. Porfavor Espere...", true);
 
         Cnx.post(ClssURL.getURL_mtlc(), paramentros, new AsyncHttpResponseHandler() {
             @Override
@@ -286,6 +290,9 @@ public class StarredFragment extends Fragment {
                     }
 
                     if (Inserted == true){
+                        fillMaps.clear();
+                        adapter2.notifyDataSetChanged();
+                        pdialog.dismiss();
                         loadData();
                         Toast.makeText(getActivity(), "Actualización completada",Toast.LENGTH_SHORT).show();
 

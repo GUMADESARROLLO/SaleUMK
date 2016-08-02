@@ -20,6 +20,38 @@ public class Variables {
     private static String Cliente_Name_recibo_factura;
     private static String idViewRecibo;
 
+    private static ListView lv_list_facturaCobro;
+    private static SpecialAdapter adapter = null;
+    private static List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+
+    private static ListView lv_list_facturaCobroBandejaCobro;
+    private static SpecialAdapter adapterBandejaCobro = null;
+    private static List<HashMap<String, String>> fillMapsBandejaCobro = new ArrayList<HashMap<String, String>>();
+
+    public static ListView getLv_list_facturaCobroBandejaCobro() {
+        return lv_list_facturaCobroBandejaCobro;
+    }
+
+    public static void setLv_list_facturaCobroBandejaCobro(ListView lv_list_facturaCobroBandejaCobro) {
+        Variables.lv_list_facturaCobroBandejaCobro = lv_list_facturaCobroBandejaCobro;
+    }
+
+    public static SpecialAdapter getAdapterBandejaCobro() {
+        return adapterBandejaCobro;
+    }
+
+    public static void setAdapterBandejaCobro(SpecialAdapter adapterBandejaCobro) {
+        Variables.adapterBandejaCobro = adapterBandejaCobro;
+    }
+
+    public static List<HashMap<String, String>> getFillMapsBandejaCobro() {
+        return fillMapsBandejaCobro;
+    }
+
+    public static void setFillMapsBandejaCobro(List<HashMap<String, String>> fillMapsBandejaCobro) {
+        Variables.fillMapsBandejaCobro = fillMapsBandejaCobro;
+    }
+
     public static String getIdViewRecibo() {
         return idViewRecibo;
     }
@@ -36,9 +68,7 @@ public class Variables {
         Cliente_Name_recibo_factura = cliente_Name_recibo_factura;
     }
 
-    private static ListView lv_list_facturaCobro;
-    private static SpecialAdapter adapter = null;
-    private static List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+
 
     public static List<HashMap<String, String>> getFillMaps() {
         return fillMaps;
