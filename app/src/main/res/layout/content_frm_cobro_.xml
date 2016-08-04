@@ -2,13 +2,14 @@
 
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:scrollbars="vertical"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:weightSum="1">
+    android:weightSum="1"
+    android:orientation="vertical">
 
 
 
@@ -20,7 +21,7 @@
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="4dp"
         card_view:cardUseCompatPadding="true"
-        >
+        android:layout_weight="0.33">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -188,6 +189,7 @@
                 <EditText
                     android:layout_width="0dp"
                     android:layout_weight="1"
+                    android:maxLines="1"
                     android:hint="En Concepto de:"
                     android:textColor="@color/UmkAzulOscuro"
                     android:layout_height="wrap_content"
@@ -210,7 +212,7 @@
         card_view:cardCornerRadius="4dp"
         card_view:cardElevation="4dp"
         card_view:cardUseCompatPadding="true"
-        >
+        android:layout_weight="0.33">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -335,8 +337,9 @@
         android:layout_marginTop="10dp"
         android:padding="10dp"
         android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal" >
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_weight="0.33">
 
         <RadioGroup xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/opciones_banco"

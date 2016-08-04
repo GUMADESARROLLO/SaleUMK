@@ -10,7 +10,10 @@
         <item name="colorControlHighlight">@color/md_indigo_500_25</item>
         <item name="android:windowBackground">@color/md_white_1000</item>
     </style>
-
+    <style name="Etiquetas">
+        <item name="android:background">@drawable/ic_add_white_24dp</item>
+        <item name="android:textColor">@color/UmkBlanco</item>
+    </style>
     <style name="Base.AppTheme.Pedido" parent="Theme.AppCompat.Light">
         <item name="colorPrimary">@color/md_indigo_500</item>
         <item name="colorPrimaryDark">@color/md_indigo_700</item>

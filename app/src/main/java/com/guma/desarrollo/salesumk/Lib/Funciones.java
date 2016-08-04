@@ -23,5 +23,19 @@ public class Funciones {
         //Cadena = Cadena.replace("=","");
     return Cadena;
     }
+    public static String prefixZero(String Str){
+        if (Str.length()<=9){
+            Str = "0" +Str;
+        }
+        return Str;
+    }
+    public static String prefixCod(String Str){
+        int Start = Str.indexOf("[");
+        int End = Str.indexOf("]");
+        Str = Str.substring(Start+1,End);
+        return Str;
+    }
+
+
 
 }

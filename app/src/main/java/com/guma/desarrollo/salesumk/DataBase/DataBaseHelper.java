@@ -141,21 +141,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table  AE" +
                 " (" +
-                "       IdPlan            INTEGER," +
+                "       IdPlan            TEXT(10)," +
                 "       IdCliente         TEXT(50)," +
                 "       IdAE              INTEGER," +
                 "       IdEje             INTEGER," +
-                "       Contacto1         BOOLEAN," +
-                "       Contacto2         BOOLEAN," +
+                "       Contacto1         INTEGER(1)," +
+                "       Contacto2         INTEGER(1)," +
                 "       Observacion       TEXT(250)," +
                 "       Fecha             DATETIME" +
                 ")");
 
         db.execSQL("create table  Agenda" +
                 " (" +
-                "       IdPlan            INTEGER primary key not null," +
-                "       IdVendedor        TEXT(10)," +
-                "       Nombre            TEXT(50)," +
+                "       IdPlan            TEXT(10) primary key not null," +
+                "       Vendedor          TEXT(150)," +
                 "       Ruta              TEXT(10)," +
                 "       Zona              TEXT(50)," +
                 "       Revisado          TEXT(100)" +
@@ -187,8 +186,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Vendedor          TEXT(150)," +
                 "       Cliente           TEXT(150)," +
                 "       Direccion         TEXT(250)," +
-                "       TM                BOOLEAN," +
-                "       FP                BOOLEAN," +
+                "       TM                INTEGER(1)," +
+                "       FP                INTEGER(1)," +
                 "       Plazo             TEXT(50)," +
                 "       Descuento         NUMERIC," +
                 "       IVA               NUMERIC," +
@@ -215,31 +214,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Fecha             DATETIME," +
                 "       MRecibido         NUMERIC," +
                 "       TC                NUMERIC," +
-                "       TM                BOOLEAN," +
+                "       TM                INTEGER(1)," +
                 "       Recibimos         TEXT(250)," +
                 "       LCantidad         TEXT(250)," +
                 "       Concepto          TEXT(250)," +
-                "       Efectivo          BOOLEAN," +
-                "       CHK               BOOLEAN," +
+                "       Efectivo          INTEGER(1)," +
+                "       CHK               INTEGER(1)," +
                 "       NumCHK            TEXT(50)," +
                 "       Banco             TEXT(100)" +
                 ")");
 
-        db.execSQL("create table  Semanas" +
-                " (" +
-                "       IdPlan            INTEGER," +
-                "       Semana            INTEGER" +
-                ")");
 
-       /* db.execSQL("CREATE TABLE Usuarios ("+
-                "UsuarioID  TEXT PRIMARY KEY NOT NULL,"+
-                "CodVendedor  TEXT(10),"+
-                "NombreUsuario  TEXT(100),"+
-                "Password  TEXT(20),"+
-                "Privilegio  INTEGER,"+
-                "Activo  BLOB,"+
-                "FechaCreacion  TEXT"+
-                ")");*/
+
+
         db.execSQL("create table  Usuarios" +
                 " (" +
                 "       UsuarioID         INTEGER primary key not null," +
@@ -247,13 +234,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       NombreUsuario     TEXT(100)," +
                 "       Password          TEXT(20)," +
                 "       Privilegio        INTEGER," +
-                "       Activo            BOOLEAN," +
+                "       Activo            INTEGER(1)," +
                 "       FechaCreacion     DATETIME" +
                 ")");
 
         db.execSQL("create table  VClientes" +
                 " (" +
-                "       IdPlan            INTEGER," +
+                "       IdPlan            TEXT(10)," +
                 "       Lunes             TEXT(50)," +
                 "       Martes            TEXT(50)," +
                 "       Miercoles         TEXT(50)," +
@@ -265,17 +252,17 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table  Visitas" +
                 " (" +
-                "       IdPlan            INTEGER references VClientes(IdPlan) not null," +
+                "       IdPlan            TEXT(10) ," +
                 "       IdCliente         TEXT(50)," +
                 "       Fecha             DATETIME," +
-                "       Visitado          BOOLEAN" +
+                "       Visitado          INTEGER(1)" +
                 ")");
         
         db.execSQL("create table  GVendedor" +
                 " (" +
                 "       UsuarioID         INTEGER," +
                 "       IdVendedor        TEXT(10)," +
-                "       Activa            BOOLEAN," +
+                "       Activa            INTEGER(1)," +
                 "       FechaB            DATETIME" +
                 ");");
 
@@ -298,8 +285,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS DPedido ");
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS Agenda ");
-        onCreate(db);
-        db.execSQL("DROP TABLE IF EXISTS Semanas ");
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS AE ");
         onCreate(db);
@@ -561,6 +546,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return vareturn;
     }
+
     public Cursor GetInfoRecibo(String Id){
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Recibo WHERE IdRecibo="+ '"'+ Id.trim()+'"';

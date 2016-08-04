@@ -3,7 +3,9 @@ package com.guma.desarrollo.salesumk.Adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,18 +22,23 @@ import com.guma.desarrollo.salesumk.Activity.BandejaPedido;
 import com.guma.desarrollo.salesumk.Activity.CrearSaleActivity;
 import com.guma.desarrollo.salesumk.Activity.ObservacionActivity;
 import com.guma.desarrollo.salesumk.Activity.bandejaCobroActivity;
+import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
 import com.guma.desarrollo.salesumk.Lib.ChildRow;
+import com.guma.desarrollo.salesumk.Lib.Funciones;
 import com.guma.desarrollo.salesumk.Lib.ParentRow;
 import com.guma.desarrollo.salesumk.R;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by marangelo.php on 13/06/2016.
  */
 public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     Variables vrb;
+    Funciones vrf;
+    DataBaseHelper myDB;
 
 
 
@@ -89,7 +96,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
-        ParentRow parentRow = (ParentRow) getGroup(groupPosition);
+
+        final ParentRow parentRow = (ParentRow) getGroup(groupPosition);
         if (convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater)
                     context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -101,18 +109,42 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
         final View finalConvertView = convertView;
 
+        myDB = new DataBaseHelper(finalConvertView.getContext());
+
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                final CharSequence[] items = {"Cliente 1","Cliente 2"};
+                Cursor res =  myDB.GetData("CLIENTES");
+                int i=0;
+                String Cde="";
+                //final CharSequence[] items = new CharSequence[res.getCount()];
+                if (res.moveToFirst()) {
+
+                    do {
+                        //items[i] =  "["+res.getString(0)+"]"+res.getString(1);
+                        Cde += "["+res.getString(0)+"] "+res.getString(1)+",";
+
+
+
+                    } while(res.moveToNext());
+
+                    Cde = Cde.substring(0,Cde.length()-1);
+
+
+                }
+                final CharSequence[] items =Cde.split(",");
+                //Toast.makeText(finalConvertView.getContext(), String.valueOf(Cde), Toast.LENGTH_LONG).show();
+
 
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
                 builder.setSingleChoiceItems(items,-1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
-                        Toast.makeText(finalConvertView.getContext(), items[item], Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(finalConvertView.getContext(), parentRow.getName(), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(finalConvertView.getContext(), vrf.prefixCod(items[item].toString()), Toast.LENGTH_SHORT).show();
 
                     }
                 }).create().show();
