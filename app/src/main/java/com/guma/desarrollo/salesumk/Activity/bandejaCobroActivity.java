@@ -288,11 +288,6 @@ public class bandejaCobroActivity extends AppCompatActivity {
                 Error("Problemas de Conexion al Servidor de detalle");
             }
         });
-
-
-
-
-
     }
     public void Error(String TipoError){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(bandejaCobroActivity.this);

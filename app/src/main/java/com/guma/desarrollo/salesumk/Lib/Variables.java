@@ -20,6 +20,16 @@ public class Variables {
     private static String Cliente_Name_recibo_factura;
     private static String idViewRecibo;
 
+    private  static String IdPlan;
+
+    public static String getIdPlan() {
+        return IdPlan;
+    }
+
+    public static void setIdPlan(String idPlan) {
+        IdPlan = idPlan;
+    }
+
     private static ListView lv_list_facturaCobro;
     private static SpecialAdapter adapter = null;
     private static List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();

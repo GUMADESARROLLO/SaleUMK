@@ -21,6 +21,13 @@
             android:gravity="right"
 
             >
+            <TextView
+                android:id="@+id/idplan"
+                android:text="Error"
+
+                android:textColor="@color/UmkBlanco"
+                android:layout_width="100dp"
+                android:layout_height="match_parent" />
             <ImageView
                 android:id="@+id/uno"
                 android:layout_width="100dp"

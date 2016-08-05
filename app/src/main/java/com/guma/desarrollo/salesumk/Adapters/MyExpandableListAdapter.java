@@ -106,45 +106,33 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         TextView heading = (TextView) convertView.findViewById(R.id.parent_row);
         TextView add = (TextView) convertView.findViewById(R.id.add_cls);
 
-
         final View finalConvertView = convertView;
-
         myDB = new DataBaseHelper(finalConvertView.getContext());
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Cursor res =  myDB.GetData("CLIENTES");
                 int i=0;
                 String Cde="";
-                //final CharSequence[] items = new CharSequence[res.getCount()];
                 if (res.moveToFirst()) {
-
                     do {
-                        //items[i] =  "["+res.getString(0)+"]"+res.getString(1);
                         Cde += "["+res.getString(0)+"] "+res.getString(1)+",";
 
-
-
                     } while(res.moveToNext());
-
                     Cde = Cde.substring(0,Cde.length()-1);
-
-
                 }
                 final CharSequence[] items =Cde.split(",");
-                //Toast.makeText(finalConvertView.getContext(), String.valueOf(Cde), Toast.LENGTH_LONG).show();
-
-
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
                 builder.setSingleChoiceItems(items,-1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
-
-                        Toast.makeText(finalConvertView.getContext(), parentRow.getName(), Toast.LENGTH_SHORT).show();
-                        Toast.makeText(finalConvertView.getContext(), vrf.prefixCod(items[item].toString()), Toast.LENGTH_SHORT).show();
+                        if (myDB.UpdateVCliente(vrb.getIdPlan(),parentRow.getName(),vrf.prefixCod(items[item].toString()))==true){
+                            Toast.makeText(finalConvertView.getContext(), "Correcto", Toast.LENGTH_SHORT).show();
+                        }else{
+                            Toast.makeText(finalConvertView.getContext(), "Incorrecto", Toast.LENGTH_SHORT).show();
+                        }
 
                     }
                 }).create().show();
@@ -200,7 +188,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             public void onClick(View v) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
                 ListView modeListView = new ListView(finalConvertView.getContext());
-                String[] modes = new String[] { "PEDIDO", "COBRO","MOTIVO DE VISITA"};
+                //String[] modes = new String[] { "PEDIDO", "COBRO","MOTIVO DE VISITA"};
+                String[] modes = new String[] { "COBRO"};
                 ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(finalConvertView.getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, modes);
                 modeListView.setAdapter(modeAdapter);
                 builder.setView(modeListView).create().show();
@@ -212,8 +201,15 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                         switch (position){
+                            case 0:
+                                Intent Mint2 = new Intent(finalConvertView.getContext(),bandejaCobroActivity.class);
+                                finalConvertView.getContext().startActivity(Mint2);
+                                break;
+
+                        }
+
+                        /*switch (position){
                             case 0:
                                 Intent Mint = new Intent(finalConvertView.getContext(),BandejaPedido.class);
                                 finalConvertView.getContext().startActivity(Mint);
@@ -227,7 +223,7 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                                 Intent Mint3 = new Intent(finalConvertView.getContext(),ObservacionActivity.class);
                                 finalConvertView.getContext().startActivity(Mint3);
                                 break;
-                        }
+                        }*/
 
                     }
                 });

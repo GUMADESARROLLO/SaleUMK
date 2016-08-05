@@ -5,7 +5,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.renderscript.Sampler;
+import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import java.text.DateFormat;
@@ -241,12 +244,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table  VClientes" +
                 " (" +
                 "       IdPlan            TEXT(10)," +
-                "       Lunes             TEXT(50)," +
-                "       Martes            TEXT(50)," +
-                "       Miercoles         TEXT(50)," +
-                "       Jueves            TEXT(50)," +
-                "       Viernes           TEXT(50)," +
-                "       Sabado            TEXT(50)," +
+                "       Lunes             TEXT(250)," +
+                "       Martes            TEXT(250)," +
+                "       Miercoles         TEXT(250)," +
+                "       Jueves            TEXT(250)," +
+                "       Viernes           TEXT(250)," +
+                "       Sabado            TEXT(250)," +
                 "       Observaciones     TEXT(250)" +
                 ")");
 
@@ -558,6 +561,117 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         String Query = "SELECT * FROM RDetalle WHERE IdRecibo="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
+    }
+    public Cursor GetPlanTrabajo(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM Agenda WHERE Ruta="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor PushAgenda(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM Agenda WHERE IdPlan="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor PushVCliente(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM VClientes WHERE IdPlan="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public int GetCountPlanTrabajo(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM Agenda WHERE IdPlan="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res.getCount();
+    }
+    public boolean UpdateVCliente(String Id,String Dia,String Cliente){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String Query = "SELECT * FROM VClientes WHERE IdPlan="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        if (res.getCount()==0){
+        }else{
+            if (res.moveToFirst()) {
+                do {
+                    switch(Dia) {
+                        case "LUNES":
+                            if (TextUtils.isEmpty(res.getString(1))){
+                                values.put("Lunes", Cliente);
+                            }else{
+                                values.put("Lunes", res.getString(1)+","+Cliente);
+                            }
+                            break;
+                        case "MARTES":
+                            if (TextUtils.isEmpty(res.getString(2))){
+                                values.put("Martes", Cliente);
+                            }else{
+                                values.put("Martes", res.getString(2)+","+Cliente);
+                            }
+                            break;
+                        case "MIERCOLES":
+                            if (TextUtils.isEmpty(res.getString(3))){
+                                values.put("Miercoles", Cliente);
+                            }else{
+                                values.put("Miercoles", res.getString(3)+","+Cliente);
+                            }
+                            break;
+                        case "JUEVES":
+                            if (TextUtils.isEmpty(res.getString(4))){
+                                values.put("Jueves", Cliente);
+                            }else{
+                                values.put("Jueves", res.getString(4)+","+Cliente);
+                            }
+                            break;
+                        case "VIERNES":
+                            if (TextUtils.isEmpty(res.getString(5))){
+                                values.put("Viernes", Cliente);
+                            }else{
+                                values.put("Viernes", res.getString(5)+","+Cliente);
+                            }
+                            break;
+                    }
+                } while(res.moveToNext());
+            }
+        }
+        long result  = db.update("VClientes", values, "IdPlan" + "= '" + Id + "'", null);
+        db.close();
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    public boolean insertPlanTRabajo(String ID,String Vendedor,String Ruta,String Zona,String Revisado){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        ContentValues Agenda= new ContentValues();
+        ContentValues VClientes = new ContentValues();
+
+        Agenda.put("IdPlan",ID);
+        Agenda.put("Vendedor",Vendedor);
+        Agenda.put("Ruta",Ruta);
+        Agenda.put("Zona",Zona);
+        Agenda.put("Revisado",Revisado);
+        long result = db.insert("Agenda",null,Agenda);
+
+        VClientes.put("IdPlan",ID);
+        VClientes.put("Lunes","");
+        VClientes.put("Martes","");
+        VClientes.put("Miercoles","");
+        VClientes.put("Jueves","");
+        VClientes.put("Viernes","");
+        VClientes.put("Sabado","");
+        VClientes.put("Observaciones","");
+        db.insert("VClientes",null,VClientes);
+
+
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
     }
     public Cursor GetAllRecibo(){
         SQLiteDatabase db = this.getWritableDatabase();

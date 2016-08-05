@@ -24,7 +24,7 @@ public class Funciones {
     return Cadena;
     }
     public static String prefixZero(String Str){
-        if (Str.length()<=9){
+        if (Integer.parseInt(Str)<=9){
             Str = "0" +Str;
         }
         return Str;
