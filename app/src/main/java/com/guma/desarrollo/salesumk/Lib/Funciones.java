@@ -1,5 +1,8 @@
 package com.guma.desarrollo.salesumk.Lib;
 
+import android.location.LocationListener;
+import android.location.LocationManager;
+
 /**
  * Created by marangelo.php on 29/07/2016.
  */
@@ -7,7 +10,6 @@ public class Funciones {
 
     public Funciones() {
     }
-
     public static String DateFormat(String Cadena){
 
         String PartDate[] = Cadena.split("/");
@@ -35,7 +37,6 @@ public class Funciones {
         Str = Str.substring(Start+1,End);
         return Str;
     }
-
 
 
 }

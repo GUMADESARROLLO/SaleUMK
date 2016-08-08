@@ -568,6 +568,72 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
+    public boolean DeleteClienteDia(String Id,int Dia,String Cliente){
+        String[] Semana = {"Lunes","Martes","Miercoles","Jueves","Viernes"};
+        String NewCadena="";
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        String Query = "SELECT "+ Semana[Dia] +" FROM VClientes WHERE IdPlan="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+
+        if (res.getCount()==0){
+        }else{
+            if (res.moveToFirst()) {
+                do {
+                    String[] Arrays = res.getString(0).replace(Cliente,"").split(",");
+                    for (int r=0;r < Arrays.length;r++){
+                        if (!TextUtils.isEmpty(Arrays[r])){
+                            NewCadena +=Arrays[r]+",";
+                        }
+                    }
+                } while(res.moveToNext());
+            }
+        }
+        if (NewCadena.length()!=0){
+            NewCadena = NewCadena.substring(0,NewCadena.length()-1);
+        }
+
+        values.put(Semana[Dia], NewCadena);
+        long result  = db.update("VClientes", values, "IdPlan" + "= '" + Id + "'", null);
+        db.close();
+
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    public String[] GetDiaPlanTrabajo(String Id,String Dia){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT ifnull("+ Dia +",0) As "+ Dia +"  FROM VClientes WHERE IdPlan="+ '"'+ Id.trim()+'"';
+
+        Cursor res = db.rawQuery(Query ,null);
+        int i=0;
+        String Clientes[] = new String[res.getCount()];
+        if (res.getCount()!=0){
+            if (res.moveToFirst()) {
+                do {
+                    Clientes[i] = "WHERE CLIENTE IN ('" + res.getString(0).replace(",","','") + "')";
+                    i++;
+                } while(res.moveToNext());
+            }
+        }
+        String QueryWhoCliente ="SELECT CLIENTE,NOMBRE FROM CLIENTES " + Clientes[0];
+        Cursor resWhoCliente = db.rawQuery(QueryWhoCliente,null);
+        String Resultado[] = new String[resWhoCliente.getCount()];
+        int c=0;
+        if (resWhoCliente.getCount()!=0){
+            if (resWhoCliente.moveToFirst()) {
+                do {
+                    Resultado[c] = resWhoCliente.getString(0)+ "_"+resWhoCliente.getString(1) ;
+                    c++;
+                } while(resWhoCliente.moveToNext());
+            }
+        }
+
+
+        return Resultado;
+    }
     public Cursor PushAgenda(String Id){
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Agenda WHERE IdPlan="+ '"'+ Id.trim()+'"';

@@ -14,6 +14,7 @@ import android.widget.ArrayAdapter;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.guma.desarrollo.salesumk.Activity.CrearSaleActivity;
 import com.guma.desarrollo.salesumk.Activity.ObservacionActivity;
 import com.guma.desarrollo.salesumk.Activity.bandejaCobroActivity;
 import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
+import com.guma.desarrollo.salesumk.Fragments.AgendadosCls;
 import com.guma.desarrollo.salesumk.Lib.ChildRow;
 import com.guma.desarrollo.salesumk.Lib.Funciones;
 import com.guma.desarrollo.salesumk.Lib.ParentRow;
@@ -104,56 +106,54 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
             convertView = layoutInflater.inflate(R.layout.parent_row,null);
         }
         TextView heading = (TextView) convertView.findViewById(R.id.parent_row);
-        TextView add = (TextView) convertView.findViewById(R.id.add_cls);
+
+
+
 
         final View finalConvertView = convertView;
         myDB = new DataBaseHelper(finalConvertView.getContext());
 
-        add.setOnClickListener(new View.OnClickListener() {
+        convertView.findViewById(R.id.add_cls).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Cursor res =  myDB.GetData("CLIENTES");
-                int i=0;
                 String Cde="";
                 if (res.moveToFirst()) {
                     do {
                         Cde += "["+res.getString(0)+"] "+res.getString(1)+",";
-
                     } while(res.moveToNext());
                     Cde = Cde.substring(0,Cde.length()-1);
                 }
-                final CharSequence[] items =Cde.split(",");
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
+                final CharSequence[] items = Cde.split(",");
+                final int[] ItemSelect = {0};
+                final AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
                 builder.setSingleChoiceItems(items,-1, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {
-                        if (myDB.UpdateVCliente(vrb.getIdPlan(),parentRow.getName(),vrf.prefixCod(items[item].toString()))==true){
+                        ItemSelect[0] = item;
+                    }
+                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (myDB.UpdateVCliente(vrb.getIdPlan(),parentRow.getName(),vrf.prefixCod(items[ItemSelect[0]].toString()))==true){
                             Toast.makeText(finalConvertView.getContext(), "Correcto", Toast.LENGTH_SHORT).show();
+                            notifyDataSetChanged();
                         }else{
                             Toast.makeText(finalConvertView.getContext(), "Incorrecto", Toast.LENGTH_SHORT).show();
                         }
 
                     }
+                }).setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
                 }).create().show();
-               /*
-                LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                builder.setView(inflater.inflate(R.layout.fragment_starred, null))
-                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                // sign in the user ...
-                            }
-                        })
-                        .setNegativeButton("NEL", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
 
-                            }
-                        }).create().show();*/
-
-                //Toast.makeText(finalConvertView.getContext(), "AGREGA AL PUTO!!!....", Toast.LENGTH_SHORT).show();
             }
         });
+
 
 
         heading.setText(parentRow.getName().trim());
@@ -162,71 +162,61 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
 
 
     @Override
-    public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
+    public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
         final ChildRow childRow = (ChildRow) getChild(groupPosition,childPosition);
         if (convertView == null){
             LayoutInflater layoutInflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
             convertView = layoutInflater.inflate(R.layout.child_row,null);
         }
-        ImageView childIcon = (ImageView) convertView.findViewById(R.id.icon);
-        childIcon.setImageResource(R.drawable.ic_close_black_36dp);
+
+
         final TextView childText = (TextView) convertView.findViewById(R.id.chil_text);
         childText.setText(childRow.getText().trim());
         final TextView childCod = (TextView) convertView.findViewById(R.id.chil_text_cod);
         childCod.setText(childRow.getCod().trim());
         final View finalConvertView = convertView;
-        childIcon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-               Toast.makeText(finalConvertView.getContext(), childCod.getText(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
         childText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
-                ListView modeListView = new ListView(finalConvertView.getContext());
-                //String[] modes = new String[] { "PEDIDO", "COBRO","MOTIVO DE VISITA"};
-                String[] modes = new String[] { "COBRO"};
-                ArrayAdapter<String> modeAdapter = new ArrayAdapter<>(finalConvertView.getContext(),android.R.layout.simple_list_item_1, android.R.id.text1, modes);
-                modeListView.setAdapter(modeAdapter);
-                builder.setView(modeListView).create().show();
-
+                final AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
+                final CharSequence[]items = { "PEDIDO", "COBRO","MOTIVO DE VISITA","ELIMINAR"};
                 vrb.setCliente_Name_recibo_factura(childText.getText().toString());
                 vrb.setCliente_recibo_factura(childCod.getText().toString());
-
-                //Toast.makeText(finalConvertView.getContext(), "Grupo: "+String.valueOf(grupo)+" Posicion "+String.valueOf(childPosition), Toast.LENGTH_SHORT).show();
-                modeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        switch (position){
-                            case 0:
+                builder.setTitle( "CLIENTE: " + childCod.getText().toString());
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (items[item].equals(items[0])){
+                            Intent Mint = new Intent(finalConvertView.getContext(),BandejaPedido.class);
+                            finalConvertView.getContext().startActivity(Mint);
+                        }else{
+                            if (items[item].equals(items[1])){
                                 Intent Mint2 = new Intent(finalConvertView.getContext(),bandejaCobroActivity.class);
                                 finalConvertView.getContext().startActivity(Mint2);
-                                break;
+                            }else{
+                                if (items[item].equals(items[2])){
+                                    Intent Mint3 = new Intent(finalConvertView.getContext(),ObservacionActivity.class);
+                                    finalConvertView.getContext().startActivity(Mint3);
+                                }else{
+                                    builder.setMessage("Desea Eliminar este Registro")
+                                            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
+                                                    myDB.DeleteClienteDia(vrb.getIdPlan(),groupPosition,childCod.getText().toString());
+                                                    Toast.makeText(finalConvertView.getContext(), "REGISTRO ELIMINADO", Toast.LENGTH_SHORT).show();
+                                                }
+                                            })
+                                            .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                                                public void onClick(DialogInterface dialog, int id) {
 
+                                                }
+                                            }).create().show();
+                                }
+
+                            }
                         }
 
-                        /*switch (position){
-                            case 0:
-                                Intent Mint = new Intent(finalConvertView.getContext(),BandejaPedido.class);
-                                finalConvertView.getContext().startActivity(Mint);
-
-                                break;
-                            case 1:
-                                Intent Mint2 = new Intent(finalConvertView.getContext(),bandejaCobroActivity.class);
-                                finalConvertView.getContext().startActivity(Mint2);
-                                break;
-                            case 2:
-                                Intent Mint3 = new Intent(finalConvertView.getContext(),ObservacionActivity.class);
-                                finalConvertView.getContext().startActivity(Mint3);
-                                break;
-                        }*/
 
                     }
-                });
+                }).create().show();
 
             }
         });
@@ -239,9 +229,12 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
     }
     public void filterData(String query){
 
-        query = query.toLowerCase();
+
         parentRowList.clear();
-        if (query.isEmpty()){
+        parentRowList.addAll(originalList);
+        //query = query.toLowerCase();
+       // parentRowList.clear();
+        /*if (query.isEmpty()){
             parentRowList.addAll(originalList);
         }else{
 
@@ -260,7 +253,8 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
                 }
             }
 
-        }
+        }*/
         notifyDataSetChanged();
     }
+
 }

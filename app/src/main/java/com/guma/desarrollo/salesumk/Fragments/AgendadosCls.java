@@ -3,6 +3,7 @@ package com.guma.desarrollo.salesumk.Fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -36,14 +37,18 @@ import com.mobsandgeeks.saripaar.annotation.Required;
 import com.mobsandgeeks.saripaar.annotation.TextRule;
 
 import org.apache.http.Header;
+import org.apache.http.util.LangUtils;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
+// TODO: 08/08/2016 QUEDA PENDIENTE EL REFRESH DE LA LISTA DE AGENDADO
+// TODO: FALTA LA VALIDACION DE LOS RANGO DE FECHA DE EL PLAN DE TRABAJO
 
-/**
- * Created by marangelo.php on 04/06/2016.
- */
+
+
+
+
 public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextListener,SearchView.OnCloseListener{
 
     DataBaseHelper myDB;
@@ -53,10 +58,11 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
     ProgressDialog pdialog;
 
     private MyExpandableListAdapter listAdapter;
+
     private ExpandableListView myList;
     private ArrayList<ParentRow> parentList = new ArrayList<ParentRow>();
     private ArrayList<ParentRow> showTheseParentList = new ArrayList<ParentRow>();
-    private MenuItem searchItem;
+
     private View view;
 
     TextView WeekStar,WeekEnd,RUTA,NombreVendedor,ZONA,txtIdPlan;
@@ -72,6 +78,8 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
 
         ImageView imgSave = (ImageView) view.findViewById(R.id.uno);
         ImageView imgUpdate = (ImageView) view.findViewById(R.id.dos);
+
+
 
         vrb.setIdPlan("Error");
 
@@ -103,10 +111,14 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
 
         parentList = new ArrayList<ParentRow>();
         showTheseParentList = new ArrayList<ParentRow>();
+
+
+
         displayList();
         expandAll();
         return view;
     }
+
 
     private String BuilderSqlAgenda(){
         String Strsql="";
@@ -194,6 +206,7 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
             }
         });
     }
+
     private void expandAll(){
         int count = listAdapter.getGroupCount();
         for (int i=0;i<count;i++){
@@ -292,9 +305,10 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
         loadData();
         myList = (ExpandableListView) view.findViewById(R.id.expandableListView_search);
         listAdapter = new MyExpandableListAdapter(getActivity(),parentList);
-        myList.setAdapter(listAdapter);
 
+        myList.setAdapter(listAdapter);
     }
+
     private void loadData(){
         Cursor res =  myDB.GetPlanTrabajo(vrb.getIdVendedor());
         String[] empry = new String[res.getCount()];
@@ -316,19 +330,20 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
                 empry[i] = "";
             }
         }
-        //String[] Clientes ={"00042_COMISARIATO DE LA POLICIA NACIONAL - RUC J0130000001725","00931_FARMACIA FARMA DESCUENTO","00943_FARMACIA FARMA VALUE/ RUC J310000170967","00950_FARMACIA FARMEX","01191_FARMACIA LA FAMILIAR - RUC 0013108770039L"};
-        String[] Lunes ={"00042_COMISARIATO DE LA POLICIA NACIONAL - RUC J0130000001725"};
 
-
-
-        CrearList("LUNES", Lunes);
-        CrearList("MARTES", Lunes);
-        CrearList("MIERCOLES", Lunes);
-        CrearList("JUEVES", Lunes);
-        CrearList("VIERNES", Lunes);
-
-
-
+        String[] Lu = new String[0],Ma = new String[0],Mi  = new String[0],Ju  = new String[0],Vi  = new String[0];
+        if (vrb.getIdPlan() != "Error"){
+            Lu = myDB.GetDiaPlanTrabajo(txtIdPlan.getText().toString(),"Lunes");
+            Ma = myDB.GetDiaPlanTrabajo(txtIdPlan.getText().toString(),"Martes");
+            Mi = myDB.GetDiaPlanTrabajo(txtIdPlan.getText().toString(),"Miercoles");
+            Ju = myDB.GetDiaPlanTrabajo(txtIdPlan.getText().toString(),"Jueves");
+            Vi = myDB.GetDiaPlanTrabajo(txtIdPlan.getText().toString(),"Viernes");
+        }
+        CrearList("LUNES", Lu);
+        CrearList("MARTES", Ma);
+        CrearList("MIERCOLES", Mi);
+        CrearList("JUEVES", Ju);
+        CrearList("VIERNES", Vi);
 
     }
     private void CrearList(String Dia, String[] Cliente){
@@ -336,17 +351,15 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
 
         ParentRow parentRow = null;
         childRows.clear();
-
-
         parentRow = new ParentRow(Dia,childRows);
         for (int i=0;i<Cliente.length;i++){
             String[] items = Cliente[i].toString().split("_");
             childRows.add(new ChildRow(R.drawable.ic_remove_white_24dp,items[1],items[0]));
         }
-
-
         parentList.add(parentRow);
     }
+
+
 
     public void Error(String TipoError){
         android.support.v7.app.AlertDialog.Builder builder = new android.support.v7.app.AlertDialog.Builder(getActivity());
@@ -355,7 +368,6 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
                 .create()
                 .show();
     }
-
     @Override
     public boolean onClose() {
         listAdapter.filterData("");

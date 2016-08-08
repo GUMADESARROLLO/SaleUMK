@@ -54,7 +54,7 @@ public class FrmCobro_Activity extends AppCompatActivity
 
 
 
-
+// TODO: FALTA LA VALIDACION DEL INGRESO DE LA INFORMACION Y CORRECCION DE BUG
 
     Validator validator;
     @Required(order = 1,message = "Campo requerido")

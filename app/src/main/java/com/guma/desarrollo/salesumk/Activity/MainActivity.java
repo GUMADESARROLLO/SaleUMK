@@ -26,6 +26,7 @@ import com.guma.desarrollo.salesumk.Adapters.DialogAddFact;
 import com.guma.desarrollo.salesumk.Fragments.AgendadosCls;
 import com.guma.desarrollo.salesumk.Fragments.InboxFragment;
 import com.guma.desarrollo.salesumk.Fragments.StarredFragment;
+import com.guma.desarrollo.salesumk.Lib.Ubicacion;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
 

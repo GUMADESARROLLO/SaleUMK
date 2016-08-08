@@ -2,6 +2,7 @@ package com.guma.desarrollo.salesumk.Lib;
 
 import android.widget.ListView;
 
+import com.guma.desarrollo.salesumk.Adapters.MyExpandableListAdapter;
 import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
 
 import java.util.ArrayList;
@@ -19,6 +20,9 @@ public class Variables {
     private static String Cliente_recibo_factura;
     private static String Cliente_Name_recibo_factura;
     private static String idViewRecibo;
+
+
+
 
     private  static String IdPlan;
 
