@@ -154,13 +154,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Fecha             DATETIME" +
                 ")");
 
+        db.execSQL("create table  Semanas" +
+                                " (" +
+                                "       IdPlan            INTEGER," +
+                                "       Semana            INTEGER"+
+                                ")");
+
+
+
         db.execSQL("create table  Agenda" +
                 " (" +
                 "       IdPlan            TEXT(10) primary key not null," +
                 "       Vendedor          TEXT(150)," +
                 "       Ruta              TEXT(10)," +
                 "       Zona              TEXT(50)," +
-                "       Revisado          TEXT(100)" +
+                "       Revisado          TEXT(100)," +
+                "       Estado            INTEGER(1)" +
                 ")");
 
         db.execSQL("create table  PDetalle" +
@@ -286,6 +295,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS Pedido ");
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS DPedido ");
+        onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS Semanas ");
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS Agenda ");
         onCreate(db);
@@ -568,6 +579,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
+    public boolean UpdateEstado(String Id,int std){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put("Estado", std);
+        long result  = db.update("Agenda", values, "IdPlan" + "= '" + Id + "'", null);
+        db.close();
+
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
     public boolean DeleteClienteDia(String Id,int Dia,String Cliente){
         String[] Semana = {"Lunes","Martes","Miercoles","Jueves","Viernes"};
         String NewCadena="";
@@ -720,6 +744,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Agenda.put("Ruta",Ruta);
         Agenda.put("Zona",Zona);
         Agenda.put("Revisado",Revisado);
+        Agenda.put("Estado",0);
         long result = db.insert("Agenda",null,Agenda);
 
         VClientes.put("IdPlan",ID);

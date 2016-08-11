@@ -18,6 +18,7 @@ import android.widget.SearchView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guma.desarrollo.salesumk.Activity.DetallesActivity;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -43,7 +44,7 @@ public class StarredFragment extends Fragment {
     Variables myVar;
     ListView lv;
     SearchView sv;
-    ArrayAdapter<String> adapter;
+
     SpecialAdapter adapter2;
     TextView txt;
 
@@ -65,12 +66,11 @@ public class StarredFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClearList();
                 CallInve();
                 loadData();
             }
         });
-        loadData();
+
 
         sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -89,15 +89,21 @@ public class StarredFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
-                //String codigo = selectedFromList.substring(selectedFromList.indexOf("[")+1, selectedFromList.length()-1);
                 String Cod = ClearString(selectedFromList);
-                myVar.setInv_Cliente(Cod);
-                //Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
-                Intent mint = new Intent(getActivity(),InfoClientesActivity.class);
-                getActivity().startActivity(mint);
+                Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
+                if (Cod.equals("0")){
+                    Toast.makeText(getActivity(), "Tiene que Sincronizar el Dispositivo", Toast.LENGTH_SHORT).show();
+                }else{
+                    myVar.setInv_Cliente(Cod);
+                    Intent mint = new Intent(getActivity(),InfoClientesActivity.class);
+                    getActivity().startActivity(mint);
+                }
+
+
 
             }
         });
+        loadData();
 
 
 
@@ -110,11 +116,6 @@ public class StarredFragment extends Fragment {
         return cadena;
     }
 
-    private void ClearList(){
-        String[] datos = {"Actualizando...."};
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,datos);
-        lv.setAdapter(adapter);
-    }
     private void loadData(){
         ArrayList<String> datos = new ArrayList<String>();
         String Date="";
@@ -125,20 +126,29 @@ public class StarredFragment extends Fragment {
         fillMaps = new ArrayList<HashMap<String, String>>();
 
         Cursor res =  myDB.GetData("CLIENTES");
-        if (res.moveToFirst()) {
-
-            do {
-                HashMap<String, String> map = new HashMap<String, String>();
-                datos.add(res.getString(1)+"\n["+res.getString(0)+"]");
-                map.put("rowid", "["+res.getString(0)+"]");
-                map.put("namecliente", res.getString(1));
-                map.put("telefono",res.getString(3));
-                fillMaps.add(map);
-                Date = res.getString(8);
-            } while(res.moveToNext());
-
+        if (res.getCount()!=0){
+            if (res.moveToFirst()) {
+                do {
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    datos.add(res.getString(1)+"\n["+res.getString(0)+"]");
+                    map.put("rowid", "["+res.getString(0)+"]");
+                    map.put("namecliente", res.getString(1));
+                    map.put("telefono",res.getString(3));
+                    fillMaps.add(map);
+                    Date = res.getString(8);
+                } while(res.moveToNext());
+            }
+        }else{
+            HashMap<String, String> map = new HashMap<String, String>();
+            datos.add("");
+            map.put("rowid", "[0]");
+            map.put("namecliente", "SIN DATOS");
+            map.put("telefono","");
+            fillMaps.add(map);
+            Date = "00/00/0000";
 
         }
+
 
 
         txt.setText("Ultima Actualización: " + Date.toString());
@@ -227,32 +237,36 @@ public class StarredFragment extends Fragment {
 
 
                     for (int n=0; n<MeEncontro.size();n++){
-                        String[] items = MeEncontro.get(n).toString().split(",");
+                        String[] items = MeEncontro.get(n).split(",");
                         Inserted = myDB.insertDataCliente(
-                                items[0].toString(),
-                                items[1].toString(),
-                                items[2].toString(),
-                                items[3].toString(),
-                                items[4].toString(),
-                                items[5].toString(),
-                                items[6].toString(),
-                                items[7].toString(),
-                                items[8].toString(),
-                                items[9].toString(),
-                                items[10].toString(),
-                                items[11].toString(),
-                                items[12].toString(),
-                                items[13].toString()
+                                items[0],
+                                items[1],
+                                items[2],
+                                items[3],
+                                items[4],
+                                items[5],
+                                items[6],
+                                items[7],
+                                items[8],
+                                items[9],
+                                items[10],
+                                items[11],
+                                items[12],
+                                items[13]
 
                         );
                     }
 
-                    if (Inserted == true){
+                    if (Inserted){
                     }else{
+                        adapter2.notifyDataSetChanged();
+                        pdialog.dismiss();
                         Error404("Error de Actualizacion de datos");
                     }
 
                 }else{
+                    adapter2.notifyDataSetChanged();
+                    pdialog.dismiss();
                     Error404("Sin Cobertura de datos.");
                 }
 
@@ -260,6 +274,8 @@ public class StarredFragment extends Fragment {
             }
             @Override
             public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
+                adapter2.notifyDataSetChanged();
+                pdialog.dismiss();
                 Error404("Sin Cobertura de datos.");
             }
         });
@@ -276,19 +292,11 @@ public class StarredFragment extends Fragment {
                     SQLiteDatabase db = myDB.getWritableDatabase();
                     db.execSQL("DELETE FROM FACTURAS");
                     for (int n=0; n<MeEncontro.size();n++){
-                        String[] items = MeEncontro.get(n).toString().split(",");
-                        Inserted = myDB.insertFacturas(
-                                items[0].toString(),
-                                items[1].toString(),
-                                items[2].toString(),
-                                items[3].toString(),
-                                items[4].toString(),
-                                items[5].toString()
-
-                        );
+                        String[] items = MeEncontro.get(n).split(",");
+                        Inserted = myDB.insertFacturas(items[0],items[1],items[2],items[3],items[4],items[5]);
                     }
 
-                    if (Inserted == true){
+                    if (Inserted){
                         fillMaps.clear();
                         adapter2.notifyDataSetChanged();
                         pdialog.dismiss();
@@ -296,10 +304,14 @@ public class StarredFragment extends Fragment {
                         Toast.makeText(getActivity(), "Actualización completada",Toast.LENGTH_SHORT).show();
 
                     }else{
+                        adapter2.notifyDataSetChanged();
+                        pdialog.dismiss();
                         Error404("Error de Actualizacion de datos");
                     }
 
                 }else{
+                    adapter2.notifyDataSetChanged();
+                    pdialog.dismiss();
                     Error404("Sin Cobertura de datos.");
                 }
 
@@ -307,6 +319,8 @@ public class StarredFragment extends Fragment {
             }
             @Override
             public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
+                adapter2.notifyDataSetChanged();
+                pdialog.dismiss();
                 Error404("Sin Cobertura de datos.");
             }
         });

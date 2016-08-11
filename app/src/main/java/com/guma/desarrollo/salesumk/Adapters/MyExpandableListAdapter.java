@@ -116,40 +116,44 @@ public class MyExpandableListAdapter extends BaseExpandableListAdapter {
         convertView.findViewById(R.id.add_cls).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Cursor res =  myDB.GetData("CLIENTES");
-                String Cde="";
-                if (res.moveToFirst()) {
-                    do {
-                        Cde += "["+res.getString(0)+"] "+res.getString(1)+",";
-                    } while(res.moveToNext());
-                    Cde = Cde.substring(0,Cde.length()-1);
-                }
-
-                final CharSequence[] items = Cde.split(",");
-                final int[] ItemSelect = {0};
-                final AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
-                builder.setSingleChoiceItems(items,-1, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int item) {
-                        ItemSelect[0] = item;
+                if (vrb.getIdPlan().equals("Error")) {
+                    Toast.makeText(finalConvertView.getContext(), "Tiene que Crear primero el Rango de Trabajo", Toast.LENGTH_SHORT).show();
+                }else{
+                    Cursor res =  myDB.GetData("CLIENTES");
+                    String Cde="";
+                    if (res.moveToFirst()) {
+                        do {
+                            Cde += "["+res.getString(0)+"] "+res.getString(1)+",";
+                        } while(res.moveToNext());
+                        Cde = Cde.substring(0,Cde.length()-1);
                     }
-                }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (myDB.UpdateVCliente(vrb.getIdPlan(),parentRow.getName(),vrf.prefixCod(items[ItemSelect[0]].toString()))==true){
-                            Toast.makeText(finalConvertView.getContext(), "Correcto", Toast.LENGTH_SHORT).show();
-                            notifyDataSetChanged();
-                        }else{
-                            Toast.makeText(finalConvertView.getContext(), "Incorrecto", Toast.LENGTH_SHORT).show();
+
+                    final CharSequence[] items = Cde.split(",");
+                    final int[] ItemSelect = {0};
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(finalConvertView.getContext());
+                    builder.setSingleChoiceItems(items,-1, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int item) {
+                            ItemSelect[0] = item;
                         }
+                    }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (myDB.UpdateVCliente(vrb.getIdPlan(),parentRow.getName(),vrf.prefixCod(items[ItemSelect[0]].toString()))==true){
+                                Toast.makeText(finalConvertView.getContext(), "Correcto", Toast.LENGTH_SHORT).show();
+                                notifyDataSetChanged();
+                            }else{
+                                Toast.makeText(finalConvertView.getContext(), "Incorrecto", Toast.LENGTH_SHORT).show();
+                            }
 
-                    }
-                }).setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).setNegativeButton("CANCELAR", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-                    }
-                }).create().show();
+                        }
+                    }).create().show();
+                }
 
             }
         });

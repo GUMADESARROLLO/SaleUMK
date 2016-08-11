@@ -90,7 +90,7 @@ public class InboxFragment extends Fragment {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ClearList();
+
                 CallInve();
                 loadData();
             }
@@ -106,9 +106,15 @@ public class InboxFragment extends Fragment {
                 String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
                 String Cod = ClearString(selectedFromList);
                 myVa.setInv_Articulo(Cod);
+
+                if (Cod.equals("0")){
+                    Toast.makeText(getActivity(), "Tiene que Sincronizar el Dispositivo", Toast.LENGTH_SHORT).show();
+                }else{
+                    Intent mint = new Intent(getActivity(),DetallesActivity.class);
+                    getActivity().startActivity(mint);
+                }
                 //Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
-                Intent mint = new Intent(getActivity(),DetallesActivity.class);
-                getActivity().startActivity(mint);
+
 
             }
         });
@@ -123,11 +129,7 @@ public class InboxFragment extends Fragment {
     }
 
 
-    private void ClearList(){
-        String[] datos = {"Actualizando...."};
-        adapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1,datos);
-        lv.setAdapter(adapter);
-    }
+
     private void loadData(){
         ArrayList<String> datos = new ArrayList<String>();
         String Date="";
@@ -139,20 +141,29 @@ public class InboxFragment extends Fragment {
 
 
         Cursor res =  myDB.GetData("Articulo");
-        if (res.moveToFirst()) {
-
-            do {
-                HashMap<String, String> map = new HashMap<String, String>();
-                datos.add(res.getString(1)+"\n["+res.getString(0)+"]");
-                map.put("rowid", "["+res.getString(0)+"]");
-                map.put("art", res.getString(1));
-                map.put("Cantidad",res.getString(3));
-                fillMaps.add(map);
-                Date = res.getString(4);
-            } while(res.moveToNext());
-
+        if (res.getCount()!=0){
+            if (res.moveToFirst()) {
+                do {
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    datos.add(res.getString(1)+"\n["+res.getString(0)+"]");
+                    map.put("rowid", "["+res.getString(0)+"]");
+                    map.put("art", res.getString(1));
+                    map.put("Cantidad",res.getString(3));
+                    fillMaps.add(map);
+                    Date = res.getString(4);
+                } while(res.moveToNext());
+            }
+        }else {
+            HashMap<String, String> map = new HashMap<String, String>();
+            datos.add("");
+            map.put("rowid", "[0]");
+            map.put("art", "SIN DATOS");
+            map.put("Cantidad","");
+            fillMaps.add(map);
+            Date = "00/00/0000";
 
         }
+
 
 
         txt.setText("Ultima Actualización: " + Date.toString());
@@ -273,10 +284,14 @@ public class InboxFragment extends Fragment {
 
 
                     }else{
+                        adapter2.notifyDataSetChanged();
+                        pdialog.dismiss();
                         Error404("Error de Actualizacion de datos");
                     }
 
                 }else{
+                    adapter2.notifyDataSetChanged();
+                    pdialog.dismiss();
                     Error404("Sin Cobertura de datos.");
                 }
 
@@ -284,6 +299,8 @@ public class InboxFragment extends Fragment {
             }
             @Override
             public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
+                adapter2.notifyDataSetChanged();
+                pdialog.dismiss();
                 Error404("Sin Cobertura de datos.");
             }
         });
@@ -313,10 +330,14 @@ public class InboxFragment extends Fragment {
 
                     if (Inserted == true){
                     }else{
+                        adapter2.notifyDataSetChanged();
+                        pdialog.dismiss();
                         Error404("Error de Actualizacion de datos");
                     }
 
                 }else{
+                    adapter2.notifyDataSetChanged();
+                    pdialog.dismiss();
                     Error404("Sin Cobertura de datos.");
                 }
 
@@ -338,11 +359,11 @@ public class InboxFragment extends Fragment {
                     SQLiteDatabase db = myDB.getWritableDatabase();
                     db.execSQL("DELETE FROM EXISTENCIA_LOTE");
                     for (int n=0; n<MeEncontro.size();n++){
-                        String[] items = MeEncontro.get(n).toString().split(",");
-                        Inserted = myDB.insertExiLote(items[0].toString(),items[1].toString(),items[2].toString(),items[3].toString(),items[4].toString());
+                        String[] items = MeEncontro.get(n).split(",");
+                        Inserted = myDB.insertExiLote(items[0],items[1],items[2],items[3],items[4]);
                     }
 
-                    if (Inserted == true){
+                    if (Inserted){
                         fillMaps.clear();
                         adapter2.notifyDataSetChanged();
                         pdialog.dismiss();
@@ -350,10 +371,14 @@ public class InboxFragment extends Fragment {
                         Toast.makeText(getActivity(), "Actualización Completada",Toast.LENGTH_SHORT).show();
 
                     }else{
+                        adapter2.notifyDataSetChanged();
+                        pdialog.dismiss();
                         Error404("Error de Actualizacion de datos");
                     }
 
                 }else{
+                    adapter2.notifyDataSetChanged();
+                    pdialog.dismiss();
                     Error404("Sin Cobertura de datos.");
                 }
 
@@ -361,7 +386,8 @@ public class InboxFragment extends Fragment {
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                adapter2.notifyDataSetChanged();
+                pdialog.dismiss();
             }
         });
 

@@ -1,7 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     android:orientation="vertical">
+
     <android.support.v7.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -28,154 +29,164 @@
                 android:textColor="@color/UmkBlanco"
                 android:layout_width="100dp"
                 android:layout_height="match_parent" />
+            
             <ImageView
-                android:id="@+id/uno"
-                android:layout_width="100dp"
+
+                android:id="@+id/tres"
+                android:layout_width="50dp"
                 android:layout_height="match_parent"
-                android:src="@drawable/ic_save_white_24dp"/>
-            <ImageView
-                android:id="@+id/dos"
-                android:layout_width="100dp"
-                android:layout_height="match_parent"
-                android:src="@drawable/ic_autorenew_white_24dp"/>
+                android:src="@drawable/ic_more_vert_white_24dp"
+                 />
 
         </LinearLayout>
         <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="120dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        >
-        <TextView
-            android:layout_width="190dp"
-            android:textColor="@color/UmkAzulOscuro"
-            android:text="NOMBRE DEL EJECUTIVO:"
-            android:layout_height="wrap_content" />
-        <EditText
-            android:id="@+id/FrmEjecutivo"
-            android:textColor="@color/UmkAzulOscuro"
-            android:layout_weight="1"
-            android:enabled="true"
-            android:layout_width="0dp"
+            android:id="@+id/linearLayout2"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:hint="" />
+            android:orientation="horizontal"
+            android:paddingTop="120dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            >
+            <TextView
+                android:layout_width="190dp"
+                android:textColor="@color/UmkAzulOscuro"
+                android:text="NOMBRE DEL EJECUTIVO:"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/FrmEjecutivo"
+                android:textColor="@color/UmkAzulOscuro"
+                android:layout_weight="1"
+                android:enabled="true"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="" />
 
 
-    </LinearLayout>
+        </LinearLayout>
 
         <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingTop="160dp"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="30dp">
-    <TextView
-        android:textColor="@color/UmkAzulOscuro"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:text="RUTA:"
-        android:gravity="center"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/txtRuta"
-        android:textColor="@color/UmkAzulOscuro"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:enabled="true"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="" />
-    <TextView
-        android:textColor="@color/UmkAzulOscuro"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:text="ZONA:"
-        android:layout_height="wrap_content" />
-    <EditText
-        android:id="@+id/txtZona"
-        android:textColor="@color/UmkAzulOscuro"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="" />
-    <TextView
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:gravity="right"
-        android:layout_height="wrap_content"
-        android:textColor="@color/UmkAzulOscuro"
-        android:text="SEMANA DEL"/>
-    <EditText
-        android:id="@+id/txtWDEL"
-        android:textColor="@color/UmkAzulOscuro"
-        android:layout_weight="1"
-        android:inputType="number"
-
-        android:gravity="center"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="" />
-        <TextView
-            android:layout_weight="1"
-            android:layout_width="0dp"
-            android:gravity="center"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/UmkAzulOscuro"
-            android:text="AL"/>
-    <EditText
-        android:id="@+id/txtWAL"
-        android:textColor="@color/UmkAzulOscuro"
-        android:inputType="number"
-        android:gravity="center"
-        android:layout_weight="1"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:hint="" />
+            android:orientation="horizontal"
+            android:paddingTop="160dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:paddingBottom="30dp">
+            <TextView
+                android:textColor="@color/UmkAzulOscuro"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:text="RUTA:"
+                android:gravity="center"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/txtRuta"
+                android:textColor="@color/UmkAzulOscuro"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:enabled="true"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="" />
+            <TextView
+                android:textColor="@color/UmkAzulOscuro"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="ZONA:"
+                android:layout_height="wrap_content" />
+            <EditText
+                android:id="@+id/txtZona"
+                android:textColor="@color/UmkAzulOscuro"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="" />
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:gravity="right"
+                android:layout_height="wrap_content"
+                android:textColor="@color/UmkAzulOscuro"
+                android:text="SEMANA DEL"/>
+            <EditText
+                android:id="@+id/txtWDEL"
+                android:textColor="@color/UmkAzulOscuro"
+                android:layout_weight="1"
+                android:inputType="number"
+
+                android:gravity="center"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="" />
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:gravity="center"
+                android:layout_height="wrap_content"
+                android:textColor="@color/UmkAzulOscuro"
+                android:text="AL"/>
+            <EditText
+                android:id="@+id/txtWAL"
+                android:textColor="@color/UmkAzulOscuro"
+                android:inputType="number"
+                android:gravity="center"
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:hint="" />
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:fillViewport="true">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+            <android.support.v7.widget.CardView
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:card_view="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                card_view:cardCornerRadius="4dp"
+                card_view:cardElevation="4dp"
+                card_view:cardUseCompatPadding="true"
+                >
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+
+
+                    <View android:layout_width="fill_parent"
+                        android:layout_height="1dip"
+                        android:background="?android:attr/listDivider" />
+
+
+                    <ExpandableListView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/expandableListView_search"
+                        />
+
+                </LinearLayout>
+
+
+            </android.support.v7.widget.CardView>
+
+        </LinearLayout>
+    </ScrollView>
+
+
+
 
 </LinearLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="4dp"
-        card_view:cardUseCompatPadding="true"
-        >
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-
-
-            <View android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="?android:attr/listDivider" />
-
-
-            <ExpandableListView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:id="@+id/expandableListView_search"
-                />
-
-        </LinearLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-
-    </LinearLayout>
 

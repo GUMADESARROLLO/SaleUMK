@@ -4,10 +4,13 @@ package com.guma.desarrollo.salesumk.Fragments;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,9 +20,13 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.SearchView;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guma.desarrollo.salesumk.Activity.BandejaPedido;
+import com.guma.desarrollo.salesumk.Activity.ObservacionActivity;
+import com.guma.desarrollo.salesumk.Activity.bandejaCobroActivity;
 import com.guma.desarrollo.salesumk.Adapters.MyExpandableListAdapter;
 import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
 import com.guma.desarrollo.salesumk.Activity.MainActivity;
@@ -45,41 +52,25 @@ import java.util.Calendar;
 // TODO: 08/08/2016 QUEDA PENDIENTE EL REFRESH DE LA LISTA DE AGENDADO
 // TODO: FALTA LA VALIDACION DE LOS RANGO DE FECHA DE EL PLAN DE TRABAJO
 
-
-
-
-
 public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextListener,SearchView.OnCloseListener{
-
     DataBaseHelper myDB;
     Variables vrb;
     Funciones vrf;
-
     ProgressDialog pdialog;
-
     private MyExpandableListAdapter listAdapter;
-
+    ArrayList<ChildRow> childRows;
     private ExpandableListView myList;
     private ArrayList<ParentRow> parentList = new ArrayList<ParentRow>();
     private ArrayList<ParentRow> showTheseParentList = new ArrayList<ParentRow>();
-
     private View view;
-
     TextView WeekStar,WeekEnd,RUTA,NombreVendedor,ZONA,txtIdPlan;
-
-
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_cls_agendados, container, false);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("PLAN DE TRABAJO");
+
         myDB = new DataBaseHelper(getActivity());
-
-        ImageView imgSave = (ImageView) view.findViewById(R.id.uno);
-        ImageView imgUpdate = (ImageView) view.findViewById(R.id.dos);
-
-
+        ImageView imgOpciones = (ImageView) view.findViewById(R.id.tres);
 
         vrb.setIdPlan("Error");
 
@@ -91,21 +82,26 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
         txtIdPlan = (TextView) view.findViewById(R.id.idplan);
         NombreVendedor.setText(vrb.getNameVendedor());
         RUTA.setText(vrb.getIdVendedor());
-        imgSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                SaveIdPlan();
-            }
-        });
-        imgUpdate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (txtIdPlan.getText().toString().equals("Error")){
-                    Error("Crear un plan de Trabajo");
-                }else {
-                    Push(BuilderSqlAgenda(),BuilderSqlVCliente());
-                }
 
+        imgOpciones.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                final CharSequence[]items = { "GUARDAR", "SINCRONIZAR"};
+                builder.setItems(items, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int item) {
+                        if (items[item].equals(items[0])){
+                            SaveIdPlan();
+                        }else{
+                            if (txtIdPlan.getText().toString().equals("Error")|| myList.getCount() == 5 ){
+                                Error("Crear un plan de Trabajo");
+                            }else {
+                                //Toast.makeText(getActivity(), "Mandarlo", Toast.LENGTH_SHORT).show();
+                                Push(BuilderSqlAgenda(),BuilderSqlVCliente());
+                            }
+                        }
+                    }
+                }).create().show();
             }
         });
 
@@ -194,6 +190,7 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
                 if (statusCode==200){
 
                     //AQUI POMER LA ACTUALIZACION DE LA LISTA DE AGENDADOS
+                    myDB.UpdateEstado(vrb.getIdPlan(),1);
                     pdialog.dismiss();
                     Error("La Informacion Fue Ingresada Al Servidor");
                 }else{
@@ -234,8 +231,6 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
                         WeekEnd.setError("Requerido");
                     }else{
                         OK = true;
-
-
                     }
                 }
 
@@ -265,7 +260,8 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
     }
     private String OncreteIdPlan(){
         String IdPlan = "";
-        if (FrmValida() == true){
+
+        if (FrmValida()){
             int Year = Calendar.getInstance().get(Calendar.YEAR);
             IdPlan = RUTA.getText().toString()+ String.valueOf(Year).substring(2,4) + "-" + vrf.prefixZero(WeekStar.getText().toString()) + vrf.prefixZero(WeekEnd.getText().toString());
         }
@@ -310,18 +306,31 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
     }
 
     private void loadData(){
+        String Estado="";
         Cursor res =  myDB.GetPlanTrabajo(vrb.getIdVendedor());
         String[] empry = new String[res.getCount()];
         int i=0;
         if (res.getCount()!=0){
             if (res.moveToFirst()) {
                 do {
-                    if (Decodificar(res.getString(0))==true){
+                    if (Decodificar(res.getString(0))){
                         vrb.setIdPlan(res.getString(0));
                         txtIdPlan.setText(res.getString(0));
                         ZONA.setText(res.getString(3));
                         WeekStar.setText(res.getString(0).substring(6,8).replace("0",""));
                         WeekEnd.setText(res.getString(0).substring(8,10).replace("0",""));
+                        if (res.getString(5).equals("0")){
+
+                        }
+                        switch (res.getString(5)){
+                            case "0":
+                                Estado = " - [Pendiente de Enviar]";
+                            break;
+                            case "1":
+                                Estado = " - [Enviado]";
+                                break;
+
+                        }
                     }else{
                         Toast.makeText(getActivity(), "No pasar", Toast.LENGTH_SHORT).show();
                     }
@@ -330,7 +339,7 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
                 empry[i] = "";
             }
         }
-
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("PLAN DE TRABAJO " + Estado);
         String[] Lu = new String[0],Ma = new String[0],Mi  = new String[0],Ju  = new String[0],Vi  = new String[0];
         if (vrb.getIdPlan() != "Error"){
             Lu = myDB.GetDiaPlanTrabajo(txtIdPlan.getText().toString(),"Lunes");
@@ -347,7 +356,7 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
 
     }
     private void CrearList(String Dia, String[] Cliente){
-        ArrayList<ChildRow> childRows=new ArrayList<ChildRow>();
+        childRows = new ArrayList<ChildRow>();
 
         ParentRow parentRow = null;
         childRows.clear();
