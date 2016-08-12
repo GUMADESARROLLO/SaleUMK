@@ -1,17 +1,21 @@
 package com.guma.desarrollo.salesumk.Activity;
 
 
+import android.app.Activity;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.guma.desarrollo.salesumk.Adapters.MyAlertDialogFragment;
 import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
@@ -48,9 +52,8 @@ public class PedidoActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
-                String Cod = ClearString(selectedFromList);
-
+                //{PRECIO=C$ 70.0000, CANTI=0.00  - CJA, DESCR=Abre Boca Transparente Pequeño Unidad, ARTI=[40951219]}
+                String[] Cod = ClearString(String.valueOf(lv.getItemAtPosition(position)));
                 FragmentManager fm = getSupportFragmentManager();
                 MyAlertDialogFragment alertDialog = new MyAlertDialogFragment();
                 alertDialog.setArticulo(Cod);
@@ -61,12 +64,29 @@ public class PedidoActivity extends AppCompatActivity {
     }
 
 
-    private String ClearString(String cadena){
-        int c1 = cadena.indexOf("[")+1;
-        int c2 = cadena.indexOf("]");
-        cadena = cadena.substring(c1,c2);
-        return cadena;
+    private String[] ClearString(String cadena){
+        int Pstr1 = cadena.indexOf("[")+1;
+        int Pstr2 = cadena.indexOf("]");
+
+        String Privot1 = "DESCR=",Privot2 = "PRECIO=C$ ";
+
+        int Pstr3 = cadena.indexOf(Privot1)+(Privot1).length();
+        int Pstr4 = cadena.indexOf("ARTI");
+
+        int Pstr5 = cadena.indexOf(Privot2)+(Privot2).length();
+        int Pstr6 = cadena.indexOf("CANTI");
+
+        String[] Str = new String[3];
+
+        Str[0] = cadena.substring(Pstr1,Pstr2);
+        Str[1] = cadena.substring(Pstr3,Pstr4).replace(",","");
+        Str[2] = cadena.substring(Pstr5,Pstr6).replace(",","");
+
+        return Str;
     }
+
+
+
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 

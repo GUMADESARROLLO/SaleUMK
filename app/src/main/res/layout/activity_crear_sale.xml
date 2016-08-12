@@ -28,22 +28,13 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
             <LinearLayout
-                android:background="#000"
-
+                android:background="@color/UmkAzulClaro"
                 android:layout_gravity="left|bottom"
                 android:orientation="horizontal"
                 android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true">
+                android:layout_height="30dp">
 
-                <TextView
-                    android:textColor="#fff"
-                    android:gravity="center_horizontal"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="bottom|end"
-                    android:text="SUBTOTAL"/>
+
 
             </LinearLayout>
 

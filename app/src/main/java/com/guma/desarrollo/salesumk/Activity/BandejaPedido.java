@@ -9,9 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
 
 public class BandejaPedido extends AppCompatActivity {
+    Variables vrb;
 
 
     @Override
@@ -21,7 +24,7 @@ public class BandejaPedido extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        setTitle("FARMACIA FARMA VALUE/ RUC J310000170967");
+        setTitle(vrb.getCliente_Name_recibo_factura());
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {

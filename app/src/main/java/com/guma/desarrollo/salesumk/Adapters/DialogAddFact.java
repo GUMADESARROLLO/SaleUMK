@@ -44,12 +44,6 @@ public class DialogAddFact extends DialogFragment {
     private String ValorRecibo;
     private Float Sld;
 
-
-
-
-
-
-
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());

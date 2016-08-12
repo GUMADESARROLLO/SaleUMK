@@ -1,6 +1,8 @@
 package com.guma.desarrollo.salesumk.Activity;
 
-import android.app.SearchManager;
+
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
@@ -8,69 +10,95 @@ import android.support.v7.app.AppCompatActivity;
 
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 
 import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
+import com.guma.desarrollo.salesumk.Lib.ClsVariblesPedido;
+import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
 
-import java.util.ArrayList;
+
 import java.util.HashMap;
-import java.util.List;
+
 
 
 public class CrearSaleActivity extends AppCompatActivity {
-    //ListView lv;
-    //ArrayAdapter<String> adapter;
-    private SearchManager searchManager;
-
     SpecialAdapter adapter;
+    Variables vrb;
+    ClsVariblesPedido vrbFactura;
     ListView lv;
-
-
-
+    TextView txtSubTotal,txtIva,txtMontoTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crear_sale);
-        setTitle("FARMACIA FARMA VALUE/ RUC J310000170967");
-        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        //setSupportActionBar(toolbar);
+        setTitle(vrb.getCliente_Name_recibo_factura());
         lv = (ListView) findViewById(R.id.listview_sale);
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        txtSubTotal = (TextView) findViewById(R.id.SubTotal);
+        txtIva = (TextView) findViewById(R.id.IVA);
+        txtMontoTotal = (TextView) findViewById(R.id.Total);
 
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(CrearSaleActivity.this);
+                builder.setMessage("Desea Eliminar este Registro")
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                vrbFactura.getMapListaFactura().remove(position);
+                                adapter.notifyDataSetChanged();
+                                SubTotal();
 
-       /*
-        lv = (ListView) findViewById(R.id.ListView1);
-        String[] datos ={"Anfotericina B 50mg Liofilizado para Sol. Iny. Vial 1/Caja Refrigerado (Naprod)","Esomeprazol 40mg PPSI 5 ml/Vial 1/Combipack (Naprod)","Anastrozol 1 Mg Tab Recubierta 28/Caja (Naprod)","Dacarbazina 200 Mg PPSI I.V FAM 1/Caja Refrigerado(Naprod)","Hidroxiurea 500 Mg Capsula 50/Caja (Naprod)","Mercaptopurina 50 mg Tabletas 100/Caja (Naprod)"};
-        adapter = new ArrayAdapter<String>(CrearSaleActivity.this, android.R.layout.simple_list_item_1,datos);
-        lv.setAdapter(adapter);
-        */
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
 
-        //searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+                            }
+                        }).create().show();
+            }
+        });
 
-        //((CrearSaleActivity) this).getSupportActionBar().setTitle("");
-        loadData();
     }
 
-    private void loadData() {
+    private void loadData(String[] Datos) {
         String[] from = new String[] { "Articulo","Descr","Cantidad","Precio","Valor"};
         int[] to = new int[] { R.id.Item_articulo,R.id.Item_descr,R.id.Item_cant,R.id.Item_precio,R.id.Item_valor};
-        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
-        String[] datos ={"77473","77742"};
-        for (int c=0;c<datos.length;c++){
-            HashMap<String, String> map = new HashMap<String, String>();
-            map.put("Articulo", datos[c]);
-            map.put("Descr", datos[c]);
-            map.put("Cantidad", datos[c]);
-            map.put("Precio", datos[c]);
-            map.put("Valor", datos[c]);
-            fillMaps.add(map);
-        }
-        adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_sale, from, to);
+        HashMap<String, String> map = new HashMap<String, String>();
+
+        map.put("Articulo", Datos[0]);
+        map.put("Descr", Datos[1]);
+        map.put("Cantidad", Datos[3]);
+        map.put("Precio", Datos[2]);
+        map.put("Valor", String.valueOf(Float.parseFloat(Datos[2]) * Float.parseFloat(Datos[3])));
+
+        vrbFactura.getMapListaFactura().add(map);
+
+        adapter = new SpecialAdapter(this, vrbFactura.getMapListaFactura(), R.layout.grid_item_sale, from, to);
         lv.setAdapter(adapter);
+        SubTotal();
+    }
+    private void SubTotal(){
+        float SubT = 0,IVA = 0,MT=0;
+
+        for (int i = 0; i<vrbFactura.getMapListaFactura().size();i++){
+            SubT += Float.parseFloat(vrbFactura.getMapListaFactura().get(i).get("Valor"));
+        }
+        IVA = (float) (SubT * 0.15);
+        MT  = SubT + IVA;
+
+        txtSubTotal.setText("SUBTOTAL: C$ "+ SubT);
+        txtIva.setText("IVA : C$ " + IVA);
+        txtMontoTotal.setText("TOTAL: C$ "+MT);
+
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -79,12 +107,13 @@ public class CrearSaleActivity extends AppCompatActivity {
         String titulo = String.valueOf(item.getTitle());
 
         if (id == 16908332){
+            vrbFactura.getMapListaFactura().clear();
             finish();
         }
         switch (titulo){
             case "add":
-                Intent MenuIntent = new Intent(CrearSaleActivity.this,PedidoActivity.class);
-                CrearSaleActivity.this.startActivity(MenuIntent);
+                Intent ListaProductos = new Intent(CrearSaleActivity.this,PedidoActivity.class);
+                startActivityForResult(ListaProductos,0);
             break;
             case "send":
                 Intent itns = new Intent(CrearSaleActivity.this,TicketActivity.class);
@@ -101,5 +130,11 @@ public class CrearSaleActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_pedido,menu);
         return true;
     }
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==0&&resultCode==RESULT_OK){
+            loadData(data.getStringArrayExtra("Articulo"));
+        }
+    }
 }

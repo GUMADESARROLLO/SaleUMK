@@ -17,18 +17,27 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
+import com.guma.desarrollo.salesumk.Lib.ClsVariblesPedido;
+import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 public class TicketActivity extends AppCompatActivity {
     ListView lv;
-    ArrayAdapter<String> adapter;
-    TextView btnPrint;
+    Variables vrb;
+
+    SpecialAdapter adapter;
+    TextView txtNombreVendedor,txtNameCliente;
     LinearLayout view;
+    ClsVariblesPedido vrbFactura;
 
 
 
@@ -42,20 +51,38 @@ public class TicketActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         lv = (ListView) findViewById(R.id.ListView1);
-        btnPrint = (TextView) findViewById(R.id.idPrint);
+
         view = (LinearLayout)findViewById(R.id.idViewTicket);
 
+        txtNameCliente = (TextView) findViewById(R.id.NombreCliente);
+        txtNameCliente.setText(vrb.getCliente_Name_recibo_factura());
 
+        txtNombreVendedor = (TextView) findViewById(R.id.NombreVendedor);
+        txtNombreVendedor.setText(vrb.getNameVendedor());
 
-        String[] datos ={"ARTICULO 1","ARTICULO 2","ARTICULO 3","ARTICULO 4","ARTICULO 5","ARTICULO 6","ARTICULO 7"};
-        adapter = new ArrayAdapter<String>(TicketActivity.this, android.R.layout.simple_list_item_1,datos);
-        lv.setAdapter(adapter);
-
-
-
-
-
+        loadData();
     }
+
+    private void loadData() {
+        String[] from = new String[] { "Articulo","Descr","Cantidad","Precio","Valor"};
+        int[] to = new int[] { R.id.Item_articulo,R.id.Item_descr,R.id.Item_cant,R.id.Item_precio,R.id.Item_valor};
+        List<HashMap<String, String>> mapListaFactura = new ArrayList<HashMap<String, String>>();
+        HashMap<String, String> map = new HashMap<String, String>();
+
+            map.put("Articulo", "0000");
+            map.put("Descr", "NOMBRE del ARTICULO");
+
+            map.put("Cantidad", "3");
+            map.put("Precio", "C$ 100");
+            map.put("Valor", "C$ 300");
+
+        mapListaFactura.add(map);
+
+        adapter = new SpecialAdapter(this, mapListaFactura, R.layout.grid_item_ticket, from, to);
+        lv.setAdapter(adapter);
+        //SubTotal();
+    }
+
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
 
