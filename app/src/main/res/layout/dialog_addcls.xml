@@ -11,55 +11,54 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-
-        android:layout_width="match_parent"
-        android:layout_height="70dp"
-
-        >
-
-        <RelativeLayout
-            android:layout_width="match_parent"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="Cantidad"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+        <TextView
+            android:text="Bonificado"
+            android:textSize="18sp"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:id="@+id/IdCantidad"
+            android:layout_weight="1"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
-            <LinearLayout
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <EditText
-                    android:id="@+id/IdCantidad"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/UmkAzulOscuro"
-                    android:inputType="numberDecimal"
-                    android:hint="Cantidad" />
+            android:textColor="@color/UmkAzulOscuro"
+            android:inputType="numberDecimal"
+            android:hint="Cantidad" />
 
-                <EditText
-                    android:id="@+id/IdBonificado"
-                    android:inputType="text"
-                    android:textColor="@color/UmkAzulOscuro"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Bonificado"/>
-                <Spinner
-                    android:visibility="gone"
-                    android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:layout_height="40dp"
-                    android:entries="@array/UMD"
-                    android:id="@+id/spinner"/>
-
-
-            </LinearLayout>
-
-
-        </RelativeLayout>
-
-    </android.support.v7.widget.CardView>
+        <Spinner
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:spinnerMode="dropdown"
+            style="@android:style/Widget.Holo.Light.Spinner"
+            android:id="@+id/spnBonificado"/>
+        <Spinner
+            android:visibility="gone"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:entries="@array/UMD"
+            android:id="@+id/spinner"/>
+    </LinearLayout>
 
 
 
-</LinearLayout></ScrollView>
+
+</LinearLayout>
+
+</ScrollView>

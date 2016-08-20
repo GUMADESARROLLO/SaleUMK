@@ -175,7 +175,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("create table  PDetalle" +
                 " (" +
                 "       IdDP              INTEGER primary key not null," +
-                "       IdPedido          INTEGER," +
+                "       IdPedido          TEXT(14)," +
                 "       IdArticulo        TEXT(50)," +
                 "       Descripcion       TEXT(250)," +
                 "       Cantidad          NUMERIC," +
@@ -191,8 +191,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table  Pedido" +
                 " (" +
-                "       IdPedido          INTEGER primary key not null," +
-                "       IdVendedor        TEXT(10)," +
+                "       IdPedido          TEXT(14) primary key not null," +
                 "       IdCliente         TEXT(50)," +
                 "       Fecha             DATETIME," +
                 "       Vendedor          TEXT(150)," +

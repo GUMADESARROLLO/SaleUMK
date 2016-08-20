@@ -44,7 +44,7 @@ public class PedidoActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        setTitle("");
+        setTitle("LISTA DE ARTICULOS");
         myDB = new DataBaseHelper(PedidoActivity.this);
         lv = (ListView) findViewById(R.id.ListView1);
 
@@ -52,7 +52,11 @@ public class PedidoActivity extends AppCompatActivity {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                Log.d("Valor",String.valueOf(lv.getItemAtPosition(position)));
+                //{DESCR=Ac. Glutamico/Vit B1 (300 mg/20 mg) Capsula 40/Caja(Ramos), PRECIO=C$ 70.0000, CANTI=0.00  - CJA, ARTI=[10323012], Bonificado=7+7xxx10+10xxx15+15xxx25+25xxx50+50xxx100+100}
                 //{PRECIO=C$ 70.0000, CANTI=0.00  - CJA, DESCR=Abre Boca Transparente Pequeño Unidad, ARTI=[40951219]}
+
                 String[] Cod = ClearString(String.valueOf(lv.getItemAtPosition(position)));
                 FragmentManager fm = getSupportFragmentManager();
                 MyAlertDialogFragment alertDialog = new MyAlertDialogFragment();
@@ -68,19 +72,23 @@ public class PedidoActivity extends AppCompatActivity {
         int Pstr1 = cadena.indexOf("[")+1;
         int Pstr2 = cadena.indexOf("]");
 
-        String Privot1 = "DESCR=",Privot2 = "PRECIO=C$ ";
+        String Privot1 = "DESCR=",Privot2 = "PRECIO=C$ ",Privot3=" Bonificado=";
 
         int Pstr3 = cadena.indexOf(Privot1)+(Privot1).length();
-        int Pstr4 = cadena.indexOf("ARTI");
+        int Pstr4 = cadena.indexOf(Privot2);
 
         int Pstr5 = cadena.indexOf(Privot2)+(Privot2).length();
         int Pstr6 = cadena.indexOf("CANTI");
 
-        String[] Str = new String[3];
+        int Pstr7 = cadena.indexOf(Privot3)+(Privot3).length();
+        int Pstr8 = cadena.indexOf("}");
+
+        String[] Str = new String[4];
 
         Str[0] = cadena.substring(Pstr1,Pstr2);
         Str[1] = cadena.substring(Pstr3,Pstr4).replace(",","");
         Str[2] = cadena.substring(Pstr5,Pstr6).replace(",","");
+        Str[3] = cadena.substring(Pstr7,Pstr8).replace("xxx",", ");
 
         return Str;
     }
@@ -100,8 +108,8 @@ public class PedidoActivity extends AppCompatActivity {
             ArrayList<String> datos = new ArrayList<String>();
 
 
-            String[] from = new String[] {"ARTI", "DESCR", "CANTI","PRECIO"};
-            int[] to = new int[] { R.id.item1, R.id.item2, R.id.item3, R.id.item4};
+            String[] from = new String[] {"ARTI", "DESCR", "CANTI","PRECIO","Bonificado"};
+            int[] to = new int[] { R.id.item1, R.id.item2, R.id.item3, R.id.item4,R.id.item5};
 
             List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
 
@@ -115,6 +123,7 @@ public class PedidoActivity extends AppCompatActivity {
                     map.put("DESCR", res.getString(1));
                     map.put("CANTI",res.getString(2).replace("["," - ").replace("]",""));
                     map.put("PRECIO",res.getString(3));
+                    map.put("Bonificado",res.getString(7));
                     fillMaps.add(map);
 
                 } while(res.moveToNext());

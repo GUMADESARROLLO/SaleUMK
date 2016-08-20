@@ -35,7 +35,7 @@ public class TicketActivity extends AppCompatActivity {
     Variables vrb;
 
     SpecialAdapter adapter;
-    TextView txtNombreVendedor,txtNameCliente;
+    TextView txtNombreVendedor,txtNameCliente,CountListArticulo,TotalPagar;
     LinearLayout view;
     ClsVariblesPedido vrbFactura;
 
@@ -46,7 +46,7 @@ public class TicketActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ticket);
-        setTitle("");
+        setTitle("RESUMEN");
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -59,6 +59,8 @@ public class TicketActivity extends AppCompatActivity {
 
         txtNombreVendedor = (TextView) findViewById(R.id.NombreVendedor);
         txtNombreVendedor.setText(vrb.getNameVendedor());
+        CountListArticulo = (TextView) findViewById(R.id.txtCountArti);
+        TotalPagar= (TextView) findViewById(R.id.Total);
 
         loadData();
     }
@@ -66,21 +68,14 @@ public class TicketActivity extends AppCompatActivity {
     private void loadData() {
         String[] from = new String[] { "Articulo","Descr","Cantidad","Precio","Valor"};
         int[] to = new int[] { R.id.Item_articulo,R.id.Item_descr,R.id.Item_cant,R.id.Item_precio,R.id.Item_valor};
-        List<HashMap<String, String>> mapListaFactura = new ArrayList<HashMap<String, String>>();
-        HashMap<String, String> map = new HashMap<String, String>();
-
-            map.put("Articulo", "0000");
-            map.put("Descr", "NOMBRE del ARTICULO");
-
-            map.put("Cantidad", "3");
-            map.put("Precio", "C$ 100");
-            map.put("Valor", "C$ 300");
-
-        mapListaFactura.add(map);
-
-        adapter = new SpecialAdapter(this, mapListaFactura, R.layout.grid_item_ticket, from, to);
+        float SubT = 0;
+        adapter = new SpecialAdapter(this,  vrbFactura.getMapListaFactura(), R.layout.grid_item_ticket, from, to);
+        CountListArticulo.setText(vrbFactura.getMapListaFactura().size()+" Articulos");
         lv.setAdapter(adapter);
-        //SubTotal();
+        for (int i = 0; i<vrbFactura.getMapListaFactura().size();i++){
+            SubT += Float.parseFloat(vrbFactura.getMapListaFactura().get(i).get("Valor"));
+        }
+        TotalPagar.setText("C$ " + String.valueOf(SubT));
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
@@ -110,7 +105,7 @@ public class TicketActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_print,menu);
+        //getMenuInflater().inflate(R.menu.menu_print,menu);
         return true;
     }
 

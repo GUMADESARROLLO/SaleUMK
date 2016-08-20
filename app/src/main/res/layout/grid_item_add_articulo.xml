@@ -54,4 +54,17 @@
         android:text="PRECIO"
         android:layout_gravity="right"
         />
+    <TextView
+        android:id="@+id/item5"
+        android:visibility="gone"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:textColor="@color/UmkAzulOscuro"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:padding="10dp"
+        android:text="Bonificado"
+        android:layout_gravity="right"
+        />
 </LinearLayout>

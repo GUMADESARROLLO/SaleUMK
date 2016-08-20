@@ -32,7 +32,7 @@ public class CrearSaleActivity extends AppCompatActivity {
     Variables vrb;
     ClsVariblesPedido vrbFactura;
     ListView lv;
-    TextView txtSubTotal,txtIva,txtMontoTotal;
+    TextView txtMontoTotal;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +42,6 @@ public class CrearSaleActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-        txtSubTotal = (TextView) findViewById(R.id.SubTotal);
-        txtIva = (TextView) findViewById(R.id.IVA);
         txtMontoTotal = (TextView) findViewById(R.id.Total);
 
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -70,14 +68,15 @@ public class CrearSaleActivity extends AppCompatActivity {
     }
 
     private void loadData(String[] Datos) {
-        String[] from = new String[] { "Articulo","Descr","Cantidad","Precio","Valor"};
-        int[] to = new int[] { R.id.Item_articulo,R.id.Item_descr,R.id.Item_cant,R.id.Item_precio,R.id.Item_valor};
+        String[] from = new String[] { "Articulo","Descr","Cantidad","Precio","Boni","Valor"};
+        int[] to = new int[] { R.id.Item_articulo,R.id.Item_descr,R.id.Item_cant,R.id.Item_precio,R.id.Item_boni,R.id.Item_valor};
         HashMap<String, String> map = new HashMap<String, String>();
 
         map.put("Articulo", Datos[0]);
         map.put("Descr", Datos[1]);
         map.put("Cantidad", Datos[3]);
         map.put("Precio", Datos[2]);
+        map.put("Boni", Datos[4]);
         map.put("Valor", String.valueOf(Float.parseFloat(Datos[2]) * Float.parseFloat(Datos[3])));
 
         vrbFactura.getMapListaFactura().add(map);
@@ -87,17 +86,11 @@ public class CrearSaleActivity extends AppCompatActivity {
         SubTotal();
     }
     private void SubTotal(){
-        float SubT = 0,IVA = 0,MT=0;
-
+        float SubT = 0;
         for (int i = 0; i<vrbFactura.getMapListaFactura().size();i++){
             SubT += Float.parseFloat(vrbFactura.getMapListaFactura().get(i).get("Valor"));
         }
-        IVA = (float) (SubT * 0.15);
-        MT  = SubT + IVA;
-
-        txtSubTotal.setText("SUBTOTAL: C$ "+ SubT);
-        txtIva.setText("IVA : C$ " + IVA);
-        txtMontoTotal.setText("TOTAL: C$ "+MT);
+        txtMontoTotal.setText("TOTAL: C$ "+SubT);
 
     }
 
@@ -112,12 +105,33 @@ public class CrearSaleActivity extends AppCompatActivity {
         }
         switch (titulo){
             case "add":
+
                 Intent ListaProductos = new Intent(CrearSaleActivity.this,PedidoActivity.class);
                 startActivityForResult(ListaProductos,0);
             break;
             case "send":
-                Intent itns = new Intent(CrearSaleActivity.this,TicketActivity.class);
-                startActivity(itns);
+                /*if (vrbFactura.getMapListaFactura().size() != 1){
+
+
+                }else{
+                    Toast.makeText(CrearSaleActivity.this, "La Lista de Articulo esta Vacia", Toast.LENGTH_SHORT).show();
+                }*/
+                AlertDialog.Builder builder = new AlertDialog.Builder(CrearSaleActivity.this);
+                builder.setMessage("¿Esta Seguro de que Desea Generar el Pedido?")
+                        .setPositiveButton("Proceder", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent itns = new Intent(CrearSaleActivity.this,TicketActivity.class);
+                                startActivity(itns);
+                                finish();
+                            }
+                        })
+                        .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+
+                            }
+                        }).create().show();
+
+
                 break;
             case "Cancelar":
                 finish();

@@ -78,6 +78,8 @@ android:paddingTop="@dimen/activity_vertical_margin" android:weightSum="1">
             android:text="PRECIO"
             android:layout_gravity="right"
             />
+        />
+
     </LinearLayout>
 
     <ListView android:id="@+id/ListView1"
