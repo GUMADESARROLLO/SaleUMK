@@ -254,7 +254,7 @@ public class FrmCobro_Activity extends AppCompatActivity
         for (int i = 0; i < vrb.getLv_list_facturaCobro().getCount(); i++) {
 
             String Cadena = String.valueOf(vrb.getLv_list_facturaCobro().getItemAtPosition(i));
-            String Arry[] = vrf.ClearStrgList(Cadena).split(",");
+            String Arry[] = vrf.ClearStrgList(Cadena," ").split(",");
 
             String Factura      = Arry[3].substring(Arry[3].indexOf("=")+1);
             String vfactura     = Arry[6].substring(Arry[6].indexOf("=")+1);

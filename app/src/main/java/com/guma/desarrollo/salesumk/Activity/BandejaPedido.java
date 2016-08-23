@@ -10,12 +10,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
+import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
 
+import java.util.HashMap;
+
 public class BandejaPedido extends AppCompatActivity {
     Variables vrb;
-
+    DataBaseHelper myDB;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +30,8 @@ public class BandejaPedido extends AppCompatActivity {
         }
         setTitle(vrb.getCliente_Name_recibo_factura());
 
+        myDB = new DataBaseHelper(this);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -34,6 +40,31 @@ public class BandejaPedido extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+    }
+
+    // TODO: 23/08/2016 queda pendiente construir el listado de los pedidos realizados 
+    private void loadData() {
+        String[] from = new String[] { "RECIBO","FECHA","MONTO"};
+        int[] to = new int[] { R.id.Item_Bandeja_recibo,R.id.Item_bandeja_fecha,R.id.Item_bandeja_monto};
+        String[] datos = myDB.GetCobros(vrb.getCliente_recibo_factura());
+        for (int c=0;c<datos.length;c++){
+            String[] valores = datos[c].split(",");
+            HashMap<String, String> map = new HashMap<String, String>();
+            map.put("RECIBO", valores[0]);
+            map.put("FECHA", valores[1]);
+            map.put("MONTO", valores[2]);
+            vrb.getFillMapsBandejaCobro().add(map);
+        }
+        //vrb.adapter = new SpecialAdapter(this, vrb.getFillMapsBandejaCobro(), R.layout.grid_item_bandeja_cobro, from, to);
+        //lv.setAdapter(adapter);
+
+        vrb.setAdapterBandejaCobro(new SpecialAdapter(this, vrb.getFillMapsBandejaCobro(), R.layout.grid_item_bandeja_cobro, from, to));
+        vrb.getLv_list_facturaCobroBandejaCobro().setAdapter(vrb.getAdapterBandejaCobro());
+
+
+
+
+
     }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();

@@ -174,12 +174,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table  PDetalle" +
                 " (" +
-                "       IdDP              INTEGER primary key not null," +
-                "       IdPedido          TEXT(14)," +
+                "       IdDP              TEXT(14) primary key not null," +
                 "       IdArticulo        TEXT(50)," +
                 "       Descripcion       TEXT(250)," +
                 "       Cantidad          NUMERIC," +
-                "       Precio            NUMERIC" +
+                "       Precio            NUMERIC," +
+                "       Bono              TEXT(14)" +
                 ")");
 
         db.execSQL("create table  Ejecutiva" +
@@ -448,6 +448,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }else{
             return true;
         }
+    }
+    public boolean SavePedido(String TOP,String FOOT){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("INSERT INTO rdetalle Pedido " + TOP);
+        db.execSQL("INSERT INTO rdetalle PDetalle " + FOOT);
+        db.close();
+        return true;
     }
     public boolean SaveRecibo(
             String varIdRecibo,

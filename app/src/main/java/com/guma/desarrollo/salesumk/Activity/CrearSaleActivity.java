@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
 import com.guma.desarrollo.salesumk.Lib.ClsVariblesPedido;
+import com.guma.desarrollo.salesumk.Lib.Funciones;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
 
@@ -30,6 +31,7 @@ import java.util.HashMap;
 public class CrearSaleActivity extends AppCompatActivity {
     SpecialAdapter adapter;
     Variables vrb;
+    Funciones vrf;
     ClsVariblesPedido vrbFactura;
     ListView lv;
     TextView txtMontoTotal;
@@ -74,10 +76,10 @@ public class CrearSaleActivity extends AppCompatActivity {
 
         map.put("Articulo", Datos[0]);
         map.put("Descr", Datos[1]);
-        map.put("Cantidad", Datos[3]);
-        map.put("Precio", Datos[2]);
+        map.put("Cantidad", vrf.number_format(Float.parseFloat(Datos[3]),2));
+        map.put("Precio", "C$ " + vrf.number_format(Float.parseFloat(Datos[2]),2));
         map.put("Boni", Datos[4]);
-        map.put("Valor", String.valueOf(Float.parseFloat(Datos[2]) * Float.parseFloat(Datos[3])));
+        map.put("Valor", vrf.number_format(Float.parseFloat(Datos[2]) * Float.parseFloat(Datos[3]),2));
 
         vrbFactura.getMapListaFactura().add(map);
 
@@ -88,9 +90,9 @@ public class CrearSaleActivity extends AppCompatActivity {
     private void SubTotal(){
         float SubT = 0;
         for (int i = 0; i<vrbFactura.getMapListaFactura().size();i++){
-            SubT += Float.parseFloat(vrbFactura.getMapListaFactura().get(i).get("Valor"));
+            SubT += Float.parseFloat(vrbFactura.getMapListaFactura().get(i).get("Valor").replace(",",""));
         }
-        txtMontoTotal.setText("TOTAL: C$ "+SubT);
+        txtMontoTotal.setText("TOTAL: C$ "+ vrf.number_format(SubT,2));
 
     }
 
