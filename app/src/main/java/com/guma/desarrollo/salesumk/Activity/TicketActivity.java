@@ -118,7 +118,8 @@ public class TicketActivity extends AppCompatActivity {
 
         //Alerta(SqlInsertTOP);
        // Alerta(ID + "\n" + IdCliente + "\n" + Fecha + "\n" + Vendedor + "\n" + Cliente + "\n" + Monto + "\n" + Dir + "\n" + Nota);
-        myDB.SavePedido(SqlInsertTOP,SqlInsertDetalle);
+        myDB.SavePedidoTOP(SqlInsertTOP);
+        myDB.SavePedidoFoot(SqlInsertDetalle);
     }
 
     public void Alerta(String TipoError){
@@ -130,8 +131,19 @@ public class TicketActivity extends AppCompatActivity {
     }
 
     private CharSequence getIdPedido(){
-        Date d = new Date();
-        return vrb.getIdVendedor() + "-" + DateFormat.format("MMyyhm", d.getTime());
+        /*Date d = new Date();
+        return vrb.getIdVendedor() + "-" + DateFormat.format("MMyyhm", d.getTime());*/
+        Calendar cal =Calendar.getInstance();
+        cal.setTimeInMillis(System.currentTimeMillis());
+        Date date = cal.getTime();
+        String mDia = vrF.prefixZero(String.valueOf(date.getDay()));
+        String mMes = vrF.prefixZero(String.valueOf(date.getMonth()));
+        String Anno = vrF.prefixZero(String.valueOf(date.getYear()));
+        String mHrs = vrF.prefixZero(String.valueOf(date.getHours()));
+        String mMinute = vrF.prefixZero(String.valueOf(date.getMinutes()));
+
+        return vrb.getIdVendedor() + "-" + mMes + Anno + mHrs + mMinute;
+
 
     }
     private void loadData() {
@@ -151,10 +163,8 @@ public class TicketActivity extends AppCompatActivity {
 
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
-
-
-
         if (id == 16908332){
+            vrbFactura.getMapListaFactura().clear();
             finish();
         }
 

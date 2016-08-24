@@ -144,7 +144,7 @@ public class bandejaCobroActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 
-                vrb.setIdViewRecibo(ClearString(String.valueOf(vrb.getLv_list_facturaCobroBandejaCobro().getItemAtPosition(position))));
+                vrb.setIdViewRecibo(ClearString(String.valueOf(vrb.getLv_list_facturaCobroBandejaCobro().getItemAtPosition(position)),"RECIBO="));
 
 
 
@@ -189,8 +189,8 @@ public class bandejaCobroActivity extends AppCompatActivity {
         loadData();
     }
 
-    private String ClearString(String cadena){
-        String Star="RECIBO=";
+    private String ClearString(String cadena,String Star){
+
         int c1 = cadena.indexOf(Star)+Star.length();
         int c2 = cadena.indexOf("}");
         cadena = cadena.substring(c1,c2);

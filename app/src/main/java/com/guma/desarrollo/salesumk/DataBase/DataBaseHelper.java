@@ -174,7 +174,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table  PDetalle" +
                 " (" +
-                "       IdDP              TEXT(14) primary key not null," +
+                "       IdPedido          TEXT(20) primary key not null," +
                 "       IdArticulo        TEXT(50)," +
                 "       Descripcion       TEXT(250)," +
                 "       Cantidad          NUMERIC," +
@@ -191,7 +191,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table  Pedido" +
                 " (" +
-                "       IdPedido          TEXT(14) primary key not null," +
+                "       IdPedido          TEXT(20) primary key not null," +
                 "       IdCliente         TEXT(50)," +
                 "       Fecha             DATETIME," +
                 "       Vendedor          TEXT(150)," +
@@ -449,10 +449,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             return true;
         }
     }
-    public boolean SavePedido(String TOP,String FOOT){
+    public boolean SavePedidoTOP(String TOP){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.execSQL("INSERT INTO rdetalle Pedido " + TOP);
-        db.execSQL("INSERT INTO rdetalle PDetalle " + FOOT);
+        db.execSQL("INSERT INTO Pedido VALUES" + TOP);
+        db.close();
+        return true;
+    }
+    public boolean SavePedidoFoot(String FOOT){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.execSQL("INSERT INTO PDetalle VALUES" + FOOT);
         db.close();
         return true;
     }
@@ -560,6 +565,23 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             if (res.moveToFirst()) {
                 do {
                     vareturn[i] = res.getString(0)+","+res.getString(3)+","+res.getString(4);
+                    i++;
+                } while(res.moveToNext());
+            }
+        }
+        return vareturn;
+    }
+    public String[] GetPedido(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int i=0;
+        //String Query = "SELECT * FROM Recibo WHERE IdCliente="+ '"'+ Id.trim()+'"';
+        String Query = "SELECT * FROM Pedido";
+        Cursor res = db.rawQuery(Query ,null);
+        String vareturn[] = new String[res.getCount()];
+        if (res.getCount()!=0){
+            if (res.moveToFirst()) {
+                do {
+                    vareturn[i] = res.getString(0)+","+res.getString(4)+","+res.getString(2)+","+"MONTO"+","+"ESTADO";
                     i++;
                 } while(res.moveToNext());
             }
