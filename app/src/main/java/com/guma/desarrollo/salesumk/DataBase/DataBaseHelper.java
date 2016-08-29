@@ -588,6 +588,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return vareturn;
     }
+    public Cursor getPedido(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM Pedido WHERE IdPedido="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+
+    public Cursor getPDetalle(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM PDetalle WHERE IdPedido="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
 
     public Cursor GetInfoRecibo(String Id){
         SQLiteDatabase db = this.getWritableDatabase();

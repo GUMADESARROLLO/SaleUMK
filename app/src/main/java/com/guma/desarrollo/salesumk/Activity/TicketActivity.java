@@ -116,8 +116,6 @@ public class TicketActivity extends AppCompatActivity {
         }
         SqlInsertDetalle = SqlInsertDetalle.substring(0,SqlInsertDetalle.length()-1);
 
-        //Alerta(SqlInsertTOP);
-       // Alerta(ID + "\n" + IdCliente + "\n" + Fecha + "\n" + Vendedor + "\n" + Cliente + "\n" + Monto + "\n" + Dir + "\n" + Nota);
         myDB.SavePedidoTOP(SqlInsertTOP);
         myDB.SavePedidoFoot(SqlInsertDetalle);
     }
