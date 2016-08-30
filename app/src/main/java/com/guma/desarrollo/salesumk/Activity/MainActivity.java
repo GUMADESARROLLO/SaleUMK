@@ -24,6 +24,7 @@ import android.widget.Toast;
 
 import com.guma.desarrollo.salesumk.Adapters.DialogAddFact;
 import com.guma.desarrollo.salesumk.Fragments.AgendadosCls;
+import com.guma.desarrollo.salesumk.Fragments.ClientesFragment;
 import com.guma.desarrollo.salesumk.Fragments.InboxFragment;
 import com.guma.desarrollo.salesumk.Fragments.StarredFragment;
 import com.guma.desarrollo.salesumk.Lib.Ubicacion;
@@ -183,8 +184,9 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.fragment, liq12Fragment);
                 break;*/
             case 4:
-                AgendadosCls agendadosCls = new AgendadosCls();
-                fragmentTransaction.replace(R.id.fragment, agendadosCls);
+                //AgendadosCls agendadosCls = new AgendadosCls();
+                ClientesFragment cl = new ClientesFragment();
+                fragmentTransaction.replace(R.id.fragment, cl);
                 break;
             case 5:
                 Intent Agenda = new Intent(MainActivity.this,AgendaActivity.class);
