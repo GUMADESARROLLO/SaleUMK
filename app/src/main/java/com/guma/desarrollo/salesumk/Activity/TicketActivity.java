@@ -99,7 +99,7 @@ public class TicketActivity extends AppCompatActivity {
         String Dir = "Dirección:";
         String Nota = "Nota:";
 
-        SqlInsertTOP ="("+"'"+ID+"'," +"'"+IdCliente+"'," +""+"'"+Fecha+"',"+"'"+Vendedor+"',"+"'"+Cliente+"',"+"'DIRECCION',"+"'0',"+"'0',"+"'PLAZO',"+"'0',"+"'0',"+"'NOTA'"+")";
+        SqlInsertTOP ="("+"'"+ID+"'," +"'"+IdCliente+"'," +""+"'"+Fecha+"',"+"'"+Vendedor+"',"+"'"+Cliente+"',"+"'DIRECCION',"+"'0',"+"'0',"+"'PLAZO',"+"'0',"+"'0',"+"'NOTA',"+"'"+Monto+"',"+"'0'"+")";
 
         //{Precio=C$ 70, Boni=0, Cantidad=123, Articulo=40951217, Descr=Abre Boca Transparente Grande Unidad , Valor=8,610}
         for (int i = 0; i < vrbFactura.getMapListaFactura().size(); i++) {

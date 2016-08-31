@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,8 +93,10 @@ public class ClientesFragment extends Fragment {
         lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
-                final String Cod = ClearString(selectedFromList);
+
+                final String Cod = ClearString(String.valueOf(lv.getItemAtPosition(position)));
+                final String NombreCod = getNameString(String.valueOf(lv.getItemAtPosition(position)),"namecliente=");
+                Toast.makeText(getActivity(), NombreCod, Toast.LENGTH_SHORT).show();
                 final CharSequence[]items = { "PEDIDO", "COBRO"};
                 final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
@@ -106,6 +109,7 @@ public class ClientesFragment extends Fragment {
                         public void onClick(DialogInterface dialog, final int item) {
                             //vrb.setCliente_Name_recibo_factura(childText.getText().toString());
                             myVar.setCliente_recibo_factura(Cod);
+                            myVar.setCliente_Name_recibo_factura(NombreCod);
 
                             switch (item){
                                 case 0:
@@ -138,6 +142,13 @@ public class ClientesFragment extends Fragment {
         int c1 = cadena.indexOf("[");
         int c2 = cadena.indexOf("]");
         cadena = cadena.substring(c1+1,c2);
+        return cadena;
+    }
+    private String getNameString(String cadena,String Star){
+        String[] Posiciones = cadena.split(",");
+        cadena = Posiciones[0];
+        int c1 = cadena.indexOf(Star)+Star.length();
+        cadena = cadena.substring(c1);
         return cadena;
     }
 

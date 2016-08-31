@@ -174,7 +174,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
         db.execSQL("create table  PDetalle" +
                 " (" +
-                "       IdPedido          TEXT(20) primary key not null," +
+                "       IdPedido          TEXT(20) not null," +
                 "       IdArticulo        TEXT(50)," +
                 "       Descripcion       TEXT(250)," +
                 "       Cantidad          NUMERIC," +
@@ -202,7 +202,9 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Plazo             TEXT(50)," +
                 "       Descuento         NUMERIC," +
                 "       IVA               NUMERIC," +
-                "       Nota              TEXT(250)" +
+                "       Nota              TEXT(250)," +
+                "       Monto             TEXT," +
+                "       Estado            INTEGER" +
                 ")");
 
         db.execSQL("create table  RDetalle" +
@@ -581,7 +583,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (res.getCount()!=0){
             if (res.moveToFirst()) {
                 do {
-                    vareturn[i] = res.getString(0)+","+res.getString(4)+","+res.getString(2)+","+"MONTO"+","+"ESTADO";
+                    vareturn[i] = res.getString(0)+","+res.getString(4)+","+res.getString(2)+","+res.getString(12).replace(",","")+","+res.getString(13);
                     i++;
                 } while(res.moveToNext());
             }

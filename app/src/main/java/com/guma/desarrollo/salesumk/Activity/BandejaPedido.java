@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 
 import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
 import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
+import com.guma.desarrollo.salesumk.Lib.Funciones;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
 
@@ -26,6 +28,7 @@ import java.util.List;
 
 public class BandejaPedido extends AppCompatActivity {
     Variables vrb;
+    Funciones vrF;
     DataBaseHelper myDB;
     SpecialAdapter adapter;
     ListView lv;
@@ -98,7 +101,7 @@ public class BandejaPedido extends AppCompatActivity {
             map.put("COD", valores[0]);
             map.put("CCLIENTE", valores[1]);
             map.put("FECHA", valores[2]);
-            map.put("MONTO", valores[3]);
+            map.put("MONTO", "C$ " + vrF.number_format(Float.parseFloat(valores[3]),2));
             map.put("ESTADO", valores[4]);
             fillMaps.add(map);
         }
@@ -106,6 +109,7 @@ public class BandejaPedido extends AppCompatActivity {
         lv.setAdapter(adapter);
     }
     private String ClearString(String cadena,String Star){
+        Log.d("STRING",cadena);
         String[] Posiciones = cadena.split(",");
         cadena = Posiciones[1];
         int c1 = cadena.indexOf(Star)+Star.length();
