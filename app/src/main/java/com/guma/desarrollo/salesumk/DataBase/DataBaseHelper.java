@@ -177,8 +177,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       IdPedido          TEXT(20) not null," +
                 "       IdArticulo        TEXT(50)," +
                 "       Descripcion       TEXT(250)," +
-                "       Cantidad          NUMERIC," +
-                "       Precio            NUMERIC," +
+                "       Cantidad          REAL," +
+                "       Precio            REAL," +
                 "       Bono              TEXT(14)" +
                 ")");
 
@@ -551,6 +551,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return Nombre;
     }
+
     public Cursor GetInfoArt(String Id){
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM " + TABLE_ARTICULO + " WHERE "+ COL_3 +"="+ '"'+ Id.trim()+'"';
@@ -600,6 +601,18 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public Cursor getPDetalle(String Id){
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM PDetalle WHERE IdPedido="+ '"'+ Id.trim()+'"';
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor getAllPDetalle(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM PDetalle WHERE IdPedido in("+Id+")";
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor getAllPedido(String Id){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM Pedido WHERE IdPedido in("+Id+")";
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }

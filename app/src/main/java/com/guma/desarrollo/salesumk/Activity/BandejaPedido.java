@@ -1,8 +1,10 @@
 package com.guma.desarrollo.salesumk.Activity;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -18,9 +20,13 @@ import android.widget.Toast;
 
 import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
 import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
+import com.guma.desarrollo.salesumk.Lib.ClssURL;
 import com.guma.desarrollo.salesumk.Lib.Funciones;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,7 +38,9 @@ public class BandejaPedido extends AppCompatActivity {
     DataBaseHelper myDB;
     SpecialAdapter adapter;
     ListView lv;
+    ProgressDialog pdialog;
     List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+    ClssURL Url;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +58,7 @@ public class BandejaPedido extends AppCompatActivity {
             public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(BandejaPedido.this);
                 final CharSequence[] items = {"VER", "ELIMINAR"};
-                final String COD = ClearString(String.valueOf(lv.getItemAtPosition(position)),"COD=");
+                final String COD = ClearString(String.valueOf(lv.getItemAtPosition(position)),"COD=",1);
                 builder.setTitle(COD);
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int item) {
@@ -83,12 +91,107 @@ public class BandejaPedido extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Push();
             }
         });
         loadData();
     }
+    private void Push(){
+        String mPedidos ="",mSqlPedidos="",mSqlPDetalle="";
+        boolean mUpload = false;
+        AsyncHttpClient Cnx = new AsyncHttpClient();
+        RequestParams paramentros = new RequestParams();
 
+        pdialog = ProgressDialog.show(this, "","Procesando, ya casi terminamos...", true);
+        if (fillMaps.size()>0){
+            mUpload = true;
+            for (int c=0;c<fillMaps.size();c++){
+                if (Integer.parseInt(ClearString(adapter.getItem(c).toString(),"ESTADO=",2))==0){
+                    mPedidos += "'" + ClearString(adapter.getItem(c).toString(),"COD=",1)+ "',";
+                }
+            }
+        }
+        mPedidos = mPedidos.substring(0,mPedidos.length()-1);
+
+        if (mUpload){
+            //BUILDER QUERRY DETALLE PEDIDO
+            Cursor rPedido =  myDB.getAllPedido(mPedidos);
+            if (rPedido.getCount()!=0){
+                if (rPedido.moveToFirst()) {
+                    do {
+                        mSqlPedidos +=
+                                "CALL SP_pedidos ("+
+                                        "'"+rPedido.getString(0)+"',"+
+                                        "'"+rPedido.getString(1)+"',"+
+                                        "'"+rPedido.getString(2)+"',"+
+                                        "'"+rPedido.getString(3)+"',"+
+                                        "'"+rPedido.getString(4)+"',"+
+                                        "'"+rPedido.getString(5)+"',"+
+                                        "'"+rPedido.getString(6)+"',"+
+                                        "'"+rPedido.getString(7)+"',"+
+                                        "'"+rPedido.getString(8)+"',"+
+                                        "'"+rPedido.getString(9)+"',"+
+                                        "'"+rPedido.getString(10)+"',"+
+                                        "'"+rPedido.getString(11)+"',"+
+                                        "'"+rPedido.getString(12)+"',"+
+                                        "'0'"
+                                        +");";
+                    } while(rPedido.moveToNext());
+                }
+            }
+            //BUILDER QUERRY DETALLE PEDIDO
+            Cursor rPDetalle =  myDB.getAllPDetalle(mPedidos);
+            if (rPDetalle.getCount()!=0){
+                mSqlPDetalle = "INSERT INTO PDetalle (IdPedido, IdArticulo, Descripcion, Cantidad, Precio, Bono) VALUES";
+                if (rPDetalle.moveToFirst()) {
+                    do {
+                        mSqlPDetalle +=
+                                " ("+
+                                        "'"+rPDetalle.getString(0)+"',"+
+                                        "'"+rPDetalle.getString(1)+"',"+
+                                        "'"+rPDetalle.getString(2)+"',"+
+                                        "'"+rPDetalle.getInt(3)+"',"+
+                                        "'"+rPDetalle.getFloat(4)+"',"+
+                                        "'"+rPDetalle.getString(5)+"'"
+                                        +"),";
+                    } while(rPDetalle.moveToNext());
+                    mSqlPDetalle = mSqlPDetalle.substring(0,mSqlPDetalle.length()-1);
+                }
+            }
+            Log.d("XXXXXXXXXXXXXXX",mSqlPDetalle);
+
+            paramentros.put("P",mSqlPedidos);
+            paramentros.put("D",mSqlPDetalle);
+
+            final String finalLogReg = mPedidos;
+            Cnx.post(Url.getURL_Pedido(), paramentros, new AsyncHttpResponseHandler() {
+                @Override
+                public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody) {
+                    if (statusCode==200){
+                        Toast.makeText(BandejaPedido.this, "Correcto", Toast.LENGTH_SHORT).show();
+                        //myDB.Update(finalLogReg);
+                        pdialog.dismiss();
+                    }else{
+                        pdialog.dismiss();
+                        Toast.makeText(BandejaPedido.this, "No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
+                    pdialog.dismiss();
+                    Toast.makeText(BandejaPedido.this, "Problemas de Cobertura de datos", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+        }else{
+            pdialog.dismiss();
+            Toast.makeText(BandejaPedido.this, "No hay Datos que Enviar", Toast.LENGTH_SHORT).show();
+        }
+
+
+
+
+    }
 
     private void loadData() {
         String[] from = new String[] { "COD","CCLIENTE","FECHA","MONTO","ESTADO"};
@@ -108,13 +211,9 @@ public class BandejaPedido extends AppCompatActivity {
         adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_bandeja_pedido, from, to);
         lv.setAdapter(adapter);
     }
-    private String ClearString(String cadena,String Star){
-        Log.d("STRING",cadena);
+    private String ClearString(String cadena,String Star,int p){
         String[] Posiciones = cadena.split(",");
-        cadena = Posiciones[1];
-        int c1 = cadena.indexOf(Star)+Star.length();
-        cadena = cadena.substring(c1);
-        return cadena;
+        return Posiciones[p].substring(Posiciones[p].indexOf(Star)+Star.length());
     }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
