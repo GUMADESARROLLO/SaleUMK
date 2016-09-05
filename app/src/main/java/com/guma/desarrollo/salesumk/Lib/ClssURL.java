@@ -14,7 +14,16 @@ public class ClssURL {
     private static String URL_Factura = "http://"+ SERVER +"/APIREST/FACTURAS.php";
     private static String URL_doom = "http://"+ SERVER +"/APIREST/Doom.php";
     private static String URL_Pedido= "http://"+ SERVER +"/APIREST/Pedido.php";
+    private static String URL_Asyn= "http://"+ SERVER +"/APIREST/Asyn.php";
+    private static String URL_AsynRecibo= "http://"+ SERVER +"/APIREST/allRecibo.php";
     public ClssURL() {
+    }
+    public static String getURL_Asyn() {
+        return URL_Asyn;
+    }
+
+    public static String getURL_AsynRecibo() {
+        return URL_AsynRecibo;
     }
 
 

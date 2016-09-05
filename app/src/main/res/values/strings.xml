@@ -106,5 +106,7 @@
     <string name="Pront_NameBanco">Banco</string>
     <string name="title_activity_bandeja_cobro">COBROS REALIZADOS</string>
     <string name="title_activity_bandeja_pedido">BandejaPedido</string>
+    <string name="title_activity_todos_pedidos">TodosPedidosActivity</string>
+    <string name="title_activity_todos_los_cobros">TodosLosCobrosActivity</string>
 
 </resources>

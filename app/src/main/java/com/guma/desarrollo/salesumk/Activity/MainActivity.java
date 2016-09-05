@@ -27,6 +27,7 @@ import com.guma.desarrollo.salesumk.Fragments.AgendadosCls;
 import com.guma.desarrollo.salesumk.Fragments.ClientesFragment;
 import com.guma.desarrollo.salesumk.Fragments.InboxFragment;
 import com.guma.desarrollo.salesumk.Fragments.StarredFragment;
+import com.guma.desarrollo.salesumk.Lib.Servidor;
 import com.guma.desarrollo.salesumk.Lib.Ubicacion;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     ActionBar actionBar;
     TextView nameUser;
     TextView nameUserName;
-
+    Servidor srv;
     Variables myVar;
 
     @Override
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        srv = new Servidor();
         actionBar = getSupportActionBar();
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu_white_24dp);
         actionBar.setDisplayHomeAsUpEnabled(true);
@@ -82,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
@@ -93,6 +93,15 @@ public class MainActivity extends AppCompatActivity {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
+            case R.id.action_Pedidos:
+                startActivity(new Intent(MainActivity.this,TodosPedidosActivity.class));
+                break;
+            case R.id.action_Cobros:
+                startActivity(new Intent(MainActivity.this,TodosLosCobrosActivity.class));
+                break;
+            case R.id.action_updt:
+                srv.PushAll(this);
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

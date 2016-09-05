@@ -234,7 +234,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Efectivo          INTEGER(1)," +
                 "       CHK               INTEGER(1)," +
                 "       NumCHK            TEXT(50)," +
-                "       Banco             TEXT(100)" +
+                "       Banco             TEXT(50)," +
+                "       Estado            INTEGER" +
                 ")");
 
 
@@ -499,6 +500,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("CHK",varCHK);
         contentValues.put("NumCHK",varNumCHK);
         contentValues.put("Banco",varBanco);
+        contentValues.put("Estado",0);
 
         long result = db.insert("Recibo",null,contentValues);
         if (result == -1){
@@ -574,6 +576,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return vareturn;
     }
+    public String[] getAllcobros(){
+        SQLiteDatabase db = this.getWritableDatabase();
+        int i=0;
+        String Query = "SELECT * FROM Recibo";
+        Cursor res = db.rawQuery(Query ,null);
+        String vareturn[] = new String[res.getCount()];
+        if (res.getCount()!=0){
+            if (res.moveToFirst()) {
+                do {
+                    vareturn[i] = res.getString(0)+","+res.getString(3)+","+res.getString(4);
+                    i++;
+                } while(res.moveToNext());
+            }
+        }
+        return vareturn;
+    }
     public String[] GetPedido(){
         SQLiteDatabase db = this.getWritableDatabase();
         int i=0;
@@ -590,6 +608,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
             }
         }
         return vareturn;
+    }
+    public Cursor dataUpdaload(String Tabla, int st){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM "+Tabla+" WHERE Estado='"+st+"'";
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
     }
     public Cursor getPedido(String Id){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -829,6 +853,12 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public Cursor GetAllRDetalle(){
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM RDetalle";
+        Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor getDetalle(String Tabla,String Datos,String Capos){
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM "+Tabla+" WHERE "+Capos+" in("+Datos+")";
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }

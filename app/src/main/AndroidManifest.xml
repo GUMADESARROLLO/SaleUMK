@@ -86,7 +86,15 @@
             android:theme="@style/Base.AppTheme.ActionBar" />
         <activity
             android:name=".Activity.ViewTicketActivity"
-            android:theme="@style/Base.AppTheme.ActionBar"/>
+            android:theme="@style/Base.AppTheme.ActionBar" />
+        <activity
+            android:name=".Activity.TodosPedidosActivity"
+            android:label="@string/title_activity_todos_pedidos"
+            android:theme="@style/Base.AppTheme.ActionBar" />
+        <activity
+            android:name=".Activity.TodosLosCobrosActivity"
+            android:label="@string/title_activity_todos_los_cobros"
+            android:theme="@style/Base.AppTheme.ActionBar" />
     </application>
 
 </manifest>

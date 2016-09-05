@@ -118,6 +118,8 @@ public class TicketActivity extends AppCompatActivity {
 
         myDB.SavePedidoTOP(SqlInsertTOP);
         myDB.SavePedidoFoot(SqlInsertDetalle);
+        SqlInsertTOP="";
+        SqlInsertDetalle="";
     }
 
     public void Alerta(String TipoError){

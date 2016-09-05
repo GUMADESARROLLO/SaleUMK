@@ -158,7 +158,7 @@ public class BandejaPedido extends AppCompatActivity {
                     mSqlPDetalle = mSqlPDetalle.substring(0,mSqlPDetalle.length()-1);
                 }
             }
-            Log.d("XXXXXXXXXXXXXXX",mSqlPDetalle);
+
 
             paramentros.put("P",mSqlPedidos);
             paramentros.put("D",mSqlPDetalle);
@@ -191,7 +191,7 @@ public class BandejaPedido extends AppCompatActivity {
 
 
 
-    }
+        }
 
     private void loadData() {
         String[] from = new String[] { "COD","CCLIENTE","FECHA","MONTO","ESTADO"};

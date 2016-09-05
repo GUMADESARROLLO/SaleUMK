@@ -5,10 +5,23 @@
     tools:context="com.guma.desarrollo.salesumk.Activity.MainActivity">
 
 
+
     <item
-        android:id="@+id/action_settings"
-        android:orderInCategory="100"
-        android:title="Settings"
-        android:visible="false"
-        app:showAsAction="never"/>
+        android:id="@+id/action_Pedidos"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_assignment_white_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="Cobro" />
+    <item
+        android:id="@+id/action_Cobros"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_monetization_on_white_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="Cobro" />
+    <item
+        android:id="@+id/action_updt"
+        android:orderInCategory="300"
+        android:icon="@drawable/ic_cloud_upload_white_24dp"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="Cobro" />
 </menu>
