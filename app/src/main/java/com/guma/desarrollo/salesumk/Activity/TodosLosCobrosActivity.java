@@ -31,6 +31,7 @@ public class TodosLosCobrosActivity extends AppCompatActivity {
     DataBaseHelper myDB;
     SpecialAdapter adapter;
     ListView lv;
+    Funciones vrF;
     Servidor srv;
     ClssURL Url;
     ProgressDialog pdialog;
@@ -61,8 +62,8 @@ public class TodosLosCobrosActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
     private void loadData() {
-        String[] from = new String[] { "RECIBO","FECHA","MONTO"};
-        int[] to = new int[] { R.id.Item_Bandeja_recibo,R.id.Item_bandeja_fecha,R.id.Item_bandeja_monto};
+        String[] from = new String[] { "RECIBO","FECHA","MONTO","ESTADO"};
+        int[] to = new int[] { R.id.Item_Bandeja_recibo,R.id.Item_bandeja_fecha,R.id.Item_bandeja_monto,R.id.Item_bandeja_estado};
         String[] datos = myDB.getAllcobros();
         for (int c=0;c<datos.length;c++){
             String[] valores = datos[c].split(",");
@@ -70,13 +71,14 @@ public class TodosLosCobrosActivity extends AppCompatActivity {
             map.put("RECIBO", valores[0]);
             map.put("FECHA", valores[1]);
             map.put("MONTO", valores[2]);
+            map.put("ESTADO", valores[3]);
             fillMaps.add(map);
         }
         adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_bandeja_cobro, from, to);
         lv.setAdapter(adapter);
     }
     private void Push(final Context context){
-        String[] dtsCobro = srv.PushCobros(context);
+        final String[] dtsCobro = srv.PushCobros(context);
         final AsyncHttpClient Cnx = new AsyncHttpClient();
         final RequestParams paramentros = new RequestParams();
         paramentros.put("R",dtsCobro[0]);
@@ -87,8 +89,9 @@ public class TodosLosCobrosActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody) {
                 if (statusCode==200){
                     Toast.makeText(context, "Correcto", Toast.LENGTH_SHORT).show();
-                    //myDB.Update(finalLogReg);
+                    myDB.UpdateRecord("Recibo","Estado","IdRecibo",1,dtsCobro[2]);
                     pdialog.dismiss();
+                    vrF.msg(TodosLosCobrosActivity.this,"La informacion fue Ingresada correctamente");
                 }else{
                     pdialog.dismiss();
                     Toast.makeText(context, "No hay respuesta del servidor", Toast.LENGTH_SHORT).show();

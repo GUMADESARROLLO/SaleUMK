@@ -1,7 +1,12 @@
 package com.guma.desarrollo.salesumk.Lib;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Build;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.text.format.DateFormat;
 
 import java.text.NumberFormat;
@@ -50,7 +55,14 @@ public class Funciones {
         Date d = new Date();
         return DateFormat.format("d/MM/yyyy", d.getTime());
     }
+    public void msg(final Context context, String msg){
+        new AlertDialog.Builder(context)
+                .setTitle("Actualización...")
+                .setMessage(msg)
+                .setIcon(android.R.drawable.ic_dialog_info)
+                .show();
 
+    }
 
 
 }

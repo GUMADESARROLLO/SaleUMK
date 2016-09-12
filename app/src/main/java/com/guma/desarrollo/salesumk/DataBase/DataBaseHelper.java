@@ -585,7 +585,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         if (res.getCount()!=0){
             if (res.moveToFirst()) {
                 do {
-                    vareturn[i] = res.getString(0)+","+res.getString(3)+","+res.getString(4);
+                    vareturn[i] = res.getString(0)+","+res.getString(3)+","+res.getString(4)+","+res.getString(14);
                     i++;
                 } while(res.moveToNext());
             }
@@ -664,6 +664,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("Estado", std);
         long result  = db.update("Agenda", values, "IdPlan" + "= '" + Id + "'", null);
+        db.close();
+
+        if (result == -1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+    public void updatePedido(String SQL){
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.rawQuery(SQL,null);
+        db.close();
+    }
+    public boolean UpdateRecord(String Tabla,String Campo,String Filtro,int Estado,String Record){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Campo, Estado);
+        long result  = db.update(Tabla, values, Filtro + " in(" + Record + ")", null);
         db.close();
 
         if (result == -1){

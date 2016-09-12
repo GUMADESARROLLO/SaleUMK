@@ -3,11 +3,14 @@ package com.guma.desarrollo.salesumk.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
@@ -23,6 +26,8 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
+import org.json.JSONArray;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +35,7 @@ import java.util.List;
 public class TodosPedidosActivity extends AppCompatActivity {
     List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
     DataBaseHelper myDB;
+    FloatingActionButton fab;
     SpecialAdapter adapter;
     ListView lv;
     Funciones vrF;
@@ -44,10 +50,12 @@ public class TodosPedidosActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        vrF = new Funciones();
         srv = new Servidor();
         myDB = new DataBaseHelper(this);
         lv = (ListView) findViewById(R.id.listview_bandeja_pedido);
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -81,7 +89,7 @@ public class TodosPedidosActivity extends AppCompatActivity {
         lv.setAdapter(adapter);
     }
     private void Push(final Context context){
-        String[] dtsPedidos = srv.PushPedidos(context);
+        final String[] dtsPedidos = srv.PushPedidos(context);
         final AsyncHttpClient Cnx = new AsyncHttpClient();
         final RequestParams paramentros = new RequestParams();
         paramentros.put("P",dtsPedidos[0]);
@@ -91,8 +99,22 @@ public class TodosPedidosActivity extends AppCompatActivity {
             @Override
             public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody) {
                 if (statusCode==200){
-                    Toast.makeText(context, "Correcto", Toast.LENGTH_SHORT).show();
-                    //myDB.Update(finalLogReg);
+
+                    ArrayList<String> updateSQL = updatePedidos(new String(responseBody));
+                    String[] items = updateSQL.get(0).split(",");
+                    SQLiteDatabase db = myDB.getWritableDatabase();
+                    if (Integer.parseInt(items[0])!=0){
+                        db.execSQL(items[1]);
+                    }
+                    db.close();
+
+                    myDB.UpdateRecord("Pedido","Estado","IdPedido",1,dtsPedidos[2]);
+
+
+                    /*SQLiteDatabase db = myDB.getWritableDatabase();
+                    db.execSQL("UPDATE Pedido SET Estado =0");
+                    db.close();*/
+                    vrF.msg(TodosPedidosActivity.this,"La informacion fue Ingresada correctamente");
                     pdialog.dismiss();
                 }else{
                     pdialog.dismiss();
@@ -105,6 +127,24 @@ public class TodosPedidosActivity extends AppCompatActivity {
                 Toast.makeText(context, "Problemas de Cobertura de datos", Toast.LENGTH_SHORT).show();
             }
         });
+
+    }
+    public ArrayList<String> updatePedidos(String response){
+        ArrayList<String> listado = new ArrayList<String>();
+        try{
+            JSONArray jsonArray = new JSONArray(response);
+            String texto;
+
+            for (int i=0; i<jsonArray.length(); i++){
+                texto = jsonArray.getJSONObject(i).getInt("count")+ "," +
+                        jsonArray.getJSONObject(i).getString("SQL");
+                listado.add(texto);
+            }
+
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return listado;
 
     }
 

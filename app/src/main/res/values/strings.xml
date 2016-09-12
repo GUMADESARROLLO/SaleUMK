@@ -109,4 +109,19 @@
     <string name="title_activity_todos_pedidos">TodosPedidosActivity</string>
     <string name="title_activity_todos_los_cobros">TodosLosCobrosActivity</string>
 
+    <string name="toast_success">Success</string>
+    <string name="toast_fail">Fail</string>
+    <string name="toast_notconnect">Please connect printer</string>
+    <string name="toast_usbpermit">Please permit app use usb and reclick this button</string>
+    <string name="updateprogram">Update Program</string>
+    <string name="utf8">UTF8</string>
+    <string name="gbk">GBK</string>
+    <string name="printing">Printing</string>
+    <string name="printernotconnected">Printer not connected</string>
+
+    <string name="sendtouart">Send To Uart</string>
+    <string name="sendtext">Send Text</string>
+
+    <string name="menu_setdebug">Set Debug</string>
+
 </resources>

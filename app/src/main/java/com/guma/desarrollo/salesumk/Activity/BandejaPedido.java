@@ -78,8 +78,6 @@ public class BandejaPedido extends AppCompatActivity {
                             startActivity(new Intent(BandejaPedido.this, ViewTicketActivity.class).putExtra("COD",COD));
                         }
 
-
-
                     }
                 }).create().show();
 
@@ -159,7 +157,6 @@ public class BandejaPedido extends AppCompatActivity {
                 }
             }
 
-
             paramentros.put("P",mSqlPedidos);
             paramentros.put("D",mSqlPDetalle);
 
@@ -182,16 +179,11 @@ public class BandejaPedido extends AppCompatActivity {
                     Toast.makeText(BandejaPedido.this, "Problemas de Cobertura de datos", Toast.LENGTH_SHORT).show();
                 }
             });
-
         }else{
             pdialog.dismiss();
             Toast.makeText(BandejaPedido.this, "No hay Datos que Enviar", Toast.LENGTH_SHORT).show();
         }
-
-
-
-
-        }
+    }
 
     private void loadData() {
         String[] from = new String[] { "COD","CCLIENTE","FECHA","MONTO","ESTADO"};
@@ -228,8 +220,6 @@ public class BandejaPedido extends AppCompatActivity {
                 Intent MenuIntent = new Intent(BandejaPedido.this,CrearSaleActivity.class);
                 BandejaPedido.this.startActivity(MenuIntent);
                 break;
-
-
         }
         return super.onOptionsItemSelected(item);
     }

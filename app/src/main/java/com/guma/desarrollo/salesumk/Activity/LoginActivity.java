@@ -3,10 +3,17 @@ package com.guma.desarrollo.salesumk.Activity;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
+import android.app.ProgressDialog;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothDevice;
+import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.wifi.WifiManager;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -26,17 +33,21 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.inputmethod.EditorInfo;
+
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import com.guma.desarrollo.salesumk.Lib.Funciones;
+
 import com.guma.desarrollo.salesumk.Lib.Ubicacion;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -47,6 +58,7 @@ import com.guma.desarrollo.salesumk.R;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+
 
 
 
@@ -70,8 +82,19 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+
+
+
         populateAutoComplete();
+        findViewById(R.id.lstbt).setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(LoginActivity.this, "Lista", Toast.LENGTH_SHORT).show();
+
+            }
+        });
 
 //        Ubicacion ub = new Ubicacion(this);
 
@@ -99,6 +122,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
         myDB = new DataBaseHelper(this);
+
 
 
     }

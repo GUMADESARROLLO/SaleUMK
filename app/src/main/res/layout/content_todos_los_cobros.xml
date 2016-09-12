@@ -66,6 +66,18 @@
                     android:text="MONTO"
                     android:layout_gravity="left"
                     />
+                <TextView
+                    android:id="@+id/Item_bandeja_estado"
+                    android:layout_height="fill_parent"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/UmkBlanco"
+                    android:gravity="center_horizontal"
+                    android:padding="10dp"
+                    android:text="ESTADO"
+                    android:layout_gravity="left"
+                    />
+
 
             </LinearLayout>
 
