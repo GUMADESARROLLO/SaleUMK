@@ -2,8 +2,8 @@ package com.guma.desarrollo.salesumk.Lib;
 
 
 public class ClssURL {
-    private static String SERVER = "192.168.1.78:8448";
-    //private static String SERVER = "165.98.75.219:8448";
+    //private static String SERVER = "192.168.1.78:8448";
+    private static String SERVER = "165.98.75.219:8448";
 
     private static String URL_INVE  = "http://"+ SERVER +"/APIREST/Inventario.php";
     private static String URL_login = "http://"+ SERVER +"/APIREST/Login.php";

@@ -3,9 +3,16 @@ package com.guma.desarrollo.salesumk.Activity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.net.Uri;
+import android.os.Environment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +21,13 @@ import com.guma.desarrollo.salesumk.Adapters.SpecialAdapter;
 import com.guma.desarrollo.salesumk.DataBase.DataBaseHelper;
 import com.guma.desarrollo.salesumk.Lib.Funciones;
 import com.guma.desarrollo.salesumk.R;
+import com.lvrenyang.myprinter.Global;
+import com.lvrenyang.myprinter.WorkService;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,6 +39,7 @@ public class ViewTicketActivity extends AppCompatActivity {
     DataBaseHelper myDB;
     String IdPedido;
     ListView lv;
+    LinearLayout view;
     SpecialAdapter adapter;
     Funciones vrF;
 
@@ -38,8 +52,9 @@ public class ViewTicketActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+        InitGlobalString();
         iPedido = getIntent();
-
+        view = (LinearLayout)findViewById(R.id.idViewTicket);
 
         IdPedido        = iPedido.getStringExtra("COD");
         myDB            = new DataBaseHelper(this);
@@ -59,6 +74,22 @@ public class ViewTicketActivity extends AppCompatActivity {
 
 
 
+    }
+    private void InitGlobalString() {
+        Global.toast_success = getString(R.string.toast_success);
+        Global.toast_fail = getString(R.string.toast_fail);
+        Global.toast_notconnect = getString(R.string.toast_notconnect);
+        Global.toast_usbpermit = getString(R.string.toast_usbpermit);
+        if (null == WorkService.workThread) {
+            Intent intent = new Intent(this, WorkService.class);
+            startService(intent);
+        }
+
+
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_print,menu);
+        return true;
     }
 
     private void verPedido() {
@@ -104,7 +135,69 @@ public class ViewTicketActivity extends AppCompatActivity {
         if (id == 16908332){
             finish();
         }
+
+        if(id == R.id.action_print){
+
+
+            if (WorkService.workThread.isConnected()){
+                //PrintImage();
+            }else{
+
+                startActivityForResult(new Intent(ViewTicketActivity.this,ListaBTActivity.class),0);
+            }
+            //storeImage(b);
+
+        }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==0 && resultCode==RESULT_OK){
+            PrintImage();
+        }else{
+            Toast.makeText(ViewTicketActivity.this, "No se pudo Vincular con el Dispositivo", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void PrintImage(){
+        Bitmap b = viewToBitmap(view);
+        Bundle data = new Bundle();
+        data.putParcelable(Global.PARCE1, b);
+        data.putInt(Global.INTPARA1, 384);
+        data.putInt(Global.INTPARA2, 0);
+        WorkService.workThread.handleCmd(Global.CMD_POS_PRINTPICTURE, data);
+    }
+    public Bitmap viewToBitmap(View view) {
+        Bitmap bitmap = Bitmap.createBitmap(view.getWidth(), view.getHeight(), Bitmap.Config.RGB_565);
+        Canvas canvas = new Canvas(bitmap);
+        canvas.drawColor(Color.rgb(255,255,255));
+        canvas.setDensity(24);
+        view.draw(canvas);
+        return bitmap;
+    }
+    private void storeImage(Bitmap image) {
+
+        try {
+            FileOutputStream output = new FileOutputStream(Environment.getExternalStorageDirectory() + "/DCIM/file.PNG");
+            File file = new File(Environment.getExternalStorageDirectory() + "/DCIM/file.PNG");
+            image.compress(Bitmap.CompressFormat.PNG, 100, output);
+            output.close();
+
+            file.setReadable(true, false);
+            Toast.makeText(ViewTicketActivity.this, file.toString(), Toast.LENGTH_LONG).show();
+            final Intent intent = new Intent(android.content.Intent.ACTION_SEND);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(file));
+            intent.setType("image/png");
+            startActivity(intent);
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

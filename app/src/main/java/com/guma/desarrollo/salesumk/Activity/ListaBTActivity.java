@@ -50,11 +50,6 @@ public class ListaBTActivity extends AppCompatActivity implements AdapterView.On
         new Handler().postDelayed(new Runnable() {
 
             public void run() {
-                if (WorkService.workThread.isConnected()){
-                    tblth.setText("Conectado");
-                }else{
-                    tblth.setText("Desconectado");
-                }
                 BluetoothAdapter adapter = BluetoothAdapter.getDefaultAdapter();
                 if (null != adapter) {
                     if (!adapter.isEnabled()) {
@@ -118,7 +113,7 @@ public class ListaBTActivity extends AppCompatActivity implements AdapterView.On
             Intent intent = new Intent(this, WorkService.class);
             startService(intent);
         }
-        tblth = (TextView) findViewById(R.id.tvEstado);
+
 
     }
     public void onItemClick(AdapterView<?> arg0, View arg1, int position,long id) {
@@ -143,18 +138,11 @@ public class ListaBTActivity extends AppCompatActivity implements AdapterView.On
         public void handleMessage(Message msg) {
             ListaBTActivity theActivity = mActivity.get();
             switch (msg.what) {
-                /**
-                 * DrawerService 的 onStartCommand会发送这个消息
-                 */
-
                 case Global.MSG_WORKTHREAD_SEND_CONNECTBTRESULT: {
-                    int result = msg.arg1;
-                    Toast.makeText(
-                            theActivity,
-                            (result == 1) ? Global.toast_success
-                                    : Global.toast_fail, Toast.LENGTH_SHORT).show();
-                    Log.v(TAG, "Connect Result: " + result);
+                    //Toast.makeText(theActivity,, Toast.LENGTH_SHORT).show();
                     theActivity.dialog.cancel();
+                    theActivity.getIntent().putExtra("Resul", msg.arg1);
+                    theActivity.finish();
                     break;
                 }
 

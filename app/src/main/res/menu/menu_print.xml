@@ -11,7 +11,7 @@
         android:orderInCategory="300"
         android:icon="@drawable/ic_print_white_24dp"
         app:showAsAction="ifRoom|collapseActionView"
-        android:title="send" />
+        android:title="Imprimir" />
 
 
 </menu>

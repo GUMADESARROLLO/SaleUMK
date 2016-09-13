@@ -25,6 +25,8 @@ import com.guma.desarrollo.salesumk.Lib.ClsVariblesPedido;
 import com.guma.desarrollo.salesumk.Lib.Funciones;
 import com.guma.desarrollo.salesumk.Lib.Variables;
 import com.guma.desarrollo.salesumk.R;
+import com.lvrenyang.myprinter.Global;
+import com.lvrenyang.myprinter.WorkService;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -59,7 +61,7 @@ public class TicketActivity extends AppCompatActivity {
         if (getSupportActionBar() != null){
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
-
+        InitGlobalString();
 
 
 
@@ -160,7 +162,18 @@ public class TicketActivity extends AppCompatActivity {
 
 
     }
+    private void InitGlobalString() {
+        Global.toast_success = getString(R.string.toast_success);
+        Global.toast_fail = getString(R.string.toast_fail);
+        Global.toast_notconnect = getString(R.string.toast_notconnect);
+        Global.toast_usbpermit = getString(R.string.toast_usbpermit);
+        if (null == WorkService.workThread) {
+            Intent intent = new Intent(this, WorkService.class);
+            startService(intent);
+        }
 
+
+    }
     public boolean onOptionsItemSelected(MenuItem item){
         int id = item.getItemId();
         if (id == 16908332){
@@ -170,9 +183,13 @@ public class TicketActivity extends AppCompatActivity {
 
         if(id == R.id.action_print){
 
-            Bitmap b = viewToBitmap(view);
-            storeImage(b);
 
+            if (WorkService.workThread.isConnected()){
+                //PrintImage();
+            }else{
+                startActivityForResult(new Intent(TicketActivity.this,ListaBTActivity.class),0);
+            }
+            //storeImage(b);
         }
         /*switch (titulo){
             case "send":
@@ -185,8 +202,25 @@ public class TicketActivity extends AppCompatActivity {
         }*/
         return super.onOptionsItemSelected(item);
     }
+    public void PrintImage(){
+        Bitmap b = viewToBitmap(view);
+        Bundle data = new Bundle();
+        data.putParcelable(Global.PARCE1, b);
+        data.putInt(Global.INTPARA1, 384);
+        data.putInt(Global.INTPARA2, 0);
+        WorkService.workThread.handleCmd(Global.CMD_POS_PRINTPICTURE, data);
+    }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode==0 && resultCode==RESULT_OK){
+            PrintImage();
+        }else{
+            Toast.makeText(TicketActivity.this, "No se pudo Vincular con el Dispositivo", Toast.LENGTH_SHORT).show();
+        }
+    }
     public boolean onCreateOptionsMenu(Menu menu) {
-        //getMenuInflater().inflate(R.menu.menu_print,menu);
+        getMenuInflater().inflate(R.menu.menu_print,menu);
         return true;
     }
 
