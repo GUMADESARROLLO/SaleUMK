@@ -27,6 +27,7 @@ import com.guma.desarrollo.salesumk.Fragments.AgendadosCls;
 import com.guma.desarrollo.salesumk.Fragments.ClientesFragment;
 import com.guma.desarrollo.salesumk.Fragments.InboxFragment;
 import com.guma.desarrollo.salesumk.Fragments.StarredFragment;
+import com.guma.desarrollo.salesumk.Fragments.WelcomeFragment;
 import com.guma.desarrollo.salesumk.Lib.Servidor;
 import com.guma.desarrollo.salesumk.Lib.Ubicacion;
 import com.guma.desarrollo.salesumk.Lib.Variables;
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
 
         //First fragment
         //setFragment(4);
-        setFragment(4);
+        setFragment(3);
 
     }
 
@@ -187,11 +188,11 @@ public class MainActivity extends AppCompatActivity {
             /*case 2:
                 Liq6Fragment liq6Fragment = new Liq6Fragment();
                 fragmentTransaction.replace(R.id.fragment, liq6Fragment);
-                break;
-            case 3:
-                Liq12Fragment liq12Fragment = new Liq12Fragment();
-                fragmentTransaction.replace(R.id.fragment, liq12Fragment);
                 break;*/
+            case 3:
+                WelcomeFragment wfragment = new WelcomeFragment();
+                fragmentTransaction.replace(R.id.fragment, wfragment);
+                break;
             case 4:
                 //AgendadosCls agendadosCls = new AgendadosCls();
                 ClientesFragment cl = new ClientesFragment();

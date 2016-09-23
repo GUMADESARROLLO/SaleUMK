@@ -88,13 +88,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
         populateAutoComplete();
-        findViewById(R.id.lstbt).setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(LoginActivity.this, "Lista", Toast.LENGTH_SHORT).show();
 
-            }
-        });
 
 //        Ubicacion ub = new Ubicacion(this);
 

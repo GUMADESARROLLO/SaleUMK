@@ -85,13 +85,6 @@
                 android:layout_marginTop="30dp"
                 android:text="@string/action_sign_in"
                 android:textStyle="bold" />
-            <TextView
-                android:id="@+id/lstbt"
-                android:padding="10dp"
-                android:text="Lista"
-                android:gravity="center"
-                android:layout_width="fill_parent"
-                android:layout_height="match_parent" />
 
 
         </LinearLayout>

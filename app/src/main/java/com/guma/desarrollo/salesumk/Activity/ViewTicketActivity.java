@@ -138,9 +138,8 @@ public class ViewTicketActivity extends AppCompatActivity {
 
         if(id == R.id.action_print){
 
-
             if (WorkService.workThread.isConnected()){
-                //PrintImage();
+                PrintImage();
             }else{
 
                 startActivityForResult(new Intent(ViewTicketActivity.this,ListaBTActivity.class),0);

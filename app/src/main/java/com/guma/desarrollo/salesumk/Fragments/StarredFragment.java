@@ -90,7 +90,7 @@ public class StarredFragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
                 String Cod = ClearString(selectedFromList);
-                Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
+               // Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
                 if (Cod.equals("0")){
                     Toast.makeText(getActivity(), "Tiene que Sincronizar el Dispositivo", Toast.LENGTH_SHORT).show();
                 }else{
