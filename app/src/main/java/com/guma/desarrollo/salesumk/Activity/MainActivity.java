@@ -115,7 +115,7 @@ public class MainActivity extends AppCompatActivity {
                         switch (menuItem.getItemId()) {
                             case R.id.item_home:
                                 menuItem.setChecked(true);
-                                setFragment(4);
+                                setFragment(3);
                                 drawerLayout.closeDrawer(GravityCompat.START);
                                 return true;
                             case R.id.item_Inv:
