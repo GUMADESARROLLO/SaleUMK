@@ -15,8 +15,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class InfoClientesActivity extends AppCompatActivity {
-
+public class InfoClientesActivity extends AppCompatActivity
+{
     /*private RecyclerView recycler;
     private RecyclerView.Adapter adapter;
     private RecyclerView.LayoutManager lManager;*/
@@ -24,16 +24,18 @@ public class InfoClientesActivity extends AppCompatActivity {
     ListView lv;
     ListView lv_mora;
     ListView lv_factura;
+    ListView lv_puntos;
     SpecialAdapter adapter;
     Variables myVa;
     DataBaseHelper myDB;
 
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_info_clientes);
-        if (getSupportActionBar() != null){
+        if (getSupportActionBar() != null)
+        {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
         setTitle("INFORMACION DEL CLIENTE");
@@ -43,6 +45,7 @@ public class InfoClientesActivity extends AppCompatActivity {
         lv = (ListView) findViewById(R.id.listview_info_cliente);
         lv_mora = (ListView) findViewById(R.id.listview_mora);
         lv_factura = (ListView) findViewById(R.id.list_item_facturas);
+        lv_puntos = (ListView) findViewById(R.id.listview_puntos);
 
         loadData_Cliente();
         loadData_Cliente_mora();
@@ -53,7 +56,6 @@ public class InfoClientesActivity extends AppCompatActivity {
         items.add(new Anime("Lotes", 456));
         items.add(new Anime("Vencimiento", 342));
 
-
         recycler = (RecyclerView) findViewById(R.id.reciclador);
         recycler.setHasFixedSize(true);
         lManager = new LinearLayoutManager(this);
@@ -61,23 +63,27 @@ public class InfoClientesActivity extends AppCompatActivity {
         adapter = new AnimeAdapter(items);
         recycler.setAdapter(adapter);*/
 
-
     }
 
-    private void loadData_Cliente() {
+    private void loadData_Cliente()
+    {
         String[] from = new String[] { "Item"};
         int[] to = new int[] { R.id.item_infoCliente};
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
         String[] datos = new String[0];
 
-
         Cursor res = myDB.InfoCliente(myVa.getInv_Cliente());
-        if (res.getCount()==0){
+        if (res.getCount()==0)
+        {
             datos = new String[]{"NOMBRE:", "DIRECCION:", "TELEFONO:", "SALDO:", "LIMITE CREDITO:", "DISPONIBLE"};
 
-        }else{
-            if (res.moveToFirst()) {
-                do {
+        }
+        else
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     datos = new String[]{
                             "NOMBRE: " + res.getString(1),
                             "DIRECCION: "+ res.getString(2),
@@ -88,11 +94,10 @@ public class InfoClientesActivity extends AppCompatActivity {
                             //,"MOROSO: "+ res.getString(4)};
                 } while(res.moveToNext());
             }
-
         }
 
-
-        for (int c=0;c<datos.length;c++){
+        for (int c=0;c<datos.length;c++)
+        {
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("Item", datos[c]);
             fillMaps.add(map);
@@ -100,21 +105,26 @@ public class InfoClientesActivity extends AppCompatActivity {
         adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_info_cliente, from, to);
         lv.setAdapter(adapter);
     }
-    private void loadData_Cliente_mora() {
+    private void loadData_Cliente_mora()
+    {
         String[] from = new String[] { "Item"};
         int[] to = new int[] { R.id.item_infoCliente_mora};
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
 
         String[] datos = new String[0];
 
-
         Cursor res = myDB.InfoCliente(myVa.getInv_Cliente());
-        if (res.getCount()==0){
+        if (res.getCount()==0)
+        {
             datos = new String[]{"NoVencidos:","Dias30:","Dias60:","Dias90:","Dias120:","Mas120"};
 
-        }else{
-            if (res.moveToFirst()) {
-                do {
+        }
+        else
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     datos = new String[]{
                             "NoVencidos: " + res.getString(9),
                             "Dias30: "+ res.getString(10),
@@ -125,8 +135,8 @@ public class InfoClientesActivity extends AppCompatActivity {
                 } while(res.moveToNext());
             }
         }
-
-        for (int c=0;c<datos.length;c++){
+        for (int c=0;c<datos.length;c++)
+        {
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("Item", datos[c]);
             fillMaps.add(map);
@@ -134,15 +144,48 @@ public class InfoClientesActivity extends AppCompatActivity {
         adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_info_cliente_mora, from, to);
         lv_mora.setAdapter(adapter);
     }
-    private void loadData_Cliente_Factura() {
+    private void loadData_Puntos_Factura()
+    {
+        String[] from = new String[] {"Factura","Fecha","Puntos"};
+        int[] to = new int[]{R.id.Item_Puntos_Factura,R.id.Item_Puntos_Fecha,R.id.Item_Puntos_Puntos};
+        List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
+        Cursor res = myDB.InfoClienteFacturaPuntos(myVa.getInv_Cliente());
+        if (res.getCount()==0)
+        {
+            HashMap<String,String> map = new HashMap<String,String>();
+            map.put("Factura","");
+            map.put("Fecha","");
+            map.put("Puntos","");
+            fillMaps.add(map);
+        }
+        else
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
+                    HashMap<String, String> map = new HashMap<String, String>();
+                    map.put("Factura", res.getString(0));
+                    map.put("Fecha", res.getString(5));
+                    map.put("Puntos", res.getString(4));
+                    fillMaps.add(map);
+                } while(res.moveToNext());
+            }
+        }
+        //adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_infocl_factura, from, to);
+        adapter = new SpecialAdapter(this,fillMaps,R.layout.grid_item_infocl_puntos,from,to);
+        lv_puntos.setAdapter(adapter);
 
+    }
+    private void loadData_Cliente_Factura()
+    {
         String[] from = new String[] {"Factura","FechaVence","Monto","Saldo"};
         int[] to = new int[] { R.id.Item_Factura,R.id.Item_Factura_Vence,R.id.Item_Monto,R.id.Item_Saldo};
         List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
 
-
         Cursor res = myDB.InfoClienteFactura(myVa.getInv_Cliente());
-        if (res.getCount()==0){
+        if (res.getCount()==0)
+        {
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("Factura", "");
             map.put("FechaVence", "");
@@ -150,9 +193,13 @@ public class InfoClientesActivity extends AppCompatActivity {
             map.put("Saldo", "");
             fillMaps.add(map);
 
-        }else{
-            if (res.moveToFirst()) {
-                do {
+        }
+        else
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     HashMap<String, String> map = new HashMap<String, String>();
                     map.put("Factura", res.getString(0));
                     map.put("FechaVence", res.getString(5));
@@ -162,14 +209,12 @@ public class InfoClientesActivity extends AppCompatActivity {
                 } while(res.moveToNext());
             }
         }
-
-
         adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_infocl_factura, from, to);
         lv_factura.setAdapter(adapter);
-
     }
 
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         int id = item.getItemId();
 
         if (id == 16908332){
@@ -177,5 +222,4 @@ public class InfoClientesActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
 }

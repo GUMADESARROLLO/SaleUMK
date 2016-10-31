@@ -1,4 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/md_grey_300"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+>
 <!--<android.support.v7.widget.RecyclerView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/reciclador"
@@ -30,7 +41,6 @@
                 card_view:cardElevation="4dp"
                 card_view:cardUseCompatPadding="true"
                 >
-
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -75,59 +85,57 @@
             </android.support.v7.widget.CardView>
         </LinearLayout>
     <!--CardView Informacion de mora Cliente-->
-    <android.support.v7.widget.CardView
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:card_view="http://schemas.android.com/apk/res-auto"
-        android:layout_width="match_parent"
-        android:layout_height="250dp"
-        card_view:cardCornerRadius="4dp"
-        card_view:cardElevation="4dp"
-        card_view:cardUseCompatPadding="true"
-        >
-
-        <RelativeLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <LinearLayout
-                android:id="@+id/header_mora"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/UmkAzulOscuro"
+            android:layout_height="250dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="4dp"
+            card_view:cardUseCompatPadding="true"
+            >
 
-                >
-                <TextView android:id="@+id/item_info_cliente_mora"
-                    android:gravity="center"
-                    android:layout_height="fill_parent"
-                    android:layout_width="match_parent"
-                    android:textColor="@color/UmkBlanco"
-                    android:textStyle="bold"
-                    android:text="SALDO EN MORA"
-                    android:padding="10dp"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:id="@+id/header_mora"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/UmkAzulOscuro"
 
-                    />
+                    >
+                    <TextView android:id="@+id/item_info_cliente_mora"
+                        android:gravity="center"
+                        android:layout_height="fill_parent"
+                        android:layout_width="match_parent"
+                        android:textColor="@color/UmkBlanco"
+                        android:textStyle="bold"
+                        android:text="SALDO EN MORA"
+                        android:padding="10dp"
 
-            </LinearLayout>
+                        />
 
-            <View android:layout_width="fill_parent"
-                android:layout_height="1dip"
-                android:background="?android:attr/listDivider" />
-            <LinearLayout android:id="@+id/layout_lotes"
-                android:layout_marginTop="20dp"
-                android:layout_width="wrap_content"
-                android:layout_height="fill_parent">
-                <ListView android:id="@+id/listview_mora"
-                    android:layout_marginTop="17dp"
-                    android:layout_height="fill_parent"
-                    android:layout_width="fill_parent">
-                </ListView>
-            </LinearLayout>
+                </LinearLayout>
 
-        </RelativeLayout>
+                <View android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="?android:attr/listDivider" />
+                <LinearLayout android:id="@+id/layout_lotes"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                    <ListView android:id="@+id/listview_mora"
+                        android:layout_marginTop="17dp"
+                        android:layout_height="fill_parent"
+                        android:layout_width="fill_parent">
+                    </ListView>
+                </LinearLayout>
 
-    </android.support.v7.widget.CardView>
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
     <!--CardView Informacion de FACTURAS-->
-
     <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
@@ -215,6 +223,79 @@
 
     </android.support.v7.widget.CardView>
 
+    <!-- Seccion Puntos por Factura -->
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            card_view:cardCornerRadius="4dp"
+            card_view:cardElevation="4dp"
+            card_view:cardUseCompatPadding="true"
+            >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@color/UmkAzulOscuro">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/UmkBlanco"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:text="FACTURA"
+                        android:layout_gravity="left"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/UmkBlanco"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:text="FECHA"
+                        android:layout_gravity="left"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/UmkBlanco"
+                        android:textStyle="bold"
+                        android:gravity="center_horizontal"
+                        android:padding="10dp"
+                        android:text="PUNTOS"
+                        android:layout_gravity="left"
+                        />
 
 
-</LinearLayout>
+                </LinearLayout>
+
+                <View android:layout_width="fill_parent"
+                    android:layout_height="1dip"
+                    android:background="?android:attr/listDivider" />
+                <LinearLayout android:id="@+id/layout_puntos"
+                    android:layout_marginTop="20dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent">
+                    <ListView android:id="@+id/listview_puntos"
+                        android:layout_marginTop="17dp"
+                        android:layout_height="fill_parent"
+                        android:layout_width="fill_parent">
+                    </ListView>
+                </LinearLayout>
+
+            </RelativeLayout>
+
+        </android.support.v7.widget.CardView>
+
+    </LinearLayout>
+
+</ScrollView>

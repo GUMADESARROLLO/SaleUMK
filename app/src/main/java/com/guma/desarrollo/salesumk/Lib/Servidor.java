@@ -1,6 +1,5 @@
 package com.guma.desarrollo.salesumk.Lib;
 
-
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.database.Cursor;
@@ -11,19 +10,25 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-public class Servidor {
+public class Servidor
+{
     DataBaseHelper myDB;
     Funciones vrf;
     ClssURL Url;
     ProgressDialog pdialog;
-    public String[] PushPedidos(Context C){
+
+    public String[] PushPedidos(Context C)
+    {
         String[] Dtos = new String[3];
         String SqlSyncInsert = "",SqlSyncInsertDetalles="",mPedidos="";
         myDB = new DataBaseHelper(C);
         Cursor res = myDB.dataUpdaload("Pedido",0);
-        if (res.getCount()!=0){
-            if (res.moveToFirst()){
-                do {
+        if (res.getCount()!=0)
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     mPedidos += "'" + res.getString(0)+ "',";
                     SqlSyncInsert +=
                             "CALL SP_pedidos ("+
@@ -49,10 +54,13 @@ public class Servidor {
         }
         //DETALLES DE LOS PEDIDOS
         Cursor ResDetalle = myDB.getDetalle("PDETALLE",mPedidos,"IdPedido");
-        if (ResDetalle.getCount()!=0){
+        if (ResDetalle.getCount()!=0)
+        {
             SqlSyncInsertDetalles = "INSERT INTO PDetalle (IdPedido, IdArticulo, Descripcion, Cantidad, Precio, Bono) VALUES";
-            if (ResDetalle.moveToFirst()){
-                do {
+            if (ResDetalle.moveToFirst())
+            {
+                do
+                {
                     SqlSyncInsertDetalles +=
                             " ("+
                                     "'"+ResDetalle.getString(0)+"',"+
@@ -72,16 +80,19 @@ public class Servidor {
         Dtos[2]=mPedidos;
         return Dtos;
     }
-    public String[] PushCobros(Context C){
+    public String[] PushCobros(Context C)
+    {
         String SqlSyncInsert = "",SqlSyncInsertDetalles="",mPedidos="";
         String[] Dtos = new String[3];
         myDB = new DataBaseHelper(C);
         Cursor res = myDB.dataUpdaload("Recibo",0);
-        if (res.getCount()!=0){
-
+        if (res.getCount()!=0)
+        {
             SqlSyncInsert = "INSERT INTO recibo (IdRecibo, IdCliente, Vendedor, Fecha, MRecibo, TC, TM, Recibimos, LCantidad, Concepto, Efectivo, CHK, NumCHK, Banco) VALUES";
-            if (res.moveToFirst()){
-                do {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     mPedidos += "'" + res.getString(0)+ "',";
                     SqlSyncInsert +=
                             "("+
@@ -107,10 +118,13 @@ public class Servidor {
         }
         //DETALLES DE LOS RECIBOS
         Cursor ResDetalle = myDB.getDetalle("RDetalle",mPedidos,"IdRecibo");
-        if (ResDetalle.getCount()!=0){
+        if (ResDetalle.getCount()!=0)
+        {
             SqlSyncInsertDetalles = "INSERT INTO rdetalle (IdRecibo, NFactura, FValor, ValorNC, Retencion, Descuento, VRecibo, Saldo) VALUES";
-            if (ResDetalle.moveToFirst()){
-                do {
+            if (ResDetalle.moveToFirst())
+            {
+                do
+                {
                     SqlSyncInsertDetalles +=
                             "("+
                                     "'"+ResDetalle.getString(0)+"',"+
@@ -129,11 +143,10 @@ public class Servidor {
         Dtos[0]=SqlSyncInsert;
         Dtos[1]=SqlSyncInsertDetalles;
         Dtos[2]=mPedidos;
-
         return Dtos;
-
     }
-    public void PushAll(final Context C){
+    public void PushAll(final Context C)
+    {
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
 
@@ -154,25 +167,26 @@ public class Servidor {
         paramentros.put("Recibos",dtsCobro[0]);
         paramentros.put("DRecibos",dtsCobro[1]);
         pdialog = ProgressDialog.show(C, "","Procesando, ya casi terminamos...", true);
-        Cnx.post(Url.getURL_Asyn(), paramentros, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody) {
-                if (statusCode==200){
-                    Toast.makeText(C, "Correcto", Toast.LENGTH_SHORT).show();
-                    //myDB.Update(finalLogReg);
+        Cnx.post
+        (Url.getURL_Asyn(), paramentros, new AsyncHttpResponseHandler()
+            {
+                @Override
+                public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody) {
+                    if (statusCode==200){
+                        Toast.makeText(C, "Correcto", Toast.LENGTH_SHORT).show();
+                        //myDB.Update(finalLogReg);
+                        pdialog.dismiss();
+                    }else{
+                        pdialog.dismiss();
+                        Toast.makeText(C, "No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
                     pdialog.dismiss();
-                }else{
-                    pdialog.dismiss();
-                    Toast.makeText(C, "No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(C, "Problemas de Cobertura de datos", Toast.LENGTH_SHORT).show();
                 }
             }
-            @Override
-            public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
-                pdialog.dismiss();
-                Toast.makeText(C, "Problemas de Cobertura de datos", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
+        );
     }
 }

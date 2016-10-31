@@ -8,11 +8,11 @@ import android.view.ViewGroup;
 import com.guma.desarrollo.salesumk.Activity.MainActivity;
 import com.guma.desarrollo.salesumk.R;
 
-
-public class WelcomeFragment extends Fragment {
-
+public class WelcomeFragment extends Fragment
+{
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         final View view = inflater.inflate(R.layout.fragment_welcome, container, false);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("SALES [UMK]");
         return view;

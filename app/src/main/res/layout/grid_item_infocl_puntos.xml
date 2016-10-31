@@ -4,61 +4,39 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-
 >
     <TextView
-        android:id="@+id/Item_PBandeja_Cod"
+        android:id="@+id/Item_Puntos_Factura"
         android:layout_height="fill_parent"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:textColor="@color/UmkAzulOscuro"
         android:gravity="center_horizontal"
         android:padding="10dp"
-        android:text="RECIBO"
+        android:text="Factura No"
         android:layout_gravity="left"
         />
     <TextView
-        android:id="@+id/Item_PBandeja_Cliente"
+        android:id="@+id/Item_Puntos_Fecha"
         android:layout_height="fill_parent"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:textColor="@color/UmkAzulOscuro"
         android:gravity="center_horizontal"
         android:padding="10dp"
-        android:text="Cliente"
+        android:text="Fecha Vence"
         android:layout_gravity="left"
         />
     <TextView
-        android:id="@+id/Item_PBandeja_fecha"
+        android:id="@+id/Item_Puntos_Puntos"
         android:layout_height="fill_parent"
         android:layout_width="0dp"
         android:layout_weight="1"
         android:textColor="@color/UmkAzulOscuro"
         android:gravity="center_horizontal"
         android:padding="10dp"
-        android:text="Fecha"
+        android:text="Valor Factura"
         android:layout_gravity="left"
         />
-    <TextView
-        android:id="@+id/Item_PBandeja_Monto"
-        android:layout_height="fill_parent"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:textColor="@color/UmkAzulOscuro"
-        android:gravity="center_horizontal"
-        android:padding="10dp"
-        android:text="MONTO"
-        android:layout_gravity="left"
-        />
-    <TextView
-        android:id="@+id/Item_PBandeja_Estado"
-        android:layout_height="fill_parent"
-        android:layout_width="0dp"
-        android:layout_weight="1"
-        android:textColor="@color/UmkAzulOscuro"
-        android:gravity="center_horizontal"
-        android:padding="10dp"
-        android:text="Estado"
-        android:layout_gravity="left"
-        />
+
 </LinearLayout>
