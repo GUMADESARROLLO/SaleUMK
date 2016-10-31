@@ -19,7 +19,8 @@ import java.util.HashMap;
 /**
  * Created by marangelo.php on 23/05/2016.
  */
-public class DataBaseHelper extends SQLiteOpenHelper {
+public class DataBaseHelper extends SQLiteOpenHelper
+{
     public static final String DATABASE_NAME = "DataUMK.db";
 
     //TABLA USUARIOS
@@ -27,7 +28,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COL_1 = "IdVendedor";
     public static final String COL_22 = "NombreUsuario";
     public static final String COL_2 = "Password";
-
 
     //TABLAS ARTICULOS
     public static final String TABLE_ARTICULO = "Articulo";
@@ -38,7 +38,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COL_34 = "PUNTOS";
     public static final String COL_35 = "BODEGAS";
     public static final String COL_36 = "REGLAS";
-
 
     //TABLA INVENTARIO A LIQUIDAR A 6 MESES
     public static final String TABLE_LIQ6 = "LIQ6";
@@ -64,6 +63,8 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COL_19 = "SALDO";
     public static final String COL_20 = "DISPO";
 
+    public static final String COL_42 = "PUNTOS";
+
     public static final String COL_23 = "NoVencidos";
     public static final String COL_24 = "Dias30";
     public static final String COL_25 = "Dias60";
@@ -87,15 +88,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
     public static final String COL_40 = "MONTO";
     public static final String COL_41 = "SALDO";
 
-
-
-    public DataBaseHelper(Context context) {
+    public DataBaseHelper(Context context)
+    {
         super(context.getApplicationContext(), DATABASE_NAME,null,2);
         SQLiteDatabase db = this.getWritableDatabase();
     }
-
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db)
+    {
         //db.execSQL("create table " + TABLE_USUARIO + "("+ COL_1 +" TEXT,"+ COL_2 +" TEXT, "+ COL_21 +" TEXT,"+ COL_22 +" TEXT)");
 
         db.execSQL("create table " + TABLE_FACTURAS +" ("+
@@ -105,7 +105,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 COL_40 +" TEXT, "+
                 COL_41 +" TEXT, "+
                 "FECHA_VENCE TEXT)");
-
         db.execSQL("create table " + TABLE_ARTICULO +" ("+
                 COL_3 +" TEXT,"+
                 COL_4 +" TEXT,"+
@@ -115,8 +114,22 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 COL_34 +" TEXT,"+
                 COL_35 +" TEXT,"+
                 COL_36 +" TEXT)");
-        db.execSQL("create table " + TABLE_LIQ6 +" ("+ COL_7 +" TEXT,"+ COL_8 +" TEXT,"+ COL_9 +" INTEGER,"+ COL_10 +" TEXT, "+ COL_11 +" TEXT, "+COL_12+" TEXT, "+ COL_21 +" TEXT )" );
-        db.execSQL("create table " + TABLE_LIQ12 +" ("+ COL_7 +" TEXT,"+ COL_8 +" TEXT,"+ COL_9 +" INTEGER,"+ COL_10 +" TEXT, "+ COL_11 +" TEXT, "+COL_12+" TEXT, "+ COL_21 +" TEXT )" );
+        db.execSQL("create table " + TABLE_LIQ6 +" ("+
+                COL_7 +" TEXT,"+
+                COL_8 +" TEXT,"+
+                COL_9 +" INTEGER,"+
+                COL_10 +" TEXT, "+
+                COL_11 +" TEXT, "+
+                COL_12 +" TEXT, "+
+                COL_21 +" TEXT )" );
+        db.execSQL("create table " + TABLE_LIQ12 +" ("+
+                COL_7 +" TEXT,"+
+                COL_8 +" TEXT,"+
+                COL_9 +" INTEGER,"+
+                COL_10 +" TEXT, "+
+                COL_11 +" TEXT, "+
+                COL_12 +" TEXT, "+
+                COL_21 +" TEXT )" );
         db.execSQL("create table " + TABLE_CLIENTE +" ("+
                 COL_13 +" TEXT,"+
                 COL_14 +" TEXT,"+
@@ -132,16 +145,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 COL_25 +" TEXT,"+
                 COL_26 +" TEXT,"+
                 COL_27 +" TEXT,"+
-                COL_28 +" TEXT )" );
-        db.execSQL("create table " + TABLE_EXISTENCIA_LOTE + "("+ COL_29 +" TEXT, "+COL_33+" TEXT,"+ COL_30 +" TEXT, "+ COL_31 +" TEXT,"+ COL_32 +" TEXT)");
-
-
+                COL_28 +" TEXT,"+
+                COL_42 +" TEXT )" );
+        db.execSQL("create table " + TABLE_EXISTENCIA_LOTE + "("+
+                COL_29 +" TEXT, "+
+                COL_33 +" TEXT,"+
+                COL_30 +" TEXT, "+
+                COL_31 +" TEXT,"+
+                COL_32 +" TEXT)");
         db.execSQL("create table  Actividad" +
                 " (" +
                 "       IdAE              INTEGER," +
                 "       Actividad         TEXT(150)" +
                 ")");
-
         db.execSQL("create table  AE" +
                 " (" +
                 "       IdPlan            TEXT(10)," +
@@ -153,15 +169,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Observacion       TEXT(250)," +
                 "       Fecha             DATETIME" +
                 ")");
-
         db.execSQL("create table  Semanas" +
                                 " (" +
                                 "       IdPlan            INTEGER," +
                                 "       Semana            INTEGER"+
                                 ")");
-
-
-
         db.execSQL("create table  Agenda" +
                 " (" +
                 "       IdPlan            TEXT(10) primary key not null," +
@@ -237,10 +249,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Banco             TEXT(50)," +
                 "       Estado            INTEGER" +
                 ")");
-
-
-
-
         db.execSQL("create table  Usuarios" +
                 " (" +
                 "       UsuarioID         INTEGER primary key not null," +
@@ -251,7 +259,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Activo            INTEGER(1)," +
                 "       FechaCreacion     DATETIME" +
                 ")");
-
         db.execSQL("create table  VClientes" +
                 " (" +
                 "       IdPlan            TEXT(10)," +
@@ -263,7 +270,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Sabado            TEXT(250)," +
                 "       Observaciones     TEXT(250)" +
                 ")");
-
         db.execSQL("create table  Visitas" +
                 " (" +
                 "       IdPlan            TEXT(10) ," +
@@ -271,7 +277,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       Fecha             DATETIME," +
                 "       Visitado          INTEGER(1)" +
                 ")");
-        
         db.execSQL("create table  GVendedor" +
                 " (" +
                 "       UsuarioID         INTEGER," +
@@ -280,16 +285,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 "       FechaB            DATETIME" +
                 ");");
 
-
         db.execSQL("CREATE TABLE observaciones (" +
                 "Descrip  TEXT," +
                 "IdObserv  INTEGER" +
                 ");");
     }
-
-
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
+    {
         db.execSQL("DROP TABLE IF EXISTS Visitas ");
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS VClientes ");
@@ -327,8 +330,14 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_FACTURAS);
         onCreate(db);
     }
+    //**********************************************************************//
+    //______________________________________________________________________//
+    //=========  //
+    //______________________________________________________________________//
+    //**********************************************************************//
 
-    public boolean insertFacturas(String FACTURA, String CLIENTE,String VENDEDOR,String MONTO, String SALDO,String FECHA_VENCE){
+    public boolean insertFacturas(String FACTURA, String CLIENTE, String VENDEDOR, String MONTO, String SALDO, String FECHA_VENCE)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_37,FACTURA);
@@ -338,13 +347,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_41,SALDO);
         contentValues.put("FECHA_VENCE",FECHA_VENCE);
         long result = db.insert(TABLE_FACTURAS,null,contentValues);
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public boolean insertDataUS(String Key,String US, String PSS,String Nombre){
+    public boolean insertDataUS(String Key,String US, String PSS,String Nombre)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("UsuarioID",Key);
@@ -353,13 +360,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_22,Nombre);
         contentValues.put("FechaCreacion",Datetime());
         long result = db.insert(TABLE_USUARIO,null,contentValues);
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public boolean insertExiLote(String ARTICULO,String LOTE, String FECHA_VENCIMIENTO,String CANT_DISPONIBLE,String BODEGA){
+    public boolean insertExiLote(String ARTICULO,String LOTE, String FECHA_VENCIMIENTO,String CANT_DISPONIBLE,String BODEGA)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_33,ARTICULO);
@@ -368,13 +373,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_31,CANT_DISPONIBLE);
         contentValues.put(COL_32,BODEGA);
         long result = db.insert(TABLE_EXISTENCIA_LOTE,null,contentValues);
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public boolean insertDataArticulo(String Articulo, String Descrip,String Exist,String Precio,String PUNTOS,String BODEGAS,String REGLAS){
+    public boolean insertDataArticulo(String Articulo, String Descrip,String Exist,String Precio,String PUNTOS,String BODEGAS,String REGLAS)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_3,Articulo);
@@ -386,13 +389,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_36,REGLAS);
         contentValues.put(COL_21,Datetime());
         long result = db.insert(TABLE_ARTICULO,null,contentValues);
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public boolean insertDataLIQ6(String Articulo, String Descrip,String DiasVencerce,String Dispo,String FechaVencimiento,String Lote){
+    public boolean insertDataLIQ6(String Articulo, String Descrip,String DiasVencerce,String Dispo,String FechaVencimiento,String Lote)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_7,Articulo);
@@ -403,13 +404,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_12,Lote);
         contentValues.put(COL_21,Datetime());
         long result = db.insert(TABLE_LIQ6,null,contentValues);
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public boolean insertDataLIQ12(String Articulo, String Descrip,String DiasVencerce,String Dispo,String FechaVencimiento,String Lote){
+    public boolean insertDataLIQ12(String Articulo, String Descrip,String DiasVencerce,String Dispo,String FechaVencimiento,String Lote)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_7,Articulo);
@@ -420,13 +419,11 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_12,Lote);
         contentValues.put(COL_21,Datetime());
         long result = db.insert(TABLE_LIQ12,null,contentValues);
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public boolean insertDataCliente(String CLIENTE, String NOMBRE,String DIRECCION,String TELEFONO1,String MOROSO,String LIMITE_CREDITO,String SALDO,String DISPO,String NoVencidos,String Dias30,String Dias60,String Dias90,String Dias120,String Mas120){
+    public boolean insertDataCliente(String CLIENTE, String NOMBRE,String DIRECCION,String TELEFONO1,String MOROSO,String LIMITE_CREDITO,String SALDO,String DISPO,String NoVencidos,String Dias30,String Dias60,String Dias90,String Dias120,String Mas120)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_13,CLIENTE);
@@ -444,47 +441,32 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put(COL_26,Dias90);
         contentValues.put(COL_27,Dias120);
         contentValues.put(COL_28,Mas120);
-
         long result = db.insert(TABLE_CLIENTE,null,contentValues);
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public boolean SavePedidoTOP(String TOP){
+    public boolean SavePedidoTOP(String TOP)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO Pedido VALUES" + TOP);
         db.close();
         return true;
     }
-    public boolean SavePedidoFoot(String FOOT){
+    public boolean SavePedidoFoot(String FOOT)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         db.execSQL("INSERT INTO PDetalle VALUES" + FOOT);
         db.close();
         return true;
     }
-    public boolean SaveRecibo(
-            String varIdRecibo,
-            String varIdCliente,
-            String varCodVendedor,
-            String varIdVendedor,
-            String varFecha,
-            String varMRecibido,
-            String varTC,
-            String varTM,
-            String varRecibimos,
-            String varLCantidad,
-            String varConcepto,
-            boolean varEfectivo,boolean varCHK,
-            String varNumCHK,
-            String varBanco
-            ){
-
+    public boolean SaveRecibo( String varIdRecibo,String varIdCliente,String varCodVendedor,String varIdVendedor,
+                               String varFecha,String varMRecibido,String varTC,String varTM,String varRecibimos,
+                               String varLCantidad,String varConcepto,boolean varEfectivo,boolean varCHK,
+                               String varNumCHK,String varBanco
+                             )
+    {
         String CodR = varCodVendedor + "-"+ varIdRecibo;
-
-
-       SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put("IdRecibo",CodR);
         contentValues.put("IdCliente",varIdCliente);
@@ -501,74 +483,78 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         contentValues.put("NumCHK",varNumCHK);
         contentValues.put("Banco",varBanco);
         contentValues.put("Estado",0);
-
         long result = db.insert("Recibo",null,contentValues);
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
-
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public void SaveDetalleRecibo(String SQL){
+    public void SaveDetalleRecibo(String SQL)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         Log.d("SQLPARAINCERT","INSERT INTO rdetalle VALUES " + SQL);
         db.execSQL("INSERT INTO rdetalle VALUES " + SQL);
         db.close();
     }
-    public String Datetime(){
+    public String Datetime()
+    {
         DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
         Calendar cal = Calendar.getInstance();
         String Date = (dateFormat.format(cal.getTime()));
         return Date;
     }
-    public Cursor GetAllData(String U,String P){
+    public Cursor GetAllData(String U,String P)//Obtener datos del USUARIO pasando USUARIO y CONTRASEÑA
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM " + TABLE_USUARIO +" WHERE "+ COL_1 +"="+ '"' + U.trim().toUpperCase() + '"' +" and "+ COL_2 +"="+ '"' +P.trim().toUpperCase() + '"' +"";
         Log.d("Query",Query);
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-
-    public Cursor GetData(String Table){
+    public Cursor GetData(String Table)//Obtener los datos de la TABLA enviada como parametro
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM " + Table;
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public String GetNameUser(String Usr){
+    public String GetNameUser(String Usr)//Obtener datos del USUARIO pasando USUARIO
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Nombre="";
         String Query = "SELECT * FROM " + TABLE_USUARIO + " WHERE "+ COL_1 +"="+ '"'+ Usr.trim().toUpperCase()+'"';
         Cursor res = db.rawQuery(Query ,null);
-        if (res.getCount()==0){
-            Nombre ="Error Acreditación";
-        }else{
-            if (res.moveToFirst()) {
-                do {
+        if (res.getCount()==0){ Nombre ="Error Acreditación"; }
+        else
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     Nombre = res.getString(2);
                 } while(res.moveToNext());
             }
-
         }
         return Nombre;
     }
-
-    public Cursor GetInfoArt(String Id){
+    public Cursor GetInfoArt(String Id)//Obtener datos del ARTCULO pasando el CODIGO del ARTICULO
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM " + TABLE_ARTICULO + " WHERE "+ COL_3 +"="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public String[] GetCobros(String Id){
+    public String[] GetCobros(String Id)//Obtener los RECIBOS de un cliente, pasado el CLIENTE
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         int i=0;
         String Query = "SELECT * FROM Recibo WHERE IdCliente="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         String vareturn[] = new String[res.getCount()];
-        if (res.getCount()!=0){
-            if (res.moveToFirst()) {
-                do {
+        if (res.getCount()!=0)
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     vareturn[i] = res.getString(0)+","+res.getString(3)+","+res.getString(4);
                     i++;
                 } while(res.moveToNext());
@@ -576,15 +562,19 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return vareturn;
     }
-    public String[] getAllcobros(){
+    public String[] getAllcobros()//Obtener todos los RECIBOS de todos los CLIENTES
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         int i=0;
         String Query = "SELECT * FROM Recibo";
         Cursor res = db.rawQuery(Query ,null);
         String vareturn[] = new String[res.getCount()];
-        if (res.getCount()!=0){
-            if (res.moveToFirst()) {
-                do {
+        if (res.getCount()!=0)
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     vareturn[i] = res.getString(0)+","+res.getString(3)+","+res.getString(4)+","+res.getString(14);
                     i++;
                 } while(res.moveToNext());
@@ -592,16 +582,20 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return vareturn;
     }
-    public String[] GetPedido(){
+    public String[] GetPedido()//Obtener los PEDIDOS De todos los CLIENTES
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         int i=0;
         //String Query = "SELECT * FROM Recibo WHERE IdCliente="+ '"'+ Id.trim()+'"';
         String Query = "SELECT * FROM Pedido";
         Cursor res = db.rawQuery(Query ,null);
         String vareturn[] = new String[res.getCount()];
-        if (res.getCount()!=0){
-            if (res.moveToFirst()) {
-                do {
+        if (res.getCount()!=0)
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     vareturn[i] = res.getString(0)+","+res.getString(4)+","+res.getString(2)+","+res.getString(12).replace(",","")+","+res.getString(13);
                     i++;
                 } while(res.moveToNext());
@@ -609,132 +603,130 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         return vareturn;
     }
-    public Cursor dataUpdaload(String Tabla, int st){
+    public Cursor dataUpdaload(String Tabla, int st)//Obtener datos de la TABLA en estado DESEADO
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM "+Tabla+" WHERE Estado='"+st+"'";
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor getPedido(String Id){
+    public Cursor getPedido(String Id)//Obtener los datos del PEDIDO DESEADO
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Pedido WHERE IdPedido="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-
-    public Cursor getPDetalle(String Id){
+    public Cursor getPDetalle(String Id)//Obtener el DETALLE del PEDIDO DESEADO
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM PDetalle WHERE IdPedido="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor getAllPDetalle(String Id){
+    public Cursor getAllPDetalle(String Id)//Obtener el DETALLE de los PEDIDOS deseados
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM PDetalle WHERE IdPedido in("+Id+")";
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor getAllPedido(String Id){
+    public Cursor getAllPedido(String Id)//Obtenre el DETALLE de los PEDIDOS deseados
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Pedido WHERE IdPedido in("+Id+")";
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-
-    public Cursor GetInfoRecibo(String Id){
+    public Cursor GetInfoRecibo(String Id)//Obtener datos de RECIBO deseado
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Recibo WHERE IdRecibo="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor GetInfoRDetalle(String Id){
+    public Cursor GetInfoRDetalle(String Id)//Obtener el DETALLE del RECIBO deseado
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM RDetalle WHERE IdRecibo="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor GetPlanTrabajo(String Id){
+    public Cursor GetPlanTrabajo(String Id)//Otener la AGENDA de una RUTA (VENDEDOR)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Agenda WHERE Ruta="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public boolean UpdateEstado(String Id,int std){
+    public boolean UpdateEstado(String Id,int std)//Actualizar el Estado de un registro en la AGENDA
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put("Estado", std);
         long result  = db.update("Agenda", values, "IdPlan" + "= '" + Id + "'", null);
         db.close();
-
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public void updatePedido(String SQL){
+    public void updatePedido(String SQL)//Actualizar el pedido con la SQL enviada (ojo: ver como)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         db.rawQuery(SQL,null);
         db.close();
     }
-    public boolean UpdateRecord(String Tabla,String Campo,String Filtro,int Estado,String Record){
+    public boolean UpdateRecord(String Tabla,String Campo,String Filtro,int Estado,String Record)//Actualizar la TABLA con los DATOS enviados y a los FILTROS enviados
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Campo, Estado);
         long result  = db.update(Tabla, values, Filtro + " in(" + Record + ")", null);
         db.close();
-
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; }
+        else{ return true; }
     }
-    public boolean DeleteClienteDia(String Id,int Dia,String Cliente){
+    public boolean DeleteClienteDia(String Id,int Dia,String Cliente)//Actualizar el registro de un DIA en la AGENDA
+    {
         String[] Semana = {"Lunes","Martes","Miercoles","Jueves","Viernes"};
         String NewCadena="";
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         String Query = "SELECT "+ Semana[Dia] +" FROM VClientes WHERE IdPlan="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
-
-        if (res.getCount()==0){
-        }else{
-            if (res.moveToFirst()) {
-                do {
+        if (res.getCount()==0) { }
+        else
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     String[] Arrays = res.getString(0).replace(Cliente,"").split(",");
-                    for (int r=0;r < Arrays.length;r++){
-                        if (!TextUtils.isEmpty(Arrays[r])){
-                            NewCadena +=Arrays[r]+",";
-                        }
+                    for (int r=0;r < Arrays.length;r++)
+                    {
+                        if (!TextUtils.isEmpty(Arrays[r])){ NewCadena +=Arrays[r]+","; }
                     }
                 } while(res.moveToNext());
             }
         }
-        if (NewCadena.length()!=0){
-            NewCadena = NewCadena.substring(0,NewCadena.length()-1);
-        }
-
+        if (NewCadena.length()!=0){ NewCadena = NewCadena.substring(0,NewCadena.length()-1); }
         values.put(Semana[Dia], NewCadena);
         long result  = db.update("VClientes", values, "IdPlan" + "= '" + Id + "'", null);
         db.close();
-
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; } else { return true; }
     }
-    public String[] GetDiaPlanTrabajo(String Id,String Dia){
+    public String[] GetDiaPlanTrabajo(String Id,String Dia)//********************no se que hacer VALIDAR
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT ifnull("+ Dia +",0) As "+ Dia +"  FROM VClientes WHERE IdPlan="+ '"'+ Id.trim()+'"';
-
         Cursor res = db.rawQuery(Query ,null);
         int i=0;
         String Clientes[] = new String[res.getCount()];
-        if (res.getCount()!=0){
-            if (res.moveToFirst()) {
-                do {
+        if (res.getCount()!=0)
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     Clientes[i] = "WHERE CLIENTE IN ('" + res.getString(0).replace(",","','") + "')";
                     i++;
                 } while(res.moveToNext());
@@ -744,80 +736,74 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor resWhoCliente = db.rawQuery(QueryWhoCliente,null);
         String Resultado[] = new String[resWhoCliente.getCount()];
         int c=0;
-        if (resWhoCliente.getCount()!=0){
-            if (resWhoCliente.moveToFirst()) {
-                do {
+        if (resWhoCliente.getCount()!=0)
+        {
+            if (resWhoCliente.moveToFirst())
+            {
+                do
+                {
                     Resultado[c] = resWhoCliente.getString(0)+ "_"+resWhoCliente.getString(1) ;
                     c++;
                 } while(resWhoCliente.moveToNext());
             }
         }
-
-
         return Resultado;
     }
-    public Cursor PushAgenda(String Id){
+    public Cursor PushAgenda(String Id)//Obtener datos de la AGENDA segun Id
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Agenda WHERE IdPlan="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor PushVCliente(String Id){
+    public Cursor PushVCliente(String Id)//********************no se que hacer VALIDAR
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM VClientes WHERE IdPlan="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public int GetCountPlanTrabajo(String Id){
+    public int GetCountPlanTrabajo(String Id)//obtener cantidad de registros en AGENDA
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Agenda WHERE IdPlan="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res.getCount();
     }
-    public boolean UpdateVCliente(String Id,String Dia,String Cliente){
+    public boolean UpdateVCliente(String Id,String Dia,String Cliente)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
         String Query = "SELECT * FROM VClientes WHERE IdPlan="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
-        if (res.getCount()==0){
-        }else{
-            if (res.moveToFirst()) {
-                do {
-                    switch(Dia) {
+        if (res.getCount()==0){ }
+        else
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
+                    switch(Dia)
+                    {
                         case "LUNES":
-                            if (TextUtils.isEmpty(res.getString(1))){
-                                values.put("Lunes", Cliente);
-                            }else{
-                                values.put("Lunes", res.getString(1)+","+Cliente);
-                            }
+                            if (TextUtils.isEmpty(res.getString(1))) { values.put("Lunes", Cliente); }
+                            else{ values.put("Lunes", res.getString(1)+","+Cliente); }
                             break;
                         case "MARTES":
-                            if (TextUtils.isEmpty(res.getString(2))){
-                                values.put("Martes", Cliente);
-                            }else{
-                                values.put("Martes", res.getString(2)+","+Cliente);
-                            }
+                            if (TextUtils.isEmpty(res.getString(2))) { values.put("Martes", Cliente); }
+                            else{ values.put("Martes", res.getString(2)+","+Cliente); }
                             break;
                         case "MIERCOLES":
-                            if (TextUtils.isEmpty(res.getString(3))){
-                                values.put("Miercoles", Cliente);
-                            }else{
-                                values.put("Miercoles", res.getString(3)+","+Cliente);
-                            }
+                            if (TextUtils.isEmpty(res.getString(3))) { values.put("Miercoles", Cliente); }
+                            else{ values.put("Miercoles", res.getString(3)+","+Cliente); }
                             break;
                         case "JUEVES":
-                            if (TextUtils.isEmpty(res.getString(4))){
-                                values.put("Jueves", Cliente);
-                            }else{
-                                values.put("Jueves", res.getString(4)+","+Cliente);
-                            }
+                            if (TextUtils.isEmpty(res.getString(4))) { values.put("Jueves", Cliente); }
+                            else{ values.put("Jueves", res.getString(4)+","+Cliente); }
                             break;
                         case "VIERNES":
-                            if (TextUtils.isEmpty(res.getString(5))){
-                                values.put("Viernes", Cliente);
-                            }else{
-                                values.put("Viernes", res.getString(5)+","+Cliente);
-                            }
+                            if (TextUtils.isEmpty(res.getString(5))) { values.put("Viernes", Cliente); }
+                            else{ values.put("Viernes", res.getString(5)+","+Cliente); }
                             break;
                     }
                 } while(res.moveToNext());
@@ -825,18 +811,13 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         }
         long result  = db.update("VClientes", values, "IdPlan" + "= '" + Id + "'", null);
         db.close();
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1){ return false; } else { return true; }
     }
-    public boolean insertPlanTRabajo(String ID,String Vendedor,String Ruta,String Zona,String Revisado){
+    public boolean insertPlanTRabajo(String ID,String Vendedor,String Ruta,String Zona,String Revisado)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
-
         ContentValues Agenda= new ContentValues();
         ContentValues VClientes = new ContentValues();
-
         Agenda.put("IdPlan",ID);
         Agenda.put("Vendedor",Vendedor);
         Agenda.put("Ruta",Ruta);
@@ -844,7 +825,6 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Agenda.put("Revisado",Revisado);
         Agenda.put("Estado",0);
         long result = db.insert("Agenda",null,Agenda);
-
         VClientes.put("IdPlan",ID);
         VClientes.put("Lunes","");
         VClientes.put("Martes","");
@@ -854,27 +834,24 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         VClientes.put("Sabado","");
         VClientes.put("Observaciones","");
         db.insert("VClientes",null,VClientes);
-
-
-        if (result == -1){
-            return false;
-        }else{
-            return true;
-        }
+        if (result == -1) { return false; } else { return true; }
     }
-    public Cursor GetAllRecibo(){
+    public Cursor GetAllRecibo()//Obtener todos los RECIBOS de todos los CLIENTES
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM Recibo";
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor GetAllRDetalle(){
+    public Cursor GetAllRDetalle()//Obtener todos los DETALLES de todos los RECIBOS
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM RDetalle";
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor getDetalle(String Tabla,String Datos,String Capos){
+    public Cursor getDetalle(String Tabla,String Datos,String Capos)//Obtener datos de la TABLA pasada con los filtros ENVIADOS
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM "+Tabla+" WHERE "+Capos+" in("+Datos+")";
         Cursor res = db.rawQuery(Query ,null);
@@ -904,16 +881,25 @@ public class DataBaseHelper extends SQLiteOpenHelper {
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor InfoCliente(String Id){
+    public Cursor InfoCliente(String Id)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM " + TABLE_CLIENTE + " WHERE "+ COL_13 +"="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
         return res;
     }
-    public Cursor InfoClienteFactura(String Id){
+    public Cursor InfoClienteFactura(String Id)
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         String Query = "SELECT * FROM " + TABLE_FACTURAS + " WHERE "+ COL_38 +"="+ '"'+ Id.trim()+'"';
         Cursor res = db.rawQuery(Query ,null);
+        return res;
+    }
+    public Cursor InfoClienteFacturaPuntos(String Id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        String Query = "SELECT * FROM "+ TABLE_CLIENTE +" WHERE "+ COL_13 +"="+ '"'+Id.trim()+'"';
+        Cursor res = db.rawQuery(Query, null);
         return res;
     }
     public String GetValorFacCobro(String Id){

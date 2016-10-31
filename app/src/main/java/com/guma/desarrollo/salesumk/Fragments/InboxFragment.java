@@ -1,6 +1,5 @@
 package com.guma.desarrollo.salesumk.Fragments;
 
-
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
@@ -42,8 +41,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-public class InboxFragment extends Fragment {
+public class InboxFragment extends Fragment
+{
 
     DataBaseHelper myDB;
     Variables myVa;
@@ -59,9 +58,9 @@ public class InboxFragment extends Fragment {
     List<HashMap<String, String>> fillMaps;
     ProgressDialog pdialog;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         final View view = inflater.inflate(R.layout.fragment_inv, container, false);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("INVENTARIO UNIMARK");
         myDB = new DataBaseHelper(getActivity());
@@ -72,52 +71,57 @@ public class InboxFragment extends Fragment {
 
         lv = (ListView) view.findViewById(R.id.listview);
 
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String text) {
-                return false;
+        sv.setOnQueryTextListener
+        (new SearchView.OnQueryTextListener()
+            {
+                @Override
+                public boolean onQueryTextSubmit(String text) { return false; }
+                @Override
+                public boolean onQueryTextChange(String text)
+                {
+                    adapter2.getFilter().filter(text);
+                    return false;
+                }
             }
-
-            @Override
-            public boolean onQueryTextChange(String text) {
-                adapter2.getFilter().filter(text);
-                return false;
-            }
-        });
-
-
+        );
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                CallInve();
-                loadData();
+        fab.setOnClickListener
+        (new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view)
+                {
+                    CallInve();
+                    loadData();
+                }
             }
-        });
-
-
+        );
 
         loadData();
 
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
-                String Cod = ClearString(selectedFromList);
-                myVa.setInv_Articulo(Cod);
+        lv.setOnItemClickListener
+        (new AdapterView.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                {
+                    String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
+                    String Cod = ClearString(selectedFromList);
+                    myVa.setInv_Articulo(Cod);
 
-                if (Cod.equals("0")){
-                    Toast.makeText(getActivity(), "Tiene que Sincronizar el Dispositivo", Toast.LENGTH_SHORT).show();
-                }else{
-                    Intent mint = new Intent(getActivity(),DetallesActivity.class);
-                    getActivity().startActivity(mint);
+                    if (Cod.equals("0"))
+                    {
+                        Toast.makeText(getActivity(), "Tiene que Sincronizar el Dispositivo", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        Intent mint = new Intent(getActivity(),DetallesActivity.class);
+                        getActivity().startActivity(mint);
+                    }
+                    //Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
                 }
-                //Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
-
-
             }
-        });
+        );
 
         return view;
     }
@@ -390,9 +394,5 @@ public class InboxFragment extends Fragment {
                 pdialog.dismiss();
             }
         });
-
-
-
     }
-
 }

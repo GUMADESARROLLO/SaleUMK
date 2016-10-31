@@ -37,9 +37,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-
-public class StarredFragment extends Fragment {
-
+public class StarredFragment extends Fragment
+{
     DataBaseHelper myDB;
     Variables myVar;
     ListView lv;
@@ -51,9 +50,9 @@ public class StarredFragment extends Fragment {
     ProgressDialog pdialog;
     List<HashMap<String, String>> fillMaps;
 
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         final View view = inflater.inflate(R.layout.fragment_starred, container, false);
         ((MainActivity) getActivity()).getSupportActionBar().setTitle("MASTER DE CLIENTES");
 
@@ -63,60 +62,67 @@ public class StarredFragment extends Fragment {
         txt =(TextView) view.findViewById(R.id.tvLastUpdate);
 
         FloatingActionButton fab = (FloatingActionButton) view.findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                CallInve();
-                loadData();
+        fab.setOnClickListener
+        (new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View view) {
+                    CallInve();
+                    loadData();
+                }
             }
-        });
-
-
-        sv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String text) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String text) {
-                adapter2.getFilter().filter(text);
-                return false;
-            }
-        });
-
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
-                String Cod = ClearString(selectedFromList);
-               // Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
-                if (Cod.equals("0")){
-                    Toast.makeText(getActivity(), "Tiene que Sincronizar el Dispositivo", Toast.LENGTH_SHORT).show();
-                }else{
-                    myVar.setInv_Cliente(Cod);
-                    Intent mint = new Intent(getActivity(),InfoClientesActivity.class);
-                    getActivity().startActivity(mint);
+        );
+        sv.setOnQueryTextListener
+        (new SearchView.OnQueryTextListener()
+            {
+                @Override
+                public boolean onQueryTextSubmit(String text) {
+                    return false;
                 }
 
-
-
+                @Override
+                public boolean onQueryTextChange(String text)
+                {
+                    adapter2.getFilter().filter(text);
+                    return false;
+                }
             }
-        });
+        );
+
+        lv.setOnItemClickListener
+        (new AdapterView.OnItemClickListener()
+            {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id)
+                {
+                    String selectedFromList = String.valueOf(lv.getItemAtPosition(position));
+                    String Cod = ClearString(selectedFromList);
+                   // Toast.makeText(getActivity(), Cod, Toast.LENGTH_SHORT).show();
+                    if (Cod.equals("0"))
+                    {
+                        Toast.makeText(getActivity(), "Tiene que Sincronizar el Dispositivo", Toast.LENGTH_SHORT).show();
+                    }
+                    else
+                    {
+                        myVar.setInv_Cliente(Cod);
+                        Intent mint = new Intent(getActivity(),InfoClientesActivity.class);
+                        getActivity().startActivity(mint);
+                    }
+                 }
+            }
+        );
         loadData();
-
-
-
         return view;
     }
-    private String ClearString(String cadena){
+    private String ClearString(String cadena)
+    {
         int c1 = cadena.indexOf("[");
         int c2 = cadena.indexOf("]");
         cadena = cadena.substring(c1+1,c2);
         return cadena;
     }
-
-    private void loadData(){
+    private void loadData()
+    {
         ArrayList<String> datos = new ArrayList<String>();
         String Date="";
 
@@ -126,9 +132,12 @@ public class StarredFragment extends Fragment {
         fillMaps = new ArrayList<HashMap<String, String>>();
 
         Cursor res =  myDB.GetData("CLIENTES");
-        if (res.getCount()!=0){
-            if (res.moveToFirst()) {
-                do {
+        if (res.getCount()!=0)
+        {
+            if (res.moveToFirst())
+            {
+                do
+                {
                     HashMap<String, String> map = new HashMap<String, String>();
                     datos.add(res.getString(1)+"\n["+res.getString(0)+"]");
                     map.put("rowid", "["+res.getString(0)+"]");
@@ -138,7 +147,9 @@ public class StarredFragment extends Fragment {
                     Date = res.getString(8);
                 } while(res.moveToNext());
             }
-        }else{
+        }
+        else
+        {
             HashMap<String, String> map = new HashMap<String, String>();
             datos.add("");
             map.put("rowid", "[0]");
@@ -146,32 +157,29 @@ public class StarredFragment extends Fragment {
             map.put("telefono","");
             fillMaps.add(map);
             Date = "00/00/0000";
-
         }
-
-
-
         txt.setText("Ultima Actualización: " + Date.toString());
-
         res.close();
-
         adapter2 = new SpecialAdapter(getActivity(), fillMaps, R.layout.grid_item, from, to);
         lv.setAdapter(adapter2);
     }
-    public void Error404(String TipoError){
+    public void Error404(String TipoError)
+    {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setMessage(TipoError)
                 .setNegativeButton("OK",null)
                 .create()
                 .show();
     }
-    public ArrayList<String> obtDatosUS(String response){
+    public ArrayList<String> obtDatosUS(String response)
+    {
         ArrayList<String> listado = new ArrayList<String>();
-        try{
+        try
+        {
             JSONArray jsonArray = new JSONArray(response);
             String texto;
-
-            for (int i=0; i<jsonArray.length(); i++){
+            for (int i=0; i<jsonArray.length(); i++)
+            {
                 texto = jsonArray.getJSONObject(i).getString("CLIENTE")+ "," +
                         jsonArray.getJSONObject(i).getString("NOMBRE")+ "," +
                         jsonArray.getJSONObject(i).getString("DIRECCION")+ "," +
@@ -188,20 +196,23 @@ public class StarredFragment extends Fragment {
                         jsonArray.getJSONObject(i).getString("Mas120");
                 listado.add(texto);
             }
-
-        }catch(Exception e){
+        }
+        catch(Exception e)
+        {
             e.printStackTrace();
         }
         return listado;
-
     }
-    public ArrayList<String> obtDatosFacturas(String response){
+    public ArrayList<String> obtDatosFacturas(String response)
+    {
         ArrayList<String> listado = new ArrayList<String>();
-        try{
+        try
+        {
             JSONArray jsonArray = new JSONArray(response);
             String texto;
 
-            for (int i=0; i<jsonArray.length(); i++){
+            for (int i=0; i<jsonArray.length(); i++)
+            {
                 texto = jsonArray.getJSONObject(i).getString("FACTURA")+ "," +
                         jsonArray.getJSONObject(i).getString("CLIENTE")+ "," +
                         jsonArray.getJSONObject(i).getString("VENDEDOR")+ "," +
@@ -210,35 +221,35 @@ public class StarredFragment extends Fragment {
                         jsonArray.getJSONObject(i).getString("FECHA_VENCE");
                 listado.add(texto);
             }
-
-        }catch(Exception e){
+        }
+        catch(Exception e)
+        {
             e.printStackTrace();
         }
         return listado;
-
     }
-    public void CallInve(){
+    public void CallInve()
+    {
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
         paramentros.put("C",myVar.getIdVendedor());
-
         pdialog = ProgressDialog.show(getActivity(), "","Procesando. Porfavor Espere...", true);
-
-        Cnx.post(ClssURL.getURL_mtlc(), paramentros, new AsyncHttpResponseHandler() {
+        Cnx.post(ClssURL.getURL_mtlc(), paramentros, new AsyncHttpResponseHandler()
+        {
             @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
+            {
                 boolean Inserted=false;
-                if (statusCode==200){
-
+                if (statusCode==200)
+                {
                     ArrayList<String> MeEncontro = obtDatosUS(new String(responseBody));
                     SQLiteDatabase db = myDB.getWritableDatabase();
                     db.execSQL("DELETE FROM CLIENTES");
-
-
-                    for (int n=0; n<MeEncontro.size();n++){
+                    for (int n=0; n<MeEncontro.size();n++)
+                    {
                         String[] items = MeEncontro.get(n).split(",");
-                        Inserted = myDB.insertDataCliente(
+                        Inserted = myDB.insertDataCliente
+                        (
                                 items[0],
                                 items[1],
                                 items[2],
@@ -257,20 +268,22 @@ public class StarredFragment extends Fragment {
                         );
                     }
 
-                    if (Inserted){
-                    }else{
+                    if (Inserted)
+                    {
+                    }
+                    else
+                    {
                         adapter2.notifyDataSetChanged();
                         pdialog.dismiss();
                         Error404("Error de Actualizacion de datos");
                     }
-
-                }else{
+                }
+                else
+                {
                     adapter2.notifyDataSetChanged();
                     pdialog.dismiss();
                     Error404("Sin Cobertura de datos.");
                 }
-
-
             }
             @Override
             public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
@@ -325,6 +338,4 @@ public class StarredFragment extends Fragment {
             }
         });
     }
-
-
 }

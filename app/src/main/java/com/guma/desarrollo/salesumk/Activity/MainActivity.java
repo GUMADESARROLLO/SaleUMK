@@ -35,8 +35,8 @@ import com.guma.desarrollo.salesumk.R;
 
 import java.util.HashMap;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+{
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     ActionBar actionBar;
@@ -44,9 +44,9 @@ public class MainActivity extends AppCompatActivity {
     TextView nameUserName;
     Servidor srv;
     Variables myVar;
-
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
@@ -59,10 +59,8 @@ public class MainActivity extends AppCompatActivity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.navigation_drawer_layout);
 
-
         Intent intent = getIntent();
         String Vendedor = intent.getStringExtra("Vendedor");
-
 
         nameUser = (TextView) findViewById(R.id.nav_drw_header_lbl);
         nameUserName = (TextView) findViewById(R.id.nav_drw_header_lbl1);
@@ -70,27 +68,27 @@ public class MainActivity extends AppCompatActivity {
         nameUserName.setText(myVar.getNameVendedor().toUpperCase());
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.navigation_view);
-        if (navigationView != null) {
-            setupNavigationDrawerContent(navigationView);
-        }
+        if (navigationView != null) { setupNavigationDrawerContent(navigationView); }
 
         setupNavigationDrawerContent(navigationView);
 
         //First fragment
-        //setFragment(4);
-        setFragment(3);
-
+        //Iniciar con la Pantalla de Maestro de Clientes (Diferente al que se llama cuando se presiona al menu cliente)
+        setFragment(4);
+        //Iniciar con la pantalla de Welcome
+        //setFragment(3);
     }
-
     @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
-
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
+        switch (item.getItemId())
+        {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
                 return true;
@@ -106,13 +104,17 @@ public class MainActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-
-    private void setupNavigationDrawerContent(NavigationView navigationView) {
-        navigationView.setNavigationItemSelectedListener(
-                new NavigationView.OnNavigationItemSelectedListener() {
+    private void setupNavigationDrawerContent(NavigationView navigationView)
+    {
+        navigationView.setNavigationItemSelectedListener
+            (
+                new NavigationView.OnNavigationItemSelectedListener()
+                {
                     @Override
-                    public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        switch (menuItem.getItemId()) {
+                    public boolean onNavigationItemSelected(MenuItem menuItem)
+                    {
+                        switch (menuItem.getItemId())
+                        {
                             case R.id.item_home:
                                 menuItem.setChecked(true);
                                 setFragment(3);
@@ -158,23 +160,20 @@ public class MainActivity extends AppCompatActivity {
                         }
                         return true;
                     }
-                });
+                }
+            );
     }
-
-    public void setFragment(int position) {
-
+    public void setFragment(int position)
+    {
         FragmentManager fragmentManager;
         FragmentTransaction fragmentTransaction;
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-
         final Intent intent = getIntent();
-
         FrameLayout frame = (FrameLayout) findViewById(R.id.fragment);
         frame.removeAllViews();
-
-
-        switch (position) {
+        switch (position)
+        {
             case 0:
                 InboxFragment inboxFragment = new InboxFragment();
                 fragmentTransaction.replace(R.id.fragment, inboxFragment);
@@ -202,10 +201,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent Agenda = new Intent(MainActivity.this,AgendaActivity.class);
                 MainActivity.this.startActivity(Agenda);
                 break;
-
         }
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
     }
 }
-

@@ -7,10 +7,5 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     tools:context="com.guma.desarrollo.salesumk.Activity.PedidoActivity">
-
-
     <include layout="@layout/content_pedido" />
-
-
-
 </android.support.design.widget.CoordinatorLayout>

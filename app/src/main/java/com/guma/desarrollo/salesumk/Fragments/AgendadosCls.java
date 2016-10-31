@@ -52,7 +52,8 @@ import java.util.Calendar;
 // TODO: 08/08/2016 QUEDA PENDIENTE EL REFRESH DE LA LISTA DE AGENDADO
 // TODO: FALTA LA VALIDACION DE LOS RANGO DE FECHA DE EL PLAN DE TRABAJO
 
-public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextListener,SearchView.OnCloseListener{
+public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextListener,SearchView.OnCloseListener
+{
     DataBaseHelper myDB;
     Variables vrb;
     Funciones vrf;
@@ -66,7 +67,8 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
     TextView WeekStar,WeekEnd,RUTA,NombreVendedor,ZONA,txtIdPlan;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
+    {
         view = inflater.inflate(R.layout.fragment_cls_agendados, container, false);
 
         myDB = new DataBaseHelper(getActivity());
@@ -83,46 +85,51 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
         NombreVendedor.setText(vrb.getNameVendedor());
         RUTA.setText(vrb.getIdVendedor());
 
-        imgOpciones.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                final CharSequence[]items = { "GUARDAR", "SINCRONIZAR"};
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (items[item].equals(items[0])){
-                            SaveIdPlan();
-                        }else{
-                            if (txtIdPlan.getText().toString().equals("Error")|| myList.getCount() == 5 ){
-                                Error("Crear un plan de Trabajo");
-                            }else {
-                                //Toast.makeText(getActivity(), "Mandarlo", Toast.LENGTH_SHORT).show();
-                                Push(BuilderSqlAgenda(),BuilderSqlVCliente());
+        imgOpciones.setOnClickListener
+        (new View.OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    final CharSequence[]items = { "GUARDAR", "SINCRONIZAR"};
+                    builder.setItems
+                    (items, new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int item) {
+                                if (items[item].equals(items[0])){
+                                    SaveIdPlan();
+                                }else{
+                                    if (txtIdPlan.getText().toString().equals("Error")|| myList.getCount() == 5 ){
+                                        Error("Crear un plan de Trabajo");
+                                    }else {
+                                        //Toast.makeText(getActivity(), "Mandarlo", Toast.LENGTH_SHORT).show();
+                                        Push(BuilderSqlAgenda(),BuilderSqlVCliente());
+                                    }
+                                }
                             }
                         }
-                    }
-                }).create().show();
+                    ).create().show();
+                }
             }
-        });
-
+        );
         parentList = new ArrayList<ParentRow>();
         showTheseParentList = new ArrayList<ParentRow>();
-
-
-
         displayList();
         expandAll();
         return view;
     }
-
-
-    private String BuilderSqlAgenda(){
+    private String BuilderSqlAgenda()
+    {
         String Strsql="";
         Cursor ResAgenda = myDB.PushAgenda(txtIdPlan.getText().toString());
-        if (ResAgenda.getCount()!=0){
+        if (ResAgenda.getCount()!=0)
+        {
             Strsql = "INSERT INTO Agenda (IdPlan, Vendedor, Ruta, Zona, Revisado) VALUES";
-            if (ResAgenda.moveToFirst()){
-                do {
+            if (ResAgenda.moveToFirst())
+            {
+                do
+                {
                     Strsql +=
                             "("+
                                     "'"+ResAgenda.getString(0)+"',"+
@@ -137,13 +144,16 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
         }
         return Strsql;
     }
-    private String BuilderSqlVCliente(){
+    private String BuilderSqlVCliente()
+    {
         String Strsql="";
         Cursor ResDetalle = myDB.PushVCliente(txtIdPlan.getText().toString());
         if (ResDetalle.getCount()!=0){
             Strsql = "INSERT INTO VClientes (IdPlan, Lunes, Martes, Miercoles, Jueves,Viernes,Sabado,Observaciones) VALUES";
-            if (ResDetalle.moveToFirst()){
-                do {
+            if (ResDetalle.moveToFirst())
+            {
+                do
+                {
                     Strsql +=
                             "("+
                                     "'"+ResDetalle.getString(0)+"',"+
@@ -161,7 +171,8 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
         }
         return Strsql;
     }
-    private void Push(String SqlPush,String SqlPushDetalle){
+    private void Push(String SqlPush,String SqlPushDetalle)
+    {
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams PushDataRecibo = new RequestParams();
         RequestParams PushDataRDetalle = new RequestParams();
@@ -170,19 +181,22 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
         PushDataRDetalle.put("D",SqlPushDetalle);
 
         pdialog = ProgressDialog.show(getActivity(), "","Procesando. Porfavor Espere...", true);
-        Cnx.post(ClssURL.getURL_doom(), PushDataRecibo, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                if (statusCode==200){
-                }else{
-                    Error("Problemas de Conexion al Servidor de Recibos");
+        Cnx.post
+        (ClssURL.getURL_doom(), PushDataRecibo, new AsyncHttpResponseHandler()
+            {
+                @Override
+                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
+                {
+                    if (statusCode==200){ }
+                    else{ Error("Problemas de Conexion al Servidor de Recibos"); }
+                }
+                @Override
+                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error)
+                {
+                    Error("Problemas de Conexion al Servidor Recibos");
                 }
             }
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                Error("Problemas de Conexion al Servidor Recibos");
-            }
-        });
+        );
 
         Cnx.post(ClssURL.getURL_doom(), PushDataRDetalle, new AsyncHttpResponseHandler() {
             @Override
@@ -203,41 +217,40 @@ public class AgendadosCls extends Fragment  implements SearchView.OnQueryTextLis
             }
         });
     }
-
-    private void expandAll(){
+    private void expandAll()
+    {
         int count = listAdapter.getGroupCount();
-        for (int i=0;i<count;i++){
-            myList.expandGroup(i);
-        }
+        for (int i=0;i<count;i++){ myList.expandGroup(i); }
     }
-    private boolean FrmValida(){
+    private boolean FrmValida()
+    {
         boolean OK = false;
         WeekStar.setError(null);
         WeekEnd.setError(null);
         RUTA.setError(null);
         ZONA.setError(null);
 
-        if (TextUtils.isEmpty(NombreVendedor.getText())){
-            NombreVendedor.setError("Requerido");
-        }else{
-            if (TextUtils.isEmpty(RUTA.getText())){
-                RUTA.setError("Requerido");
-            }else{
-                if (TextUtils.isEmpty(ZONA.getText())){
-                    ZONA.setError("Requerido");
-                }else{
-                    if (TextUtils.isEmpty(WeekStar.getText())||TextUtils.isEmpty(WeekEnd.getText())){
+        if (TextUtils.isEmpty(NombreVendedor.getText())){ NombreVendedor.setError("Requerido"); }
+        else
+        {
+            if (TextUtils.isEmpty(RUTA.getText())){ RUTA.setError("Requerido"); }
+            else
+            {
+                if (TextUtils.isEmpty(ZONA.getText())){ ZONA.setError("Requerido"); }
+                else
+                {
+                    if (TextUtils.isEmpty(WeekStar.getText())||TextUtils.isEmpty(WeekEnd.getText()))
+                    {
                         WeekStar.setError("Requerido");
                         WeekEnd.setError("Requerido");
-                    }else{
+                    }
+                    else
+                    {
                         OK = true;
                     }
                 }
-
             }
-
         }
-
         return OK;
     }
     private boolean Decodificar(String str){

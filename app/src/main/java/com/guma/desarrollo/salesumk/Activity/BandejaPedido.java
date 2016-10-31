@@ -32,7 +32,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class BandejaPedido extends AppCompatActivity {
+public class BandejaPedido extends AppCompatActivity
+{
     Variables vrb;
     Funciones vrF;
     DataBaseHelper myDB;
@@ -42,45 +43,51 @@ public class BandejaPedido extends AppCompatActivity {
     List<HashMap<String, String>> fillMaps = new ArrayList<HashMap<String, String>>();
     ClssURL Url;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState)
+    {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bandeja_pedido);
-        if (getSupportActionBar() != null){
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
+        if (getSupportActionBar() != null){ getSupportActionBar().setDisplayHomeAsUpEnabled(true); }
         setTitle(vrb.getCliente_Name_recibo_factura());
-
         myDB = new DataBaseHelper(this);
         lv = (ListView) findViewById(R.id.listview_bandeja_pedido);
-
-        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        lv.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener()
+        {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id)
+            {
                 final AlertDialog.Builder builder = new AlertDialog.Builder(BandejaPedido.this);
                 final CharSequence[] items = {"VER", "ELIMINAR"};
                 final String COD = ClearString(String.valueOf(lv.getItemAtPosition(position)),"COD=",1);
                 builder.setTitle(COD);
-                builder.setItems(items, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int item) {
-                        if (items[item].equals("ELIMINAR")){
-                            builder.setMessage("Desea Eliminar este Registro")
-                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
+                builder.setItems
+                (items, new DialogInterface.OnClickListener()
+                    {
+                        public void onClick(DialogInterface dialog, int item)
+                        {
+                            if (items[item].equals("ELIMINAR"))
+                            {
+                                builder.setMessage("Desea Eliminar este Registro").setPositiveButton
+                                        ("OK", new DialogInterface.OnClickListener()
+                                            {
+                                                public void onClick(DialogInterface dialog, int id) { }
+                                            }
+                                        )
+                                        .setNegativeButton
+                                        ("Cancelar", new DialogInterface.OnClickListener()
+                                            {
+                                                public void onClick(DialogInterface dialog, int id) { }
+                                            }
+                                        ).create().show();
+                            }
+                            else
+                            {
+                                startActivity(new Intent(BandejaPedido.this, ViewTicketActivity.class).putExtra("COD",COD));
+                            }
 
-                                        }
-                                    })
-                                    .setNegativeButton("Cancelar", new DialogInterface.OnClickListener() {
-                                        public void onClick(DialogInterface dialog, int id) {
-
-                                        }
-                                    }).create().show();
-                        }else{
-                            startActivity(new Intent(BandejaPedido.this, ViewTicketActivity.class).putExtra("COD",COD));
                         }
-
                     }
-                }).create().show();
-
+                ).create().show();
                 return false;
             }
         });
@@ -94,29 +101,35 @@ public class BandejaPedido extends AppCompatActivity {
         });
         loadData();
     }
-    private void Push(){
+    private void Push()
+    {
         String mPedidos ="",mSqlPedidos="",mSqlPDetalle="";
         boolean mUpload = false;
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
-
         pdialog = ProgressDialog.show(this, "","Procesando, ya casi terminamos...", true);
-        if (fillMaps.size()>0){
+        if (fillMaps.size()>0)
+        {
             mUpload = true;
-            for (int c=0;c<fillMaps.size();c++){
-                if (Integer.parseInt(ClearString(adapter.getItem(c).toString(),"ESTADO=",2))==0){
+            for (int c=0;c<fillMaps.size();c++)
+            {
+                if (Integer.parseInt(ClearString(adapter.getItem(c).toString(),"ESTADO=",2))==0)
+                {
                     mPedidos += "'" + ClearString(adapter.getItem(c).toString(),"COD=",1)+ "',";
                 }
             }
         }
         mPedidos = mPedidos.substring(0,mPedidos.length()-1);
-
-        if (mUpload){
+        if (mUpload)
+        {
             //BUILDER QUERRY DETALLE PEDIDO
             Cursor rPedido =  myDB.getAllPedido(mPedidos);
-            if (rPedido.getCount()!=0){
-                if (rPedido.moveToFirst()) {
-                    do {
+            if (rPedido.getCount()!=0)
+            {
+                if (rPedido.moveToFirst())
+                {
+                    do
+                    {
                         mSqlPedidos +=
                                 "CALL SP_pedidos ("+
                                         "'"+rPedido.getString(0)+"',"+
@@ -139,10 +152,13 @@ public class BandejaPedido extends AppCompatActivity {
             }
             //BUILDER QUERRY DETALLE PEDIDO
             Cursor rPDetalle =  myDB.getAllPDetalle(mPedidos);
-            if (rPDetalle.getCount()!=0){
+            if (rPDetalle.getCount()!=0)
+            {
                 mSqlPDetalle = "INSERT INTO PDetalle (IdPedido, IdArticulo, Descripcion, Cantidad, Precio, Bono) VALUES";
-                if (rPDetalle.moveToFirst()) {
-                    do {
+                if (rPDetalle.moveToFirst())
+                {
+                    do
+                    {
                         mSqlPDetalle +=
                                 " ("+
                                         "'"+rPDetalle.getString(0)+"',"+
@@ -156,41 +172,48 @@ public class BandejaPedido extends AppCompatActivity {
                     mSqlPDetalle = mSqlPDetalle.substring(0,mSqlPDetalle.length()-1);
                 }
             }
-
             paramentros.put("P",mSqlPedidos);
             paramentros.put("D",mSqlPDetalle);
-
             final String finalLogReg = mPedidos;
-            Cnx.post(Url.getURL_Pedido(), paramentros, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody) {
-                    if (statusCode==200){
-                        Toast.makeText(BandejaPedido.this, "Correcto", Toast.LENGTH_SHORT).show();
-                        //myDB.Update(finalLogReg);
+            Cnx.post
+            (Url.getURL_Pedido(), paramentros, new AsyncHttpResponseHandler()
+                {
+                    @Override
+                    public void onSuccess(int statusCode, org.apache.http.Header[] headers, byte[] responseBody)
+                    {
+                        if (statusCode==200)
+                        {
+                            Toast.makeText(BandejaPedido.this, "Correcto", Toast.LENGTH_SHORT).show();
+                            //myDB.Update(finalLogReg);
+                            pdialog.dismiss();
+                        }else
+                        {
+                            pdialog.dismiss();
+                            Toast.makeText(BandejaPedido.this, "No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error)
+                    {
                         pdialog.dismiss();
-                    }else{
-                        pdialog.dismiss();
-                        Toast.makeText(BandejaPedido.this, "No hay respuesta del servidor", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(BandejaPedido.this, "Problemas de Cobertura de datos", Toast.LENGTH_SHORT).show();
                     }
                 }
-                @Override
-                public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
-                    pdialog.dismiss();
-                    Toast.makeText(BandejaPedido.this, "Problemas de Cobertura de datos", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }else{
+            );
+        }
+        else
+        {
             pdialog.dismiss();
             Toast.makeText(BandejaPedido.this, "No hay Datos que Enviar", Toast.LENGTH_SHORT).show();
         }
     }
-
-    private void loadData() {
+    private void loadData()
+    {
         String[] from = new String[] { "COD","CCLIENTE","FECHA","MONTO","ESTADO"};
         int[] to = new int[] { R.id.Item_PBandeja_Cod,R.id.Item_PBandeja_Cliente,R.id.Item_PBandeja_fecha,R.id.Item_PBandeja_Monto,R.id.Item_PBandeja_Estado};
         String[] datos = myDB.GetPedido();
-
-        for (int c=0;c<datos.length;c++){
+        for (int c=0;c<datos.length;c++)
+        {
             String[] valores = datos[c].split(",");
             HashMap<String, String> map = new HashMap<String, String>();
             map.put("COD", valores[0]);
@@ -203,19 +226,18 @@ public class BandejaPedido extends AppCompatActivity {
         adapter = new SpecialAdapter(this, fillMaps, R.layout.grid_item_bandeja_pedido, from, to);
         lv.setAdapter(adapter);
     }
-    private String ClearString(String cadena,String Star,int p){
+    private String ClearString(String cadena,String Star,int p)
+    {
         String[] Posiciones = cadena.split(",");
         return Posiciones[p].substring(Posiciones[p].indexOf(Star)+Star.length());
     }
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(MenuItem item)
+    {
         int id = item.getItemId();
-
         String titulo = String.valueOf(item.getTitle());
-
-        if (id == 16908332){
-            finish();
-        }
-        switch (titulo){
+        if (id == 16908332){ finish(); }
+        switch (titulo)
+        {
             case "add":
                 Intent MenuIntent = new Intent(BandejaPedido.this,CrearSaleActivity.class);
                 BandejaPedido.this.startActivity(MenuIntent);
@@ -223,13 +245,14 @@ public class BandejaPedido extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
-    public boolean onCreateOptionsMenu(Menu menu) {
+    public boolean onCreateOptionsMenu(Menu menu)
+    {
         getMenuInflater().inflate(R.menu.menu_cobro,menu);
         return true;
     }
-
     @Override
-    protected void onRestart() {
+    protected void onRestart()
+    {
         super.onRestart();
         fillMaps.clear();
         loadData();

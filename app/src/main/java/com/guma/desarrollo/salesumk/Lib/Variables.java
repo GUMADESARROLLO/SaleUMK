@@ -12,7 +12,8 @@ import java.util.List;
 /**
  * Created by marangelo.php on 21/06/2016.
  */
-public class Variables {
+public class Variables
+{
     private static String Inv_Articulo ;
     private static String Inv_Cliente ;
     private static String NameVendedor;
@@ -20,19 +21,10 @@ public class Variables {
     private static String Cliente_recibo_factura;
     private static String Cliente_Name_recibo_factura;
     private static String idViewRecibo;
-
-
-
-
     private  static String IdPlan;
 
-    public static String getIdPlan() {
-        return IdPlan;
-    }
-
-    public static void setIdPlan(String idPlan) {
-        IdPlan = idPlan;
-    }
+    public static String getIdPlan() { return IdPlan; }
+    public static void setIdPlan(String idPlan) { IdPlan = idPlan; }
 
     private static ListView lv_list_facturaCobro;
     private static SpecialAdapter adapter = null;
@@ -42,27 +34,22 @@ public class Variables {
     private static SpecialAdapter adapterBandejaCobro = null;
     private static List<HashMap<String, String>> fillMapsBandejaCobro = new ArrayList<HashMap<String, String>>();
 
-    public static ListView getLv_list_facturaCobroBandejaCobro() {
-        return lv_list_facturaCobroBandejaCobro;
-    }
-
-    public static void setLv_list_facturaCobroBandejaCobro(ListView lv_list_facturaCobroBandejaCobro) {
-        Variables.lv_list_facturaCobroBandejaCobro = lv_list_facturaCobroBandejaCobro;
-    }
+    public static ListView getLv_list_facturaCobroBandejaCobro() { return lv_list_facturaCobroBandejaCobro; }
+    public static void setLv_list_facturaCobroBandejaCobro(ListView lv_list_facturaCobroBandejaCobro) { Variables.lv_list_facturaCobroBandejaCobro = lv_list_facturaCobroBandejaCobro; }
 
     public static SpecialAdapter getAdapterBandejaCobro() {
         return adapterBandejaCobro;
     }
 
-    public static void setAdapterBandejaCobro(SpecialAdapter adapterBandejaCobro) {
+    public static void setAdapterBandejaCobro(SpecialAdapter adapterBandejaCobro)
+    {
         Variables.adapterBandejaCobro = adapterBandejaCobro;
     }
 
-    public static List<HashMap<String, String>> getFillMapsBandejaCobro() {
-        return fillMapsBandejaCobro;
-    }
+    public static List<HashMap<String, String>> getFillMapsBandejaCobro() { return fillMapsBandejaCobro; }
 
-    public static void setFillMapsBandejaCobro(List<HashMap<String, String>> fillMapsBandejaCobro) {
+    public static void setFillMapsBandejaCobro(List<HashMap<String, String>> fillMapsBandejaCobro)
+    {
         Variables.fillMapsBandejaCobro = fillMapsBandejaCobro;
     }
 
@@ -70,7 +57,8 @@ public class Variables {
         return idViewRecibo;
     }
 
-    public static void setIdViewRecibo(String idViewRecibo) {
+    public static void setIdViewRecibo(String idViewRecibo)
+    {
         Variables.idViewRecibo = idViewRecibo;
     }
 
@@ -78,77 +66,46 @@ public class Variables {
         return Cliente_Name_recibo_factura;
     }
 
-    public static void setCliente_Name_recibo_factura(String cliente_Name_recibo_factura) {
+    public static void setCliente_Name_recibo_factura(String cliente_Name_recibo_factura)
+    {
         Cliente_Name_recibo_factura = cliente_Name_recibo_factura;
     }
-
-
 
     public static List<HashMap<String, String>> getFillMaps() {
         return fillMaps;
     }
 
-    public static void setFillMaps(List<HashMap<String, String>> fillMaps) {
+    public static void setFillMaps(List<HashMap<String, String>> fillMaps)
+    {
         Variables.fillMaps = fillMaps;
     }
 
-    public static SpecialAdapter getAdapter() {
-        return adapter;
-    }
+    public static SpecialAdapter getAdapter() { return adapter; }
 
-    public static void setAdapter(SpecialAdapter adapter) {
-        Variables.adapter = adapter;
-    }
+    public static void setAdapter(SpecialAdapter adapter) { Variables.adapter = adapter; }
 
-    public static ListView getLv_list_facturaCobro() {
-        return lv_list_facturaCobro;
-    }
+    public static ListView getLv_list_facturaCobro() { return lv_list_facturaCobro; }
 
-    public static void setLv_list_facturaCobro(ListView lv_list_facturaCobro) {
-        Variables.lv_list_facturaCobro = lv_list_facturaCobro;
-    }
+    public static void setLv_list_facturaCobro(ListView lv_list_facturaCobro) { Variables.lv_list_facturaCobro = lv_list_facturaCobro; }
 
-    public static String getCliente_recibo_factura() {
-        return Cliente_recibo_factura;
-    }
+    public static String getCliente_recibo_factura() { return Cliente_recibo_factura; }
 
-    public static void setCliente_recibo_factura(String cliente_recibo_factura) {
-        Cliente_recibo_factura = cliente_recibo_factura;
-    }
+    public static void setCliente_recibo_factura(String cliente_recibo_factura) { Cliente_recibo_factura = cliente_recibo_factura; }
 
-    public static String getNameVendedor() {
-        return NameVendedor;
-    }
+    public static String getNameVendedor() { return NameVendedor; }
+    public static void setNameVendedor(String nameVendedor) { NameVendedor = nameVendedor; }
 
-    public static void setNameVendedor(String nameVendedor) {
-        NameVendedor = nameVendedor;
-    }
+    public static String getIdVendedor() { return IdVendedor; }
+    public static void setIdVendedor(String idVendedor) { IdVendedor = idVendedor; }
 
-    public static String getIdVendedor() {
-        return IdVendedor;
-    }
+    public Variables() { }
 
-    public static void setIdVendedor(String idVendedor) {
-        IdVendedor = idVendedor;
-    }
+    public static String getInv_Articulo() { return Inv_Articulo; }
 
-    public Variables() {
-    }
+    public static void setInv_Articulo(String inv_Articulo) { Inv_Articulo = inv_Articulo; }
 
-    public static String getInv_Articulo() {
-        return Inv_Articulo;
-    }
+    public static String getInv_Cliente() { return Inv_Cliente; }
 
-    public static void setInv_Articulo(String inv_Articulo) {
-        Inv_Articulo = inv_Articulo;
-    }
-
-    public static String getInv_Cliente() {
-        return Inv_Cliente;
-    }
-
-    public static void setInv_Cliente(String inv_Cliente) {
-        Inv_Cliente = inv_Cliente;
-    }
+    public static void setInv_Cliente(String inv_Cliente) { Inv_Cliente = inv_Cliente; }
 
 }

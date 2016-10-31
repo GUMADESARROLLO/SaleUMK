@@ -49,7 +49,7 @@ public class DialogAddFact extends DialogFragment {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(getActivity().LAYOUT_INFLATER_SERVICE);
 
-        final View dialogView = inflater.inflate(R.layout.dialog_addfacturarecibo, null);
+        final View dialogView = inflater.inflate(R.layout.dialog_add_factura_recibo, null);
         alertDialogBuilder.setView(dialogView);
         //adapter = new SpecialAdapter(getActivity(), fillMaps, R.layout.grid_item_recibo, from, to);
         vrb.setAdapter(new SpecialAdapter(getActivity(), vrb.getFillMaps(), R.layout.grid_item_recibo, from, to));
