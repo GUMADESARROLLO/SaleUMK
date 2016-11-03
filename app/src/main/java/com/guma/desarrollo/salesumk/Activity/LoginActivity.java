@@ -306,7 +306,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 if (statusCode==200)
                 {
                     ArrayList<String> MeEncontro = obtDatosUS(new String(responseBody));
-                    Log.d("LOGIN",MeEncontro.get(0).toString());
                     String[] items = MeEncontro.get(0).toString().split(",");
                     if (Integer.parseInt(items[4])==0){ Error404("Informacion Equivocada"); }
                     else

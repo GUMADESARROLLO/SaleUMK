@@ -289,6 +289,7 @@ public class DataBaseHelper extends SQLiteOpenHelper
                 "Descrip  TEXT," +
                 "IdObserv  INTEGER" +
                 ");");
+        db.execSQL("CREATE TABLE facturas_puntos (CLIENTE  TEXT,FACTURAS  TEXT);");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion)
@@ -329,6 +330,8 @@ public class DataBaseHelper extends SQLiteOpenHelper
         onCreate(db);
         db.execSQL("DROP TABLE IF EXISTS "+ TABLE_FACTURAS);
         onCreate(db);
+        db.execSQL("DROP TABLE IF EXISTS facturas_puntos");
+        onCreate(db);
     }
     //**********************************************************************//
     //______________________________________________________________________//
@@ -347,6 +350,16 @@ public class DataBaseHelper extends SQLiteOpenHelper
         contentValues.put(COL_41,SALDO);
         contentValues.put("FECHA_VENCE",FECHA_VENCE);
         long result = db.insert(TABLE_FACTURAS,null,contentValues);
+        if (result == -1){ return false; }
+        else{ return true; }
+    }
+    public boolean insertFacturas_puntos(String CLIENTE, String FACTUAS)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues contentValues = new ContentValues();
+        contentValues.put("CLIENTE",CLIENTE);
+        contentValues.put("FACTURAS",FACTUAS);
+        long result = db.insert("facturas_puntos",null,contentValues);
         if (result == -1){ return false; }
         else{ return true; }
     }

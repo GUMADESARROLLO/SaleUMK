@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,6 +33,7 @@ import com.guma.desarrollo.salesumk.R;
 
 import org.apache.http.Header;
 import org.json.JSONArray;
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +56,7 @@ public class StarredFragment extends Fragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         final View view = inflater.inflate(R.layout.fragment_starred, container, false);
-        ((MainActivity) getActivity()).getSupportActionBar().setTitle("MASTER DE CLIENTES");
+        ((MainActivity) getActivity()).getSupportActionBar().setTitle("MASTER DE CLIENTES AAAA");
 
         myDB = new DataBaseHelper(getActivity());
         lv = (ListView) view.findViewById(R.id.listview);
@@ -203,8 +205,7 @@ public class StarredFragment extends Fragment
         }
         return listado;
     }
-    public ArrayList<String> obtDatosFacturas(String response)
-    {
+    public ArrayList<String> obtDatosFacturas(String response){
         ArrayList<String> listado = new ArrayList<String>();
         try
         {
@@ -228,14 +229,35 @@ public class StarredFragment extends Fragment
         }
         return listado;
     }
+
+    public ArrayList<String> obtDatosFacturas_puntos(String response){
+        ArrayList<String> listado = new ArrayList<String>();
+        try
+        {
+            JSONArray jsonArray = new JSONArray(response);
+            String texto;
+
+            for (int i=0; i<jsonArray.length(); i++)
+            {
+                texto = jsonArray.getJSONObject(i).getString("CLIENTE")+ "," +
+                        jsonArray.getJSONObject(i).getString("FACTURAS");
+                listado.add(texto);
+            }
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+        return listado;
+    }
     public void CallInve()
     {
         AsyncHttpClient Cnx = new AsyncHttpClient();
         RequestParams paramentros = new RequestParams();
         paramentros.put("C",myVar.getIdVendedor());
         pdialog = ProgressDialog.show(getActivity(), "","Procesando. Porfavor Espere...", true);
-        Cnx.post(ClssURL.getURL_mtlc(), paramentros, new AsyncHttpResponseHandler()
-        {
+
+        Cnx.post(ClssURL.getURL_mtlc(), paramentros, new AsyncHttpResponseHandler(){
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody)
             {
@@ -275,7 +297,7 @@ public class StarredFragment extends Fragment
                     {
                         adapter2.notifyDataSetChanged();
                         pdialog.dismiss();
-                        Error404("Error de Actualizacion de datos");
+                        Error404("Error de Actualizacion de datos CLIENTES");
                     }
                 }
                 else
@@ -292,8 +314,6 @@ public class StarredFragment extends Fragment
                 Error404("Sin Cobertura de datos.");
             }
         });
-
-
         Cnx.post(ClssURL.getURL_Factura(), paramentros, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
@@ -310,16 +330,10 @@ public class StarredFragment extends Fragment
                     }
 
                     if (Inserted){
-                        fillMaps.clear();
-                        adapter2.notifyDataSetChanged();
-                        pdialog.dismiss();
-                        loadData();
-                        Toast.makeText(getActivity(), "Actualización completada",Toast.LENGTH_SHORT).show();
-
                     }else{
                         adapter2.notifyDataSetChanged();
                         pdialog.dismiss();
-                        Error404("Error de Actualizacion de datos");
+                        Error404("Error de Actualizacion de datos FACTURAS");
                     }
 
                 }else{
@@ -329,6 +343,49 @@ public class StarredFragment extends Fragment
                 }
 
 
+            }
+            @Override
+            public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {
+                adapter2.notifyDataSetChanged();
+                pdialog.dismiss();
+                Error404("Sin Cobertura de datos.");
+            }
+        });
+        Cnx.post(ClssURL.getURL_Puntos(), paramentros, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+
+                boolean Inserted=false;
+                if (statusCode==200){
+
+                    SQLiteDatabase db = myDB.getWritableDatabase();
+                    db.execSQL("DELETE FROM facturas_puntos");
+                    try {
+                        JSONArray jsonArray = new JSONArray(new String(responseBody));
+                        for (int i=0; i<jsonArray.length(); i++)
+                        {
+                            //Log.d("Servicio", "onCLIENTE: " + jsonArray.getJSONObject(i).getString("CLIENTE") + " \n onFACTURAS: " + jsonArray.getJSONObject(i).getString("FACTURAS"));
+                            Inserted = myDB.insertFacturas_puntos(jsonArray.getJSONObject(i).getString("CLIENTE") ,jsonArray.getJSONObject(i).getString("FACTURAS"));
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    if (Inserted){
+                        fillMaps.clear();
+                        adapter2.notifyDataSetChanged();
+                        pdialog.dismiss();
+                        loadData();
+                        Toast.makeText(getActivity(), "Actualización completada",Toast.LENGTH_SHORT).show();
+                    }else{
+                        adapter2.notifyDataSetChanged();
+                        pdialog.dismiss();
+                        Error404("Error de Actualizacion de datos PUNTOS");
+                    }
+                }else{
+                    adapter2.notifyDataSetChanged();
+                    pdialog.dismiss();
+                    Error404("Sin Cobertura de datos.");
+                }
             }
             @Override
             public void onFailure(int statusCode, org.apache.http.Header[] headers, byte[] responseBody, Throwable error) {

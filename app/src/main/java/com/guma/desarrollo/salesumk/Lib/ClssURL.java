@@ -2,9 +2,9 @@ package com.guma.desarrollo.salesumk.Lib;
 
 public class ClssURL
 {
-    //private static String SERVER = "192.168.1.78:8448";
+    private static String SERVER = "192.168.1.78:8448";
     //private static String SERVER = "165.98.75.219:8448";//ruta del servidor, usada en produccion
-    private static String SERVER = "192.168.1.155:8080";
+   // private static String SERVER = "192.168.1.155:8080";
 
     private static String URL_INVE  = "http://"+ SERVER +"/APIREST/Inventario.php";
     private static String URL_login = "http://"+ SERVER +"/APIREST/Login.php";
@@ -13,6 +13,7 @@ public class ClssURL
     private static String URL_mtlc = "http://"+ SERVER +"/APIREST/MTCL.php";
     private static String URL_ExistenciaLotes = "http://"+ SERVER +"/APIREST/ExistenciaLotes.php";
     private static String URL_Factura = "http://"+ SERVER +"/APIREST/FACTURAS.php";
+    private static String URL_Puntos = "http://"+ SERVER +"/APIREST/PUNTOS.php";
     private static String URL_doom = "http://"+ SERVER +"/APIREST/Doom.php";
     private static String URL_Pedido= "http://"+ SERVER +"/APIREST/Pedido.php";
     private static String URL_Asyn= "http://"+ SERVER +"/APIREST/Asyn.php";
@@ -30,4 +31,5 @@ public class ClssURL
     public static String getURL_mtlc() { return URL_mtlc; }
     public static String getURL_ExistenciaLotes() { return URL_ExistenciaLotes; }
     public static String getURL_Factura() { return URL_Factura; }
+    public static String getURL_Puntos() { return URL_Puntos; }
 }
